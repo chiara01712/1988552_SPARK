@@ -48,7 +48,7 @@ NOTA: Capire se fare due tabelle separate per professori e studenti
 
 ---
 
-## 3. Notes Microservice
+## 3. Student's Microservice
 
 ### Table: notes
 | Column       | Type     | Description                                      |
@@ -64,6 +64,14 @@ NOTA: Capire se fare due tabelle separate per professori e studenti
 
 File Types ENUM: ('pdf', 'doc', 'image')
 
+### Table: submissions
+| Column        | Type     | Description                                      |
+|---------------|----------|--------------------------------------------------|
+| student_id    | UUID     | Foreign Key, refers to the student               |
+| course_id     | UUID     | Foreign Key, refers to the course                |
+| created_at    | TIMESTAMP| Timestamp of user creation                       |
+
+NOTA: Per me possiamo anche non salvare le iscrizioni passate
 ---
 
 ## 4. Assessments Microservice
@@ -83,7 +91,7 @@ File Types ENUM: ('pdf', 'doc', 'image')
 
 ---
 
-### Table: submissions
+### Table: quiz_answers
 | Column        | Type     | Description                                      |
 |---------------|----------|--------------------------------------------------|
 | id            | UUID     | Primary Key                                      |
