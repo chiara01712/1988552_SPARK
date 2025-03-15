@@ -67,7 +67,7 @@ File Types ENUM: ('pdf', 'doc', 'image')
 ### Table: submissions
 | Column        | Type     | Description                                      |
 |---------------|----------|--------------------------------------------------|
-| student_id    | UUID     | Foreign Key, refers to the student               |
+| student_id    | UUID     | Primary Key, Foreign Key refers to the student   |
 | course_id     | UUID     | Foreign Key, refers to the course                |
 | created_at    | TIMESTAMP| Timestamp of user creation                       |
 
