@@ -72,6 +72,7 @@ File Types ENUM: ('pdf', 'doc', 'image')
 | created_at    | TIMESTAMP| Timestamp of user creation                       |
 
 NOTA: Per me possiamo anche non salvare le iscrizioni passate
+
 ---
 
 ## 4. Assessments Microservice
