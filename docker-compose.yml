@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+
+  # Service for the user-service
+  user-service:
+    build: ./services/user-service  # Build the app using the Dockerfile in the user-service directory
+    container_name: user-service
+    depends_on:
+      - postgres  # Ensure the app starts after the postgres service
+    environment:
+      POSTGRES_URI: postgres://user:password@postgres:5432/usersdb  # Connection URI
+    ports:
+      - "8080:8080"  # Expose app on port 8080
+    networks:
+      - app_network
+    restart: always
+
+  # Service for the database
+  postgres:
+    image: postgres      
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: usersdb   # Database name
+      POSTGRES_USER: user    # Database user
+      POSTGRES_PASSWORD: password  # Database password
+    ports:
+      - "5432:5432"
+    volumes:                        # To save the data in a persistent volume
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - app_network  # Connect to the same network as the app
+
+
+
+volumes:
+  pgdata:
+
+networks:
+  app_network:  # Define the network for communication between services
+    driver: bridge
+
