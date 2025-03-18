@@ -1,0 +1,12 @@
+{
+  "name": "sparkle-main",
+  "version": "1.0.0",
+  "description": "Hola Il file Lab è quello con la presentazione  Poi quando si carica il pc di alessio aggiungiamo l'index che abbiamo fatto :)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
