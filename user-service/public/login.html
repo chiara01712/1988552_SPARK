@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="./index.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - SPARK</title>
+
+</head>
+<body>
+    <img src="Spark-LOGO-removebg-preview.png" alt="Spark Logo" class="logo" onclick="redirectToIndex()">
+    <div class="container">
+        <h1 id="roleTitle">Login</h1>
+        <form id="loginForm" action="/login" method="POST">
+            <input type="hidden" id="roleInput" name="role">
+            <label>Email:</label>
+            <input type="email" name="email" required>
+            <label>Password:</label>
+            <input type="password" name="password" required>
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="#" onclick="redirectToSignup()">Register here</a></p>
+    </div>
+
+    <script>
+        // Redirects the user to the sign-up page with the specified role as a query parameter
+        function redirectToSignup() {
+            window.location.href = `signup.html?role=`+ document.getElementById('roleInput').value;
+        }
+        window.onload = function() {
+            const params = new URLSearchParams(window.location.search);
+            const role = params.get("role") || '';
+            if (role) {
+                document.getElementById("roleTitle").innerText = `Login as ${role.charAt(0).toUpperCase() + role.slice(1)}`;
+                document.getElementById("roleInput").value = role;
+            }
+        };
+        
+    </script>
+</body>
+</html>
