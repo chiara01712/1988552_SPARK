@@ -6,13 +6,14 @@ class UserRepo{
         this.userModel = userModel;
     }
 
-    async addUser(uuidV4, username, password) {
-        console.log(username,password);
+    async addUser(uuidV4, username,email, password) {
+        console.log("AAA",username,email,password);
         try {
           const newUser = await this.userModel.create({
             id: uuidV4,       // Set the generated UUID
             username,         // Insert the username
-            password          // Insert the password
+            password,          // Insert the password
+            email              // Insert the email
           });
           return newUser;     // Return the created user object
         } catch (error) {
@@ -21,11 +22,12 @@ class UserRepo{
         }
       }
 
-    getAllUsers(){
-        return this.userModel.findAll();
+      async getUserByUsername(email,password) {
+        return  await this.userModel.findOne({ where: { email, password } });
     }
+    
 
 
-}
+} 
 
 module.exports = {UserRepo};

@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // Add this line to parse fo
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Serve static files from the 'public' directory
-app.use('/api/v1', userRoutes);
+app.use('', userRoutes);
 
 
 const port = 8080;
