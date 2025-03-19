@@ -7,20 +7,20 @@ class UserService{
 
     // Function to add a user to the database
     async addUser(req){
-        const {username, password } = req.body;
+        const {username, email, password} = req.body;
         const id = uuid.v4();
 
         const response = {};
 
-        if(!username || !password){
+        if(!username || !password || !id || !email){
             response.status = 400;
-            console.log(req.body);
+            //console.log(req.body);
             response.message = 'Invalid request';
             return response;
         }
         try {
-            const user = await this.userRepo.addUser(id, username, password);
-            console.log(username, password);
+            const user = await this.userRepo.addUser(id, username, email, password);
+            console.log(username,email, password);
             if(!user){
                 response.status = 500;
                 response.message = 'Internal server error';
@@ -32,6 +32,37 @@ class UserService{
             return response;
         } catch (error) {
             console.error('Error adding user:', error); // Log the error
+            response.status = 500;
+            response.message = 'Internal server error';
+            return response;
+        }
+    }
+
+    async getUser(req) {
+        const { email, password } = req.body;
+        console.log("AAAA",email,"BBBB",password);
+        const response = {};
+    
+        if (!email || !password) {
+            response.status = 400;
+            response.message = 'Invalid request';
+            return response;
+        }
+    
+        try {
+            const user = await this.userRepo.getUserByUsername(email, password);
+    
+            if (!user) {
+                response.status = 404;
+                response.message = 'Missing user';
+                return response;
+            }
+    
+            response.status = 200;
+            response.data = user; // Restituisci l'utente trovato
+            return response;
+        } catch (error) {
+            console.error('Error fetching user:', error);
             response.status = 500;
             response.message = 'Internal server error';
             return response;

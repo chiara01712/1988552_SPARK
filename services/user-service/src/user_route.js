@@ -14,11 +14,24 @@ router.post('/signup', async (req, res) => {
     console.log(req.body);
     try {
         const response = await userService.addUser(req);
+        console.log("BBBBBB",response);
         res.status(response.status).send(response.message);
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal server error');
     }
 });
+
+// Recupero utente) endpoint
+router.get('/login', async (req, res) => {
+    try {
+        const response = await userService.getUser(req);
+        res.status(response.status).json(response.data || { message: response.message });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal server error');
+    }
+});
+
 
 module.exports = router;
