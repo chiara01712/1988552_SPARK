@@ -21,7 +21,18 @@ Per eseguire un container a partire dall'immagine user-service e mappare la port
 `npm init -y`
 
 **Pacchetti necessari per il progetto fino ad ora**:   
-`npm i sequelize express dotenv pg body-parser`   
+`npm i sequelize express dotenv pg body-parser nodemond`   
+
+**Connessione con pgAdmin**:
+*userdb*:
+- Creare un nuovo server:
+    - Name: nome a piacere
+    vai su Connection:
+    - Host name/address: localhost
+    - Port: 5432
+    - Maintenance database: usersdb
+    - Username: user
+    - Password: password
 
 ***DA CAPIRE*** :  
 - Come interfaccia grafica per interagire con il database cosa usare? Perchè se usiamo postgres come database, noi conosciamo pgAdmin, ma dovremmo creare un
