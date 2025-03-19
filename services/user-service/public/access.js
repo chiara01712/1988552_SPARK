@@ -12,13 +12,20 @@ loginBtn.addEventListener('click', () => {
 
 // Redirects the user to the sign-up page with the specified role as a query parameter
     
-window.onload = function() {
-    const params = new URLSearchParams(window.location.search);
-    const role = params.get("role");
-    if (role) {
-        document.getElementById("roleTitle").innerText = `Hello,`+` ${role.charAt(0).toUpperCase() + role.slice(1)}`;
-    }
-};
+
 function redirectToIndex() {
     window.location.href = "index.html";
 }
+document.addEventListener("DOMContentLoaded", function () {
+    const role = sessionStorage.getItem("userRole");
+    if (role) {
+        document.getElementById("roleTitle").innerText = `Hello,`+` ${role.charAt(0).toUpperCase() + role.slice(1)}`;
+        
+        // Aggiungi un campo nascosto al form di registrazione
+        let input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "role";
+        input.value = role;
+        document.querySelector(".form-container.sign-up form").appendChild(input);
+    }
+});

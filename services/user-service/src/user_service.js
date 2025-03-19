@@ -7,20 +7,20 @@ class UserService{
 
     // Function to add a user to the database
     async addUser(req){
-        const {username, email, password} = req.body;
+        const {username, role,email, password} = req.body;
         const id = uuid.v4();
 
         const response = {};
 
-        if(!username || !password || !id || !email){
+        if(!username || !role || !password || !id || !email){
             response.status = 400;
             //console.log(req.body);
             response.message = 'Invalid request';
             return response;
         }
         try {
-            const user = await this.userRepo.addUser(id, username, email, password);
-            console.log(username,email, password);
+            const user = await this.userRepo.addUser(id, username,role,  email, password);
+            console.log(username,role, email, password);
             if(!user){
                 response.status = 500;
                 response.message = 'Internal server error';

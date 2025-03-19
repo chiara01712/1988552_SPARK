@@ -6,12 +6,13 @@ class UserRepo{
         this.userModel = userModel;
     }
 
-    async addUser(uuidV4, username,email, password) {
-        console.log("AAA",username,email,password);
+    async addUser(uuidV4, username, role,email, password) {
+      console.log("AAA",username,role,email,password);
         try {
           const newUser = await this.userModel.create({
             id: uuidV4,       // Set the generated UUID
             username,         // Insert the username
+            role,             // Insert the role
             password,          // Insert the password
             email              // Insert the email
           });

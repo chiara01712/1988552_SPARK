@@ -19,6 +19,25 @@ services:
       - ./services/user-service:/usr/src/app
       - ./services/user-service/index.js:/usr/src/app/index.js  # Mount the index.js file to the container
 
+    networks:
+      - app_network
+    restart: always
+
+  student-service:
+    build: # Build the image from the Dockerfile
+      context: ./  # This sets the root directory as the context
+      dockerfile: ./services/student-service/Dockerfile
+
+    container_name: student-service
+    depends_on:
+      - postgres  # Ensure the app starts after the postgres service
+    environment:
+      POSTGRES_URI: postgres://user:password@postgres:5432/studentsdb  # Connection URI
+    ports:
+      - "7070:7070"  # Expose app on port 8080
+    volumes:
+      - ./services/student-service:/usr/src/app
+      - ./services/student-service/index.js:/usr/src/app/index.js  # Mount the index.js file to the container
 
     networks:
       - app_network
@@ -30,13 +49,13 @@ services:
     container_name: postgres
     restart: always
     environment:
-      POSTGRES_DB: usersdb   # Database name
       POSTGRES_USER: user    # Database user
       POSTGRES_PASSWORD: password  # Database password
     ports:
       - "5432:5432"
     volumes:                        # To save the data in a persistent volume
       - pgdata:/var/lib/postgresql/data
+      -  ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - app_network  # Connect to the same network as the app
 

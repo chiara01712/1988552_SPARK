@@ -23,7 +23,8 @@
     
     <script>
         function redirectToLogin(role) {
-            window.location.href = `access.html?role=${role}`;
+        sessionStorage.setItem("userRole", role);
+        window.location.href = `access.html`;
         }
     </script>
 </body>

@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 
 // Set up the connection to the database
 const dbconfig = {
-  PostgresURI: 'postgres://user:password@postgres:5432/usersdb'
+  PostgresURI: 'postgres://user:password@postgres:5432/studentsdb'
 }
 
 const sequelize = new Sequelize(dbconfig.PostgresURI, {
@@ -17,22 +17,14 @@ sequelize.authenticate().then(() => {
 });
 
 const User = sequelize.define('user', {
-  id:{
+  StudentId:{
     type: Sequelize.UUID,
     primaryKey: true,
     allowNull: false
   },
-  username: {
-    type: Sequelize.STRING
-  },
-  role: {
-      type: Sequelize.ENUM('teacher', 'student')
-    },
-  password: {
-    type: Sequelize.STRING
-  },
-  email: {
-    type: Sequelize.STRING
+  CourseId: {
+    type: Sequelize.UUID,
+    allowNull: false
   }
 });
 
