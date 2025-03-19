@@ -6,7 +6,7 @@
 
 body {
     background-color: #293b5c;
-    background: linear-gradient(to right, #9cb1e4,  #293b5c);
+    background: linear-gradient(to right, #7391db,  #293b5c);
     margin:0 ;
 }
 
@@ -176,5 +176,5 @@ form button:hover {
 }
 
 .logo:hover {
-    opacity: 0.7;
+    opacity: 0.7;
 }

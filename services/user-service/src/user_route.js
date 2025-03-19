@@ -16,6 +16,7 @@ router.post('/signup', async (req, res) => {
         const response = await userService.addUser(req);
         console.log("JK",response);
         res.status(response.status).send(response.message);
+        window.location.href = "http://student-service/student_home.html";
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal server error');

@@ -43,6 +43,7 @@ services:
       - app_network
     restart: always
 
+  
   # Service for the database
   postgres:
     image: postgres      

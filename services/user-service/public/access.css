@@ -9,7 +9,7 @@
 
 body{
     background-color: #293b5c;
-    background: linear-gradient(to right, #9cb1e4,  #293b5c);
+    background: linear-gradient(to right, #7391db,  #293b5c);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -18,8 +18,9 @@ body{
 }
 
 #logo{
-    width: 400px;
-    height: 400px;
+    width: 300px;
+    height: 300px;
+    padding-bottom: 20px;
 }
 
 .container{
