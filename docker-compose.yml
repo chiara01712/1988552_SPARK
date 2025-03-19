@@ -4,7 +4,10 @@ services:
 
   # Service for the user-service
   user-service:
-    build: ./services/user-service  # Build the app using the Dockerfile in the user-service directory
+    build: # Build the image from the Dockerfile
+      context: ./  # This sets the root directory as the context
+      dockerfile: ./services/user-service/Dockerfile
+   
     container_name: user-service
     depends_on:
       - postgres  # Ensure the app starts after the postgres service
@@ -12,6 +15,11 @@ services:
       POSTGRES_URI: postgres://user:password@postgres:5432/usersdb  # Connection URI
     ports:
       - "8080:8080"  # Expose app on port 8080
+    volumes:
+      - ./services/user-service:/usr/src/app
+      - ./services/user-service/index.js:/usr/src/app/index.js  # Mount the index.js file to the container
+
+
     networks:
       - app_network
     restart: always
