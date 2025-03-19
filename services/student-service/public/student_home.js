@@ -30,36 +30,57 @@ async function fetchNotes() {
         console.error('Error fetching notes:', error);
     }
 }
-async function addNote(event) {
-    event.preventDefault(); // Prevent form from refreshing page
 
-    const noteData = {
-        student_id: document.getElementById("studentId").value,
-        course_id: document.getElementById("courseId").value,
-        title: document.getElementById("title").value,
-        description: document.getElementById("description").value,
-        file_url: document.getElementById("fileUrl").value,
-        file_type: document.getElementById("fileType").value,
-    };
 
-    try {
-        const response = await fetch('/api/notes', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(noteData),
-        });
-
-        const result = await response.json();
-        alert(result.message);
-
-        if (response.status === 200) {
-            fetchNotes(); // Refresh carousel after adding a note
-        }
-    } catch (error) {
-        console.error('Error adding note:', error);
-    }
-}
-
-document.getElementById("noteForm").addEventListener("submit", addNote);
 
 document.addEventListener('DOMContentLoaded', fetchNotes);
+
+function open_Menu() {
+    document.getElementById("mySidebar").style.width = "25%";
+    document.getElementById("mySidebar").style.display = "block";
+    document.getElementById("openNav").style.display = 'none';
+  }
+  function close_Menu() {
+    document.getElementById("main").style.marginLeft = "0%";
+    document.getElementById("mySidebar").style.display = "none";
+    document.getElementById("openNav").style.display = "inline-block";
+  }
+  function open_Profile() {
+    document.getElementById("profileSidebar").style.width = "25%";
+    document.getElementById("profileSidebar").style.display = "block";
+    document.getElementById("openNav").style.display = 'none';
+  }
+  function close_Profile() {
+    document.getElementById("main").style.marginLeft = "0%";
+    document.getElementById("profileSidebar").style.display = "none";
+    document.getElementById("openNav").style.display = "inline-block";
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const modal = document.getElementById("noteModal");
+    const openBtn = document.getElementById("openFormButton");
+    const closeBtn = document.querySelector(".close-btn");
+
+    // Open modal
+    openBtn.addEventListener("click", function () {
+        modal.style.display = "block";
+    });
+
+    // Close modal when clicking on 'X'
+    closeBtn.addEventListener("click", function () {
+        modal.style.display = "none";
+    });
+
+    // Close modal when clicking outside the modal content
+    window.addEventListener("click", function (event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+
+    // Handle form submission
+    document.getElementById("noteForm").addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent page refresh
+        modal.style.display = "none"; // Hide modal after submission
+    });
+});

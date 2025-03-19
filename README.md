@@ -33,7 +33,3 @@ Per eseguire un container a partire dall'immagine user-service e mappare la port
     - Maintenance database: usersdb
     - Username: user
     - Password: password
-
-***DA CAPIRE*** :  
-- Come interfaccia grafica per interagire con il database cosa usare? Perchè se usiamo postgres come database, noi conosciamo pgAdmin, ma dovremmo creare un
-ulteriore container con pgAdmin, forse ci sono soluzioni migliori? Da valutare MongoDB?
