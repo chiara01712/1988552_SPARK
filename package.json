@@ -1,10 +1,14 @@
 {
   "dependencies": {
     "body-parser": "^1.20.3",
-    "express": "^4.21.2"
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "nodemon": "^3.1.9",
+    "pg": "^8.14.1",
+    "sequelize": "^6.37.6"
   },
-  "name": "prove_sparkle-main",
-  "description": "*Sequelize*: è un ORM per Node.js che supporta i database relazionali come MySQL, PostgreSQL, SQLite e MSSQL. Usa il linguaggio JavaScript e  permette di definire modelli per le tabelle del database, eseguire query e sincronizzare i dati con il database.   *Express*: è un framework per Node.js che semplifica lo sviluppo di applicazioni web e API. Fornisce una serie di funzionalità per gestire le richieste HTTP, definire rotte, gestire i parametri delle richieste e le risposte, e integrare middleware per aggiungere funzionalità.   *Node.js*: è un ambiente di runtime per eseguire codice JavaScript lato server.",
+  "name": "sparkle-main",
+  "description": "",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -12,6 +16,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "devDependencies": {}
+  "license": "ISC"
 }
