@@ -1,1 +1,0 @@
-Runna gli stessi comandi che hanno messo su prove sparkle, poi vai su http://localhost:8080/signup.html e dovrebbe aprirti la parte di signup senza il css il mio problema è che dopo che faccio submit mi da invalid requesta o una cosa del genere
