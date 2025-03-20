@@ -7,7 +7,7 @@ class UserRepo{
     }
 
     async addUser(uuidV4, username, role,email, password) {
-      console.log("AAA",username,role,email,password);
+      console.log("ZZZZ",username,role,email,password);
         try {
           const newUser = await this.userModel.create({
             id: uuidV4,       // Set the generated UUID

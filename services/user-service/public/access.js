@@ -14,7 +14,7 @@ loginBtn.addEventListener('click', () => {
     
 
 function redirectToIndex() {
-    window.location.href = "index.html";
+    window.location.href = "/index";
 }
 document.addEventListener("DOMContentLoaded", function () {
     const role = sessionStorage.getItem("userRole");

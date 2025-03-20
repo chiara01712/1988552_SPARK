@@ -16,7 +16,8 @@ router.post('/signup', async (req, res) => {
         const response = await userService.addUser(req);
         console.log("JK",response);
         if (response.status === 200) {  // Assuming 201 means success
-            res.redirect("http://student-service:7070/student_home.html");
+            res.redirect("/index");
+            
         } else {
             res.status(response.status).send(response.message);
         }
@@ -36,6 +37,7 @@ router.get('/login', async (req, res) => {
         res.status(500).send('Internal server error');
     }
 });
+
 
 
 module.exports = router;
