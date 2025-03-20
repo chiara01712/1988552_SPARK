@@ -21,6 +21,9 @@ app.use('', userRoutes);
 app.get('/index', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+app.get('/access', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'access.html'));
+});
 
 const port = 8080;
 app.listen(port, () => {
