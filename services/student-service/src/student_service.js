@@ -7,6 +7,8 @@ class StudentService{
 
     // Function to add a user to the database
     async addNote(req) {
+        console.log("Received Request Body:", req.body); // Debugging log
+
         const { student_id, course_id, title, description, file_url, file_type } = req.body;
         const id = require('uuid').v4(); // Generate a UUID for the note
 

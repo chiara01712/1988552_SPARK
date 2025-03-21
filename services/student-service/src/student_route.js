@@ -7,7 +7,7 @@ const router = express.Router();
 //const userController = require('./usercontroller');
 //router.post('/addUser', userController.addUser);
 const studentRepo = new StudentRepo(Note);
-const studentService = new StudentService(StudentRepo);
+const studentService = new StudentService(studentRepo);
 
 router.get('/get_notes', async (req, res) => {
     try {
