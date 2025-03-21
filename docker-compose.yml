@@ -64,16 +64,20 @@ services:
   rabbitmq:
     image: rabbitmq:management
     container_name: rabbitmq
-    environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
+    restart: always
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - "5672:5672" # AMQP port
+      - "15672:15672" # port for the management plugin
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
 
 
 volumes:
   pgdata:
+  rabbitmq_data:
 
 networks:
   app_network:  # Define the network for communication between services
