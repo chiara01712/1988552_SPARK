@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="professor.css">
+    <script src="professor.js"></script> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studen_home</title>
+</head>
+<body>
+    <div class="sidebar"  id="mySidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="close_Menu()">&times;</a>
+        <div class = "menu-items" >
+            <a href="#" class="w3-bar-item w3-button">Courses</a>
+            <a href="#" class="w3-bar-item w3-button">Notes</a>
+        </div>
+    </div>
+      
+      <div class="sidebar"  id="profileSidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="close_Profile()">&times;</a>
+        <div class = "menu-items" >
+            <a href="#" >Personal Data</a>
+            <a href="#" >Logout</a>
+        </div>
+      </div>
+      
+      <div id="main">
+        <div class="header">
+            <img id="openNav" src="./images/menu.png" class="menu" onclick="open_Menu()">
+            <div class="wrapper">
+                <img src="./images/Spark-LOGO-removebg-preview.png" id="logo">
+            </div>
+            <img id="profile" src="./images/profilo.png" alt="" onclick="open_Profile()">
+        </div>
+
+    <!-- Da aggiungere la funzione che aggiunge i corsi a "courses"-->
+    <div class ="container"> 
+        <h1>Courses</h1>
+        <div class ="container-box">   
+            <div class="box" id="science">
+                <h1>Chemistry</h1>
+            </div>
+            <div class="box" id="math">
+                <h1>Math</h1>
+            </div>
+            <div class="box" id="science">
+                <h1>Topics in Physics</h1>
+            </div>
+            <div class="box" id="compscience">
+                <h1>Laboratory of Adv. Prog.</h1>
+            </div>
+            <div class="box" id="tech">
+                <h1>Web Technlogies</h1>
+            </div>
+        </div>
+
+    <button class="new_course" onclick="openPopup('popup','overlay')">Add course</button>
+
+    <div class="popup" id="popup">
+        <h1>New Course</h1> 
+        <div class = "input-field" >
+            <div>
+                <label>Course Name</label>
+                <input type="text" name="" required="" id="course_name"> 
+                <span></span>
+                <label>Description</label>
+                <input type="text" name="" required="" id="description"> 
+                <span></span>
+            </div>
+        </div>
+        <div class = "buttonbox">
+            <button id="cancel" onclick="closePopup('popup', 'overlay')">Cancel </button>
+            <button id="add" onclick="addCourse('popup', 'overlay')">Add</button>
+        </div>
+    </div>
+
+    <div id="overlay" class="overlay" onclick="closePopup('popup', 'overlay')"> </div>
+        
+    </div>
+    
+
+    
+      
+      
+      
+</body>
+</html>
