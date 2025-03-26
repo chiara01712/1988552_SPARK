@@ -34,7 +34,7 @@ services:
     environment:
       POSTGRES_URI: postgres://user:password@postgres:5432/studentsdb  # Connection URI
     ports:
-      - "7070:7070"  # Expose app on port 8080
+      - "7070:7070"  # Expose app on port 7070
     volumes:
       - ./services/student-service:/usr/src/app
       - ./services/student-service/index.js:/usr/src/app/index.js  # Mount the index.js file to the container
