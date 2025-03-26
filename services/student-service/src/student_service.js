@@ -5,7 +5,7 @@ class StudentService{
         this.studentRepo = studentRepo;
     }
 
-    // Function to add a user to the database
+    // Function to add a note to the database
     async addNote(req) {
         console.log("Received Request Body:", req.body); // Debugging log
 
