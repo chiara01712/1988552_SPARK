@@ -21,7 +21,7 @@ Per eseguire un container a partire dall'immagine user-service e mappare la port
 `npm init -y`
 
 **Pacchetti necessari per il progetto fino ad ora**:   
-`npm i sequelize express dotenv pg body-parser nodemond`   
+`npm i sequelize express dotenv pg body-parser nodemond amqplib`   
 
 **Connessione con pgAdmin**:
 *userdb*:
