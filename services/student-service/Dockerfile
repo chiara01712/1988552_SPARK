@@ -4,4 +4,4 @@ COPY package*.json ./
 RUN npm install pg --save
 COPY . .
 EXPOSE 7070
-CMD ["node", "index.js"]
+CMD ["npm", "start"]
