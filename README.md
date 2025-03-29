@@ -4,7 +4,7 @@ permette di definire modelli per le tabelle del database, eseguire query e sincr
 le richieste HTTP, definire rotte, gestire i parametri delle richieste e le risposte, e integrare middleware per aggiungere funzionalità.  
 *Node.js*: è un ambiente di runtime per eseguire codice JavaScript lato server.  
 
-**Comandi usati**:  
+## Comandi usati:  
 
 `docker-compose up --build`   
 Per creare e avviare i container definiti in docker-compose.yml, con l'opzione build crea anche l'immagine dei servizi specificati nel file docker-compose.yml (build: .) che indica di usare il Dockerfile presente nella cartella corrente.
@@ -20,10 +20,11 @@ Per eseguire un container a partire dall'immagine user-service e mappare la port
 *Inizializzazione di un progetto Node.js* (il comando crea un file package.json con le impostazioni di default e lo salva nella cartella corrente):
 `npm init -y`
 
-**Pacchetti necessari per il progetto fino ad ora**:   
+### Pacchetti necessari per il progetto fino ad ora:   
+
 `npm i sequelize express dotenv pg body-parser nodemond amqplib`   
 
-**Connessione con pgAdmin**:
+## Connessione con pgAdmin:  
 *userdb*:
 - Creare un nuovo server:
     - Name: nome a piacere
@@ -33,3 +34,46 @@ Per eseguire un container a partire dall'immagine user-service e mappare la port
     - Maintenance database: usersdb
     - Username: user
     - Password: password
+
+# RabbitMQ  
+### Come avviene il passaggio dei dati tra i microservizi:
+
+Il Client (microservizio che deve richiedere risorse/dati):  
+
+1. Il client invia una richiesta HTTP a /qualcosa (es. /operate)
+2. La richiesta viene gestita nell'index.js del client, il quale chiama la produce 
+3. La produce è definita nel file microservizio-s.js, che chiama produceMessage(data), i data sono i dati della richiesta HTTP
+4. La produceMessage(data) è definita nel producer.js, che produce nella rpcQueue i data della richiesta HTTP
+
+L'RPC Server (il microservizio che deve fornire risorse/dati)  
+
+1. Nel consumer.js:
+    -  viene definita la funzione consumeMessage che tramite this.channel.consume è sempre in ascolto per consumare nuovi messaggi che arrivano nella rpcQueue.
+    - Viene fatta la query al database per ottenere i dati richiesti dal client
+    - Viene chiamata la produce 
+2. Nel producer.js vengono prodotti i data sulla replyQueue ( che gli era stata passata dal client nella richiesta come canale di risposta) 
+
+Il Client (microservizio che deve richiedere risorse/dati)  
+
+1. Nel consumer.js è definita la funzione consumeMessage che tramite this.channel.consume è sempre in ascolto per consumare nuovi messaggi che arrivano nella replyQueue.
+
+-------------------------------------------
+Le funzioni usate per RabbitMQ devono essere chiamate direttamente da user_repo:  
+`const { UserRepo } = require('../user_repo');  `  
+` const User = require("../user");  `  
+` const userRepo = new UserRepo(User);`   
+questo perchè user_service serve solo per estrarre i dati da una richiesta HTTP e chiamare la funzione che fa la query su questi dati. Poi invia la response (aggiungendo status e headers)
+
+-------------------------
+
+Nel file consumer.js per risolvere un errore abbiamo dobuto aggiungere 
+`const RabbitMQUser = require("./user-s");`  
+non all'inizio del file, ma prima di chiamare la funzione produce di RabbitMQUser
+
+-----------------------   
+
+TODO:
+- Risolvere il poblema per cui alcune volte i microservizi partono prima che RabbitMQ sia pronto
+- npm install sui Dockerfile
+- Header del consumer.js di user-service
+- Rinominare student-service in note-service
