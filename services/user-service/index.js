@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const userRoutes = require('./src/user_route');
 
+const RabbitMQUser = require('./src/rabbitmq/user-s');
+
 const app = express();
 
 
@@ -25,9 +27,13 @@ app.get('/access', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'access.html'));
 });
 
+
+
 const port = 8080;
-app.listen(port, () => {
+app.listen(port, async() => {
   console.log(`Server running on port ${port}`);
+  await RabbitMQUser.initPromise;  // Wait for initialization to finish before proceeding
+  console.log("(Index) Rabbit Client after init:", RabbitMQUser);
 });
 
 
