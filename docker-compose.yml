@@ -11,6 +11,7 @@ services:
     container_name: user-service
     depends_on:
       - postgres  # Ensure the app starts after the postgres service
+      - rabbitmq
     environment:
       POSTGRES_URI: postgres://user:password@postgres:5432/usersdb  # Connection URI
     ports:
@@ -31,6 +32,7 @@ services:
     container_name: student-service
     depends_on:
       - postgres  # Ensure the app starts after the postgres service
+      - rabbitmq
     environment:
       POSTGRES_URI: postgres://user:password@postgres:5432/studentsdb  # Connection URI
     ports:
@@ -73,6 +75,8 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - app_network
 
 
 volumes:

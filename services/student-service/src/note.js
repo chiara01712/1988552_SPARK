@@ -46,11 +46,6 @@ const Note = sequelize.define('note', {
     type: Sequelize.ENUM('pdf', 'doc', 'image'),
     allowNull: true
   },
-  uploaded_at: {
-    type: Sequelize.DATE,
-    defaultValue: Sequelize.NOW,
-    allowNull: false
-  }
 }, {
   timestamps: false
 });
@@ -59,7 +54,7 @@ const Note = sequelize.define('note', {
 //Note.sync({force: true});
 
 const { v4: uuidv4 } = require('uuid');
-sequelize.sync({ force: false }) 
+sequelize.sync({ force: true }) 
   .then(() => {
     console.log('Tabella delle note sincronizzata.');
 
