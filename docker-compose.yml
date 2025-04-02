@@ -10,8 +10,10 @@ services:
    
     container_name: user-service
     depends_on:
-      - postgres  # Ensure the app starts after the postgres service
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
+      postgres:
+        condition: service_started
     environment:
       POSTGRES_URI: postgres://user:password@postgres:5432/usersdb  # Connection URI
     ports:
@@ -31,8 +33,10 @@ services:
 
     container_name: student-service
     depends_on:
-      - postgres  # Ensure the app starts after the postgres service
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
+      postgres:
+        condition: service_started
     environment:
       POSTGRES_URI: postgres://user:password@postgres:5432/studentsdb  # Connection URI
     ports:
@@ -77,6 +81,11 @@ services:
       RABBITMQ_DEFAULT_PASS: guest
     networks:
       - app_network
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
 
 
 volumes:
