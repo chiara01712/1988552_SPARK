@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcryptjs');
 const uuid = require('uuid');
 
 class UserService{
@@ -21,8 +21,8 @@ class UserService{
         }
         try {
             // Salt and hash the password
-            const saltRounds = bcrypt.genSaltSync(10);
-            const hashedPassword = await bcrypt.hash(password, saltRounds);
+            const saltRounds = 10;
+            const hashedPassword = bcryptjs.hashSync(password, saltRounds);
 
             const user = await this.userRepo.addUser(id, username,role,  email, hashedPassword);
             console.log("Verifico",username,role, email, hashedPassword);
@@ -56,9 +56,15 @@ class UserService{
     
         try {
             const user = await this.userRepo.getUserByUsername(email);
-            
 
-            if (!user) {
+            if(user){
+                if(!bcryptjs.compareSync(password, user.password)) {
+                    response.status = 401;
+                    response.message = 'Invalid credentials';
+                    return response;
+                }
+            }
+            else if (!user) {
                 response.status = 404;
                 response.message = 'Missing user';
                 return response;
