@@ -72,8 +72,11 @@ non all'inizio del file, ma prima di chiamare la funzione produce di RabbitMQUse
 
 -----------------------   
 
+Per sistemare il problema per cui i microservizi partivano prima che RabbitMQ fosse pronto, abbiamo aggiunto un healthcheck per rabbitmq (nel docker-compose.yml) che verifica che il servizio RabbitMQ sia in esecuzione e pronto a ricevere connessioni prima di avviare i microservizi. Le depends_on dei microservizi sono state aggiornate con la condition "service_healthy".  
+
+-----------------------
 TODO:
-- Risolvere il poblema per cui alcune volte i microservizi partono prima che RabbitMQ sia pronto
-- npm install sui Dockerfile
+
 - Header del consumer.js di user-service
+- Capire come gestire l'autenticazione tra i microservizi
 - Rinominare student-service in note-service
