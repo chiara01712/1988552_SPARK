@@ -30,7 +30,7 @@ router.post('/signup', async (req, res) => {
 // Recupero utente) endpoint
 router.get('/login', async (req, res) => {
     try {
-        const response = await userService.getUser(req);
+        const response = await userService.login(req);
         res.status(response.status).json(response.data || { message: response.message });
     } catch (error) {
         console.error(error);

@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const uuid = require('uuid');
 
 class UserService{
@@ -19,8 +20,12 @@ class UserService{
             return response;
         }
         try {
-            const user = await this.userRepo.addUser(id, username,role,  email, password);
-            console.log(username,role, email, password);
+            // Salt and hash the password
+            const saltRounds = bcrypt.genSaltSync(10);
+            const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+            const user = await this.userRepo.addUser(id, username,role,  email, hashedPassword);
+            console.log("Verifico",username,role, email, hashedPassword);
             if(!user){
                 response.status = 500;
                 response.message = 'Internal server error';
@@ -38,7 +43,7 @@ class UserService{
         }
     }
 
-    async getUser(req) {
+    async login(req) {
         const { email, password } = req.body;
         console.log("AAAA",email,"BBBB",password);
         const response = {};
@@ -50,8 +55,9 @@ class UserService{
         }
     
         try {
-            const user = await this.userRepo.getUserByUsername(email, password);
-    
+            const user = await this.userRepo.getUserByUsername(email);
+            
+
             if (!user) {
                 response.status = 404;
                 response.message = 'Missing user';

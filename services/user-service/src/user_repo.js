@@ -23,8 +23,8 @@ class UserRepo{
         }
       }
 
-      async getUserByUsername(email,password) {
-        return  await this.userModel.findOne({ where: { email, password } });
+      async getUserByUsername(email) {
+        return  await this.userModel.findOne({ where: { email} });
     }
 
   // Functions for RabbitMQ
