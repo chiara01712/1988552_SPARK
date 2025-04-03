@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --legacy-watch index.js"
+    "start": "nodemon --legacy-watch index.js --ext js,css,html,mjs,cjs,json"
   },
   "keywords": [],
   "author": "",
