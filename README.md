@@ -64,7 +64,8 @@ Le funzioni usate per RabbitMQ devono essere chiamate direttamente da user_repo:
 ` const userRepo = new UserRepo(User);`   
 questo perchè user_service serve solo per estrarre i dati da una richiesta HTTP e chiamare la funzione che fa la query su questi dati. Poi invia la response (aggiungendo status e headers)
 
--------------------------
+
+# Note 
 
 Nel file consumer.js per risolvere un errore abbiamo dobuto aggiungere 
 `const RabbitMQUser = require("./user-s");`  
@@ -74,9 +75,30 @@ non all'inizio del file, ma prima di chiamare la funzione produce di RabbitMQUse
 
 Per sistemare il problema per cui i microservizi partivano prima che RabbitMQ fosse pronto, abbiamo aggiunto un healthcheck per rabbitmq (nel docker-compose.yml) che verifica che il servizio RabbitMQ sia in esecuzione e pronto a ricevere connessioni prima di avviare i microservizi. Le depends_on dei microservizi sono state aggiornate con la condition "service_healthy".  
 
------------------------
+---------------
+
+L'invio del form di login non funzionava perchè il bottone per slidare il form si sovrapponeva a quello per inviare il form, ho risolto con ` registerBtn.style.pointerEvents = 'none';` (file access.js)
+
+
+
+# Authentication 
+
+- Per creare l'ACCESS_TOKEN_SECRET nel .env abbiamo usato ` require('crypto').randomBytes(64).toString('hex')` in node. (il .env non viene caricato in git, quindi va creato in locale)
+
+1. Generazione del token:  
+    Quando l'utente invia email e password (richiesta a /login), il server verifica le credenziali (la password viene verificata con bcrypt), e se sono corrette, viene generato un token JWT (JSON Web Token) utilizzando la libreria jsonwebtoken (jwt.sign()). Il token contiene le informazioni dell'utente e viene firmato con una chiave segreta (ACCESS_TOKEN_SECRET). Il token viene restituito al client che se lo salva nel sessionStorage.
+2. Autenticazione delle richieste:  
+    Quando il client invia una richiesta ad un microservizio (diverso da user-service) deve includere il token JWT nell'intestazione Authorization della richiesta HTTP. Il Middleware del microservizio estrae il token dall'intestazione e lo verifica (jwt.verify()) utilizzando la stessa chiave segreta. Se il token è valido, il microservizio può accettare la richiesta e procedere con l'operazione richiesta, estraendo anche le info dell'utente.
+    
+----------------------------
+
+
+
+
 TODO:
 
 - Header del consumer.js di user-service
-- Capire come gestire l'autenticazione tra i microservizi
+- Capire come funziona il passaggio tra i microservizi e aggiungere il middleware per l'autenticazione
+- file .env
+- Refresh token per il logout
 - Rinominare student-service in note-service
