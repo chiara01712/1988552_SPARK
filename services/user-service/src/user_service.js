@@ -1,5 +1,8 @@
 const bcryptjs = require('bcryptjs');
 const uuid = require('uuid');
+const jwt = require('jsonwebtoken');
+require ('dotenv').config();
+
 
 class UserService{
     constructor(userRepo){
@@ -43,41 +46,64 @@ class UserService{
         }
     }
 
-    async login(req) {
+    async login(req, res) {
         const { email, password } = req.body;
         console.log("AAAA",email,"BBBB",password);
-        const response = {};
+        
     
         if (!email || !password) {
-            response.status = 400;
-            response.message = 'Invalid request';
-            return response;
+            return res.status(400).json({ message: 'Invalid request' });
         }
     
         try {
             const user = await this.userRepo.getUserByUsername(email);
+            console.log("USER",user);
 
             if(user){
+                
+                // Check if the password is correct
                 if(!bcryptjs.compareSync(password, user.password)) {
-                    response.status = 401;
-                    response.message = 'Invalid credentials';
-                    return response;
+                    console.log("Password is not correct");
+                    return res.status(401).json({ message: 'Invalid credentials' });
                 }
+                console.log("Password is correct");
+
+                const payload = {
+                    id: user.id,
+                    username: user.username,
+                    email: user.email,
+                };
+                console.log("Payload",payload);
+                console.log("ACCESS_TOKEN_SECRET:", '220fcf11de0e3f9307932fb2ff69258d190ecf08ef01d0d9c5d8d1c7c97d9149be27299a3ce8dfa0cbbfb6dc1328291786803344cdbf7f3916933a78ac47553e');
+
+
+                const token = jwt.sign(payload, "220fcf11de0e3f9307932fb2ff69258d190ecf08ef01d0d9c5d8d1c7c97d9149be27299a3ce8dfa0cbbfb6dc1328291786803344cdbf7f3916933a78ac47553e", { 
+                    expiresIn: '365d',
+                });
+
+                console.log("TOKEN",token);
+
+                
+                return res.status(200).json({
+                    message: 'Login successful',
+                    access_token: `Bearer ${token}`,
+                    user: {
+                        id: user.id,
+                        username: user.username,
+                        email: user.email,
+                        role: user.role
+                    }
+                });
+
+ 
+
             }
             else if (!user) {
-                response.status = 404;
-                response.message = 'Missing user';
-                return response;
+                return res.status(404).json({ message: 'User not found' });
             }
     
-            response.status = 200;
-            response.data = user; // Restituisci l'utente trovato
-            return response;
         } catch (error) {
-            console.error('Error fetching user:', error);
-            response.status = 500;
-            response.message = 'Internal server error';
-            return response;
+            return res.status(500).json({ message: 'Internal server error' });
         }
     }
 

@@ -24,7 +24,15 @@ class UserRepo{
       }
 
       async getUserByUsername(email) {
-        return  await this.userModel.findOne({ where: { email} });
+        const user = await this.userModel.findOne({ where: { email } });
+        if (user) {
+            console.log("User is: ", user.dataValues);  // Access the raw data in dataValues
+            return user.dataValues;  // Return the raw data
+        }
+        else{
+            console.log("User not found");
+            return null;
+        }
     }
 
   // Functions for RabbitMQ

@@ -27,11 +27,10 @@ router.post('/signup', async (req, res) => {
     }
 });
 
-// Recupero utente) endpoint
-router.get('/login', async (req, res) => {
+// Recupero utente endpoint
+router.post('/login', async (req, res) => {
     try {
-        const response = await userService.login(req);
-        res.status(response.status).json(response.data || { message: response.message });
+        await userService.login(req, res);
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal server error');
