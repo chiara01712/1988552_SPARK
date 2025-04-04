@@ -1,41 +1,49 @@
 
 
-// async function fetchNotes() {
-//     const studentId = "your-student-id-here"; // Replace with actual ID dynamically
-//     try {
-//         const response = await fetch(`api/notes?student_id=${studentId}`);
-//         const notes = await response.json();
-        
-//         const carouselContent = document.getElementById('carousel-content');
-//         carouselContent.innerHTML = '';
+// Fetch notes when the page loads
+async function fetchNotes() {
+    const studentId = "123e4567-e89b-12d3-a456-426614174000"; // TODO Should take it from the session storage
+    try {
+        const response = await fetch('/getNotes', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'student_id': studentId,
+            },
+        });
 
-//         if (notes.length === 0) {
-//             carouselContent.innerHTML = '<div class="text-center">No notes available</div>';
-//             return;
-//         }
+        if(response.status === 200) {
+            const notes = await response.json();
+            console.log("Notes fetched successfully:", notes);
+            const carouselContent = document.getElementById('carousel-content');
+            carouselContent.innerHTML = '';
 
-//         notes.forEach((note, index) => {
-//             const isActive = index === 0 ? 'active' : '';
-//             const noteHtml = `
-//                 <div class="carousel-item ${isActive}">
-//                     <div class="card text-center p-3">
-//                         <h5>${note.title}</h5>
-//                         <p>${note.description || 'No description available'}</p>
-//                         ${note.file_url ? `<a href="${note.file_url}" target="_blank">Download File</a>` : ''}
-//                         <p><small>Uploaded on: ${new Date(note.uploaded_at).toLocaleDateString()}</small></p>
-//                     </div>
-//                 </div>
-//             `;
-//             carouselContent.innerHTML += noteHtml;
-//         });
-//     } catch (error) {
-//         console.error('Error fetching notes:', error);
-//     }
-// }
+            if (notes.length === 0) {
+                carouselContent.innerHTML = '<div class="text-center">No notes available</div>';
+                return;
+            }
 
+            notes.forEach((note, index) => {
+                const isActive = index === 0 ? 'active' : '';
+                const noteHtml = `
+                    <div class="carousel-item ${isActive}">
+                        <div class="card text-center p-3">
+                            <h5>${note.title}</h5>
+                            <p>${note.description || 'No description available'}</p>
+                            ${note.file_url ? `<a href="${note.file_url}" target="_blank">Download File</a>` : ''}
+                            
+                        </div>
+                    </div>
+                `;
+                carouselContent.innerHTML += noteHtml;
+            });
+        }
+    }catch (error) {
+        console.error('Error fetching notes:', error);
+    }
+}
 
-
-// document.addEventListener('DOMContentLoaded', fetchNotes);
+ document.addEventListener('DOMContentLoaded', fetchNotes);
 
 function open_Menu() {
     document.getElementById("mySidebar").style.width = "25%";
