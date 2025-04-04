@@ -90,6 +90,13 @@ class UserService{
                     sameSite: 'None', 
                     maxAge: 365 * 24 * 60 * 60 * 1000 // 1 year
                 });
+
+                res.cookie("user_Id", user.id, {
+                    httpOnly: false, 
+                    secure: true,
+                    sameSite: "None",
+                    maxAge: 365 * 24 * 60 * 60 * 1000,
+                });
                 
                 return res.status(200).json({
                     message: 'Login successful',

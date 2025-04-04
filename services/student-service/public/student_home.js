@@ -1,8 +1,14 @@
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
 
 
 // Fetch notes when the page loads
 async function fetchNotes() {
-    const studentId = "123e4567-e89b-12d3-a456-426614174000"; // TODO Should take it from the session storage
+
+    const studentId = getCookie("user_Id");
     try {
         const response = await fetch('/getNotes', {
             method: 'GET',
@@ -96,7 +102,7 @@ function open_Menu() {
         console.log("noteForm",noteForm);
         noteForm.addEventListener("submit", async (event) => {
             event.preventDefault(); // Prevent the default form submission
-            const studentId = document.getElementById("studentId").value;
+            const studentId = getCookie("user_Id");
             const courseId = document.getElementById("courseId").value;
             const title = document.getElementById("title").value;
             const description = document.getElementById("description").value;

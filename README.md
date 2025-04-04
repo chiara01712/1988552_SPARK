@@ -22,7 +22,7 @@ Per eseguire un container a partire dall'immagine user-service e mappare la port
 
 ### Pacchetti necessari per il progetto fino ad ora:   
 
-`npm i sequelize express dotenv pg body-parser nodemond amqplib`   
+`npm i sequelize express dotenv pg body-parser nodemond amqplib bcryptjs jsonwebtoken cors`   
 
 ## Connessione con pgAdmin:  
 *userdb*:
@@ -77,6 +77,15 @@ Per sistemare il problema per cui i microservizi partivano prima che RabbitMQ fo
 
 ---------------
 
+Per ora nei cookie abbiamo l'access_token con httpOnly: true (quindi non può essere letto da javascript) e lo user_id con httpOnly: false (quindi può essere letto da javascript).
+Per accedere ai cookie:
+```javascript
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+```
 
 
 
@@ -85,9 +94,9 @@ Per sistemare il problema per cui i microservizi partivano prima che RabbitMQ fo
 - Per creare l'ACCESS_TOKEN_SECRET nel .env abbiamo usato ` require('crypto').randomBytes(64).toString('hex')` in node. (il .env non viene caricato in git, quindi va creato in locale)
 
 1. Generazione del token:  
-    Quando l'utente invia email e password (richiesta a /login), il server verifica le credenziali (la password viene verificata con bcrypt), e se sono corrette, viene generato un token JWT (JSON Web Token) utilizzando la libreria jsonwebtoken (jwt.sign()). Il token contiene le informazioni dell'utente e viene firmato con una chiave segreta (ACCESS_TOKEN_SECRET). Il token viene restituito al client che se lo salva nel sessionStorage.
+    Quando l'utente invia email e password (richiesta POST a /login in access.js), il server (user_route.js che chiama user_service.js) verifica le credenziali (la password viene verificata con bcrypt), e se sono corrette, viene generato un token JWT (JSON Web Token) utilizzando la libreria jsonwebtoken (jwt.sign()). Il token contiene le informazioni dell'utente e viene firmato con una chiave segreta (ACCESS_TOKEN_SECRET). L'access_token viene salvato nei cookie (res.cookie in user_service.js).
 2. Autenticazione delle richieste:  
-    Quando il client invia una richiesta ad un microservizio (diverso da user-service) deve includere il token JWT nell'intestazione Authorization della richiesta HTTP. Il Middleware del microservizio estrae il token dall'intestazione e lo verifica (jwt.verify()) utilizzando la stessa chiave segreta. Se il token è valido, il microservizio può accettare la richiesta e procedere con l'operazione richiesta, estraendo anche le info dell'utente.
+    Quando il client invia una richiesta ad un microservizio (diverso da user-service) (ad esempio quando vuole accedere alla home di student-service), il microservizio estrae l'access_token dai cookie e lo verifica (jwt.verify()). Se il token è valido, il microservizio può accettare la richiesta e procedere con l'operazione richiesta.
     
 ----------------------------
 
@@ -96,8 +105,12 @@ Per sistemare il problema per cui i microservizi partivano prima che RabbitMQ fo
 
 TODO:
 
-- Header del consumer.js di user-service
-- Capire come funziona il passaggio tra i microservizi e aggiungere il middleware per l'autenticazione
-- file .env
-- Refresh token per il logout
+- Header del consumer.js di user-service (per gestire più richieste sulla stessa comunicazione con RabbitMQ)
+- file .env non viene letto (ci serve per ACCESS_TOKEN_SECRET)
+- Gestione Logout (serve refresh token o possiamo eliminare il token salvato nei cookie?)
 - Rinominare student-service in note-service
+
+DA DECIDERE:  
+- Noi stiamo usando una struttura a microfrontend (quindi ogni microservizio ha il suo frontend, ovvero pagine html separate per ogni microservizio), quindi ci obbliga a dover fare window.location.href (quindi una richiesta GET) ogni volta che dobbiamo accedere a pagine che non sono del microservizio in cui stiamo in quel momento.  
+Per esempio nella pagina dei corsi (quini un file.html in course-service) c'è il tab che permette di vedere tutte le note relative a quel corso(che però sono in un file html in note-service). Quindi biosgnerebbe fare una cosa del tipo che quando premiamo il tab note viene fatta una richiesta get a note-service che avrà un html con la struttura della pagina uguale a quella dei corsi e sotto al tab farà vedere le note.
+Potrebbe essere il caso di dividere le pagine in modo da limitare il numero di spostamenti da un microservizio all'altro? Quindi fare in modo che in ogni pagina del sito ci siano dati relativi ad un solo microservizio (esclusi ovviamente i dati che si possono richiedere con RabbitMQ).  
