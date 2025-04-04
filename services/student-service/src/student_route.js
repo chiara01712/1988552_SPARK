@@ -21,9 +21,13 @@ router.get('/get_notes', async (req, res) => {
 });
 
 router.post('/addNote', async (req, res) => {
-    const response = await studentService.addNote(req);
-    res.status(response.status).json({ message: response.message });
-});
+    try {
+        await studentService.addNote(req, res);
 
+    } catch (error) {
+        console.error('Error adding note:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
 module.exports = router;
