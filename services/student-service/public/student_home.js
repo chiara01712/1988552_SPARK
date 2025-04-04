@@ -27,9 +27,9 @@ async function fetchNotes() {
                 const isActive = index === 0 ? 'active' : '';
                 const noteHtml = `
                     <div class="carousel-item ${isActive}">
-                        <div class="card text-center p-3">
-                            <h5>${note.title}</h5>
-                            <p>${note.description || 'No description available'}</p>
+                        <div class="card note-card text-center p-3">
+                            <h5 class="note-title">${note.title}</h5>
+                            <p class="note-description">${note.description || 'No description available'}</p>
                             ${note.file_url ? `<a href="${note.file_url}" target="_blank">Download File</a>` : ''}
                             
                         </div>
