@@ -10,16 +10,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // Show the sign-up form when the "Sign Up" button is clicked
     registerBtn.addEventListener('click', () => {
         container.classList.add("active");
-        registerBtn.style.pointerEvents = 'none';
-        loginBtn.style.pointerEvents = 'auto';
     });
 
     // Show the login form when the "Login" button is clicked
     loginBtn.addEventListener('click', () => {
         container.classList.remove("active");
-        // Disable the hidden login button (for the sliding) to be able to click on the login button of the form
-        registerBtn.style.pointerEvents = 'auto';
-        loginBtn.style.pointerEvents = 'none';  
     });
 
     // Redirects the user to the sign-up page with the specified role as a query parameter
@@ -71,6 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     sessionStorage.setItem("userRole", result.user.role);
                     console.log("content of the session storage",sessionStorage.getItem("access_token"));
                     redirectToIndex(); // Redirect to the index page
+
                 } else {
                     const errorText = await response.text();
                     console.error("Login failed:", errorText);

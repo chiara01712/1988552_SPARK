@@ -77,7 +77,6 @@ Per sistemare il problema per cui i microservizi partivano prima che RabbitMQ fo
 
 ---------------
 
-L'invio del form di login non funzionava perchè il bottone per slidare il form si sovrapponeva a quello per inviare il form, ho risolto con ` registerBtn.style.pointerEvents = 'none';` (file access.js)
 
 
 
