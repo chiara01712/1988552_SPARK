@@ -1,5 +1,6 @@
 
 const Sequelize = require('sequelize');
+const bcryptjs = require('bcryptjs');
 
 // Set up the connection to the database
 const dbconfig = {
@@ -52,7 +53,7 @@ sequelize.sync({ force: true }) // Cambia a `false` per evitare di cancellare i 
       id: '123e4567-e89b-12d3-a456-426614174000', 
       username: 'testuser',
       role: 'student',
-      password: 'securepassword',
+      password: bcryptjs.hashSync('test@example.com', 10),
       email: 'test@example.com'
     });
   })

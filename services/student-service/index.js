@@ -32,6 +32,14 @@ app.post("/operate", async (req, res, next) => {
   }
 });
 
+
+app.get("/home", (req, res) => {
+  console.log("home");
+  res.sendFile(path.join(__dirname, 'public', 'student_home.html'));
+}
+);
+
+
 const port = 7070;
 app.listen(port, async() => {
   console.log(`Student Server is running on port ${port}`);

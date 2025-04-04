@@ -37,6 +37,17 @@ router.post('/login', async (req, res) => {
     }
 });
 
+// router.post('/home', async (req, res) => {
+//     try {
+//         const response = await fetch("http://localhost:7070/home");
+//         const html = await response.text();
+//         res.send(html); 
+//     } catch (err) {
+//         console.error("Error in loading home page:", err);
+//         res.status(500).send("Error in loading the home page");
+//     }
+// });
+
 
 
 module.exports = router;

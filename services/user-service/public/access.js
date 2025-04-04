@@ -65,7 +65,29 @@ document.addEventListener("DOMContentLoaded", function () {
                     sessionStorage.setItem("access_token", result.access_token);
                     sessionStorage.setItem("userRole", result.user.role);
                     console.log("content of the session storage",sessionStorage.getItem("access_token"));
-                    redirectToIndex(); // Redirect to the index page
+                    // redirectToIndex(); // Redirect to the index page
+                    window.location.href = "http://localhost:7070/home";
+                
+                    // try{
+                    //     const response1 = await fetch("/home", {
+                    //         method: "POST",
+                    //         headers: {
+                    //             "Content-Type": "application/json",
+                    //             "Authorization": `Bearer ${sessionStorage.getItem("access_token")}`
+                    //         },
+                    //         body: JSON.stringify(requestBody),
+                    //     });
+
+                    //     if(response1.status === 200){
+                    //         const result1 = await response1.json();
+                    //         console.log("Home request successful:", result1);
+                    //         // Handle the response from the home request
+                    //     }
+                    // }
+                    // catch(error){
+                    //     console.error("Error during home request:", error);
+                    // }
+
 
                 } else {
                     const errorText = await response.text();
@@ -74,6 +96,10 @@ document.addEventListener("DOMContentLoaded", function () {
             } catch (error) {
                 console.error("Error during login:", error);
             }
+
+            
+
+
         });
     }
 });
