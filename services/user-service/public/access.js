@@ -52,6 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
             try {
                 const response = await fetch("/login", {
                     method: "POST",
+                    credentials: "include", // Include cookies in the request
                     headers: {
                         "Content-Type": "application/json",
                     },
@@ -61,32 +62,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (response.status === 200) {
                     const result = await response.json();
-                    console.log("Login successful:", result);
-                    sessionStorage.setItem("access_token", result.access_token);
-                    sessionStorage.setItem("userRole", result.user.role);
-                    console.log("content of the session storage",sessionStorage.getItem("access_token"));
-                    // redirectToIndex(); // Redirect to the index page
-                    window.location.href = "http://localhost:7070/home";
-                
-                    // try{
-                    //     const response1 = await fetch("/home", {
-                    //         method: "POST",
-                    //         headers: {
-                    //             "Content-Type": "application/json",
-                    //             "Authorization": `Bearer ${sessionStorage.getItem("access_token")}`
-                    //         },
-                    //         body: JSON.stringify(requestBody),
-                    //     });
 
-                    //     if(response1.status === 200){
-                    //         const result1 = await response1.json();
-                    //         console.log("Home request successful:", result1);
-                    //         // Handle the response from the home request
-                    //     }
-                    // }
-                    // catch(error){
-                    //     console.error("Error during home request:", error);
-                    // }
+                    console.log("Login successful:", result);
+                    console.log("Cookies: ",document.cookie);
+
+                    // Redirect to the home page of the student-service
+                    window.location.href = "http://localhost:7070/home";
 
 
                 } else {
