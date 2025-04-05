@@ -5,29 +5,16 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const userRoutes = require('./src/user_route');
 const cookieParser = require("cookie-parser");
-
 const RabbitMQUser = require('./src/rabbitmq/user-s');
-
 const app = express();
-app.use(cookieParser());
 
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // Add this line to parse form data
-
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Serve static files from the 'public' directory
 app.use('', userRoutes);
-
-// When a GET request is made to the root URL, send back index.html
-app.get('/index', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-app.get('/access', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'access.html'));
-});
-
-
 
 const port = 8080;
 app.listen(port, async() => {

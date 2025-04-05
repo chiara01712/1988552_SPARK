@@ -37,32 +37,38 @@ const User = sequelize.define('user', {
   }
 });
 
-// To create the table every time the server starts (deletes the table if it already exists)
-// User.sync({force: true});
-
 
 // Create a new user for testing
 const { v4: uuidv4 } = require('uuid');
 
-sequelize.sync({ force: true }) // Cambia a `false` per evitare di cancellare i dati
+sequelize.sync({ force: false }) // if false it will not drop the table if it exists
   .then(() => {
     console.log('Table user ready.');
 
     // Create the user
-    return User.create({
-      id: '123e4567-e89b-12d3-a456-426614174000', 
-      username: 'testuser',
+    return User.findOrCreate({
+      where: {
+        id: '123e4567-e89b-12d3-a456-426614174000',
+        username: 'testuser'
+      },
+      defaults: {
       role: 'student',
       password: bcryptjs.hashSync('test@example.com', 10),
       email: 'test@example.com'
+      }
     });
   })
-  .then(user => {
-    console.log('User created:', user.toJSON());
+  .then(([user, created]) => {
+    if(created) {
+      console.log('User created:', user.toJSON());
+    }
+    else {
+      console.log('User already exists:', user.toJSON());
+    }
   })
   .catch(err => {
-    console.error('Error user creation:', err);
-  });
+    console.error('Error creating user:', err);
+});
 
 module.exports = User; 
 

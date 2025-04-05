@@ -4,10 +4,9 @@ const { UserRepo } = require('./user_repo');
 const User = require("./user")
 
 const router = express.Router();
-//const userController = require('./usercontroller');
-//router.post('/addUser', userController.addUser);
 const userRepo = new UserRepo(User);
 const userService = new UserService(userRepo);
+const path = require('path');
 
 // Signup endpoint
 router.post('/signup', async (req, res) => {
@@ -27,7 +26,7 @@ router.post('/signup', async (req, res) => {
     }
 });
 
-// Recupero utente endpoint
+// Login endpoint
 router.post('/login', async (req, res) => {
     try {
         await userService.login(req, res);
@@ -37,17 +36,15 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// router.post('/home', async (req, res) => {
-//     try {
-//         const response = await fetch("http://localhost:7070/home");
-//         const html = await response.text();
-//         res.send(html); 
-//     } catch (err) {
-//         console.error("Error in loading home page:", err);
-//         res.status(500).send("Error in loading the home page");
-//     }
-// });
+// When a GET request is made to the root URL, send back index.html
+router.get('/index', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 
+  });
 
+router.get('/access', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public', 'access.html'));
+});
+  
 
 module.exports = router;
