@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
             try {
                 const response = await fetch("/login", {
                     method: "POST",
-                    credentials: "include", // Include cookies in the request
+                    // credentials: "include", // Include cookies in the request
                     headers: {
                         "Content-Type": "application/json",
                     },

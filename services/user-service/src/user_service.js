@@ -120,6 +120,22 @@ class UserService{
         }
     }
 
+    async logout(req, res) {
+        // Loop through all cookies and delete them by setting them to expire
+        const cookies = req.cookies;
+        for (const cookieName in cookies) {
+            res.cookie(cookieName, '', { 
+                httpOnly: true,
+                secure: true, 
+                sameSite: 'None', 
+                expires: new Date(0), 
+            });
+        }
+
+         // Redirect to the login page
+        res.redirect('/index'); 
+    }
+
 
 
 }

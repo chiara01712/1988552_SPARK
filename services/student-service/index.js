@@ -18,7 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // request is on a different port (8080) than the backend (7070)
 app.use(cors({
   origin: 'http://localhost:8080', 
-  credentials: true, // Allow credentials (cookies) to be sent
+  // credentials: true, // Allow credentials (cookies) to be sent
 }));
 
 // Serve static files from the 'public' directory
