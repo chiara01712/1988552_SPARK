@@ -13,7 +13,7 @@ const studentService = new StudentService(studentRepo);
 router.get('/getNotes', async (req, res) => {
     try {
         const response = await studentService.getNotesByStudentId (req, res);
-        console.log("Response, notes:",response);
+        //console.log("Response, notes:",response);
         
         if (response.status === 200) {
             res.json(response.data); // Send the notes as JSON response
@@ -37,10 +37,10 @@ router.post('/addNote', async (req, res) => {
     }
 });
 
-// 1. When a post request is made to /operate, call the produce method of the RabbitMQNote class
+// 1. When a post request is made to /getUsername, call the produce method of the RabbitMQNote class
 // go to the producer.js file and see the produce method
-router.post("/operate", async (req, res, next) => {
-    console.log("/operate",req.body);
+router.post("/getUsername", async (req, res, next) => {
+    console.log("/getUsername",req.body);
     console.log("Type of req.body:", typeof req.body);
     try {
       const response = await RabbitMQNote.produce(req.body);

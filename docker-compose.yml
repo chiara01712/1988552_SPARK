@@ -14,6 +14,7 @@ services:
         condition: service_healthy
       postgres:
         condition: service_started
+
     environment:
       POSTGRES_URI: postgres://user:password@postgres:5432/usersdb  # Connection URI
     ports:
@@ -36,6 +37,8 @@ services:
       rabbitmq:
         condition: service_healthy
       postgres:
+        condition: service_started
+      user-service:
         condition: service_started
     environment:
       POSTGRES_URI: postgres://user:password@postgres:5432/studentsdb  # Connection URI

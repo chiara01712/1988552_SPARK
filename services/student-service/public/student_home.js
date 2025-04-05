@@ -49,7 +49,7 @@ async function fetchNotes() {
     }
 }
 
- document.addEventListener('DOMContentLoaded', fetchNotes);
+document.addEventListener('DOMContentLoaded', fetchNotes);
 
 function open_Menu() {
     document.getElementById("mySidebar").style.width = "25%";
@@ -57,23 +57,23 @@ function open_Menu() {
     document.getElementById("openNav").style.display = 'none';
 }
 
-  function close_Menu() {
+function close_Menu() {
     document.getElementById("main").style.marginLeft = "0%";
     document.getElementById("mySidebar").style.display = "none";
     document.getElementById("openNav").style.display = "inline-block";
-  }
-  function open_Profile() {
+}
+function open_Profile() {
     document.getElementById("profileSidebar").style.width = "25%";
     document.getElementById("profileSidebar").style.display = "block";
     document.getElementById("openNav").style.display = 'none';
-  }
-  function close_Profile() {
+}
+function close_Profile() {
     document.getElementById("main").style.marginLeft = "0%";
     document.getElementById("profileSidebar").style.display = "none";
     document.getElementById("openNav").style.display = "inline-block";
-  }
+}
 
-  document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
     const modal = document.getElementById("noteModal");
     const openBtn = document.getElementById("openFormButton");
     const closeBtn = document.querySelector(".close-btn");
@@ -94,7 +94,6 @@ function open_Menu() {
             modal.style.display = "none";
         }
     });
-
 
     // Handle form submission
     const noteForm = document.getElementById("noteForm");
@@ -129,7 +128,6 @@ function open_Menu() {
                 if (response.status === 200) {
                     const result = await response.json();
                     console.log("Note added successfully:", result);
-                    fetchNotes(); // Refresh the notes after adding a new one
                 } else {
                     console.error("Failed to add note:", response.statusText);
                 }
@@ -145,6 +143,43 @@ function open_Menu() {
 
     document.getElementById("noteForm").addEventListener("submit", function (event) {
         event.preventDefault(); // Prevent page refresh
+        fetchNotes(); // Refresh the notes after adding a new one
         modal.style.display = "none"; // Hide modal after submission
     });
 });
+
+
+// Request for the name of the student to user-service
+async function fetchUsername() {
+    const studentId = getCookie("user_Id");
+    try{
+        const response = await fetch('/getUsername', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id: studentId }),
+        });
+
+        if(response.status === 200) {
+            const res = await response.json();
+            const student = res.response
+            
+            console.log("Student name fetched successfully:", student);
+
+            const welcomeMessage = document.getElementById('welcomeUser');
+            if(welcomeMessage) {
+                // Set the welcome message in the HTML element with ID 'welcomeUser'
+                welcomeMessage.textContent = `Welcome, ${student}`;
+            } else {
+                console.error("Element with ID 'welcomeUser' not found.");
+            }
+        }
+        else{
+            console.error("Failed to fetch student name:", response.statusText);
+        }
+    } catch (error) {
+        console.error('Error fetching student name:', error);
+    }
+}
+document.addEventListener("DOMContentLoaded", fetchUsername);

@@ -14,17 +14,17 @@
             <a href="#" class="w3-bar-item w3-button">Courses</a>
             <a href="#" class="w3-bar-item w3-button">Notes</a>
         </div>
-      </div>
+    </div>
       
-      <div class="sidebar"  id="profileSidebar">
+    <div class="sidebar"  id="profileSidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="close_Profile()">&times;</a>
         <div class = "menu-items" >
             <a href="#" >Personal Data</a>
             <a href="#" >Logout</a>
         </div>
-      </div>
+    </div>
       
-      <div id="main">
+    <div id="main">
         <div class="header">
             <img id="openNav" src="menu.png" class="menu" onclick="open_Menu()">
             <div class="wrapper">
@@ -34,8 +34,11 @@
         </div>
 
         <div class="body">
-            <!-- Note Upload Modal -->
+            <h1 id="welcomeUser"> </h1>
             <button id="openFormButton" class="btn">Add Note</button>
+
+            <!-- Note Upload Modal -->
+
             <div id="noteModal" class="modal">
               <div class="modal-content">
                   <span class="close-btn">&times;</span>
@@ -64,8 +67,8 @@
       
                       <button type="submit" class="btn">Submit</button>
                   </form>
-              </div>
-          </div>
+                </div>
+            </div>
 
           <!-- Carousel for displaying notes -->
             <div id="carousel-content" class="carousel slide" data-bs-ride="carousel">
@@ -77,15 +80,15 @@
                 <span class="visually-hidden">Previous</span>
                 </button>
                 <button class="carousel-control-next" type="button" data-bs-target="#carousel-content" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
                 </button>
-                    
+            </div>
 
         </div>
     </div>
       
       
-      <script> src="student_home.js"</script>
+    <script src="student_home.js"></script>
 </body>
 </html>

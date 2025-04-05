@@ -21,8 +21,7 @@ class Consumer {
     this.channel.consume(
         this.rpcQueue,
         async (message) => {
-          console.log("/consumer2 message: ",message);
-
+          console.log("Message received:", message.content.toString());
           const { correlationId, replyTo } = message.properties;
   
           if (!correlationId || !replyTo) {

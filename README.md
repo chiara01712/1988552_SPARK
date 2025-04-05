@@ -35,13 +35,35 @@ Per eseguire un container a partire dall'immagine user-service e mappare la port
     - Username: user
     - Password: password
 
+# Struttura del progetto:
+Per ogni microservizio abbiamo una cartella con il nome del microservizio (es. user-service) che contiene:
+- La **cartella public** per i file html e css, e per i file javascript lato client
+- La **cartella src** per i file javascript lato server, in particolare:
+    - *microservizio*_repo.js: file che serve per fare le query al database
+    - *microservizio*_route.js: file che contiene le rotte del microservizio e le funzioni che gestiscono le richieste HTTP
+    - *microservizio*_service.js: file che contiene le funzioni che gestiscono la logica del microservizio e le chiamate al database tramite il file *_repo.js
+    - *microservizio*.js: file che contiene la definizione dei modelli del database (le tabelle)
+- Nella cartella src c'è una **cartella rabbitmq** che contiene i file per la comunicazione tra i microservizi tramite RabbitMQ:
+    - producer.js: file che contiene le funzioni per produrre messaggi su RabbitMQ
+    - consumer.js: file che contiene le funzioni per consumare messaggi da RabbitMQ
+    - *microservizio-s*.js: file che contiene le funzioni per gestire la comunicazione tra i microservizi tramite RabbitMQ (produce e consume)
+- File **package.json** per definire i pacchetti necessari per il microservizio e gli script per avviare il microservizio.
+- File **Dockerfile** per definire come costruire l'immagine del microservizio  
+- File **index.js** per avviare il server del microservizio in ascolto su una porta specifica.  
+- File **config.js** per definire la configurazione di rabbitMQ
+
+
+Il **docker-compose.yml** contiene la definizione dei servizi (microservizi) e delle loro dipendenze, della rete e del database. Per ogni servizio viene specificato il Dockerfile da usare per costruire l'immagine del servizio, le porte da esporre, le variabili d'ambiente e le dipendenze dai servizi. Inoltre, viene definito un volume per il database in modo che i dati siano persistenti anche dopo la chiusura del container.   
+
+
+
 # RabbitMQ  
 ### Come avviene il passaggio dei dati tra i microservizi:
 
 Il Client (microservizio che deve richiedere risorse/dati):  
 
-1. Il client invia una richiesta HTTP a /qualcosa (es. /operate)
-2. La richiesta viene gestita nell'index.js del client, il quale chiama la produce 
+1. Il client invia una richiesta HTTP a /*qualcosa* (es. /getUsername)
+2. La richiesta viene gestita nel *microservizio*_route.js del client, il quale chiama la produce 
 3. La produce è definita nel file microservizio-s.js, che chiama produceMessage(data), i data sono i dati della richiesta HTTP
 4. La produceMessage(data) è definita nel producer.js, che produce nella rpcQueue i data della richiesta HTTP
 
@@ -58,10 +80,12 @@ Il Client (microservizio che deve richiedere risorse/dati)
 1. Nel consumer.js è definita la funzione consumeMessage che tramite this.channel.consume è sempre in ascolto per consumare nuovi messaggi che arrivano nella replyQueue.
 
 -------------------------------------------
-Le funzioni usate per RabbitMQ devono essere chiamate direttamente da user_repo:  
-`const { UserRepo } = require('../user_repo');  `  
-` const User = require("../user");  `  
-` const userRepo = new UserRepo(User);`   
+Le funzioni usate per RabbitMQ devono essere chiamate direttamente da user_repo: 
+```
+const { UserRepo } = require('../user_repo');    
+const User = require("../user");    
+const userRepo = new UserRepo(User);
+```
 questo perchè user_service serve solo per estrarre i dati da una richiesta HTTP e chiamare la funzione che fa la query su questi dati. Poi invia la response (aggiungendo status e headers)
 
 
@@ -100,7 +124,10 @@ function getCookie(name) {
     
 ----------------------------
 
-
+## User di test
+username: test@example.com
+password: test@example.com
+(role: student)
 
 
 TODO:
