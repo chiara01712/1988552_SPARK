@@ -9,7 +9,6 @@
 </head>
 <body>
     <div class="sidebar"  id="mySidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="close_Menu()">&times;</a>
         <div class = "menu-items" >
             <a href="#" class="w3-bar-item w3-button">Courses</a>
             <a href="#" class="w3-bar-item w3-button">Notes</a>
@@ -17,7 +16,6 @@
       </div>
       
       <div class="sidebar"  id="profileSidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="close_Profile()">&times;</a>
         <div class = "menu-items" >
             <a href="#" >Personal Data</a>
             <a href="#" >Logout</a>
@@ -34,8 +32,76 @@
         </div>
 
         <div class="body">
+            <div class ="container"> 
+                <h1>Notes</h1>
+                <div class ="container-box">   
+                    <div class="box" id="note1">
+                        <h2>Note1</h2>
+                    </div>
+                    <div class="box" id="note2">
+                        <h2>Note1</h2>
+                    </div>
+                    <div class="box" id="note3">
+                        <h2>Note1</h2>
+                    </div>
+                    <div class="box" id="note4">
+                        <h2>Note1</h2>
+                    </div>
+                    <div class="box" id="note5">
+                        <h2>Note1</h2>
+                    </div>
+              
+                </div>
+            </div>
+            <br>
+            <div class ="container"> 
+                <h1>Courses</h1>
+                <div class ="container-box">   
+                    <div class="box" id="course1">
+                        <h2>Chemistry</h2>
+                    </div>
+                    <div class="box" id="course2">
+                        <h2>Math</h2>
+                    </div>
+                    <div class="box" id="course3">
+                        <h2>Topics in Physics</h2>
+                    </div>
+                    <div class="box" id="course4">
+                        <h2>Laboratory of Adv. Prog.</h2>
+                    </div>
+                    <div class="box" id="course5">
+                        <h2>Web Technlogies</h2>
+                    </div>
+                    <div class="box" id="course6">
+                        <h2>Web Technlogies</h2>
+                    </div>
+                </div>
+            </div>
+            <button class="new_course" onclick="openPopup('popup','overlay')">Add course</button>
+        
+            <div class="popup" id="popup">
+                <h1>New Course</h1> 
+                <div class = "input-field" >
+                    <div>
+                        <label>Course Name</label>
+                        <input type="text" name="" required="" id="course_name"> 
+                        <span></span>
+                        <label>Description</label>
+                        <input type="text" name="" required="" id="description"> 
+                        <span></span>
+                    </div>
+                </div>
+                <div class = "buttonbox">
+                    <button id="cancel" onclick="closePopup('popup', 'overlay')">Cancel </button>
+                    <button id="add" onclick="addCourse('popup', 'overlay')">Add</button>
+                </div>
+            </div>
+        
+            <div id="overlay" class="overlay" onclick="closePopup('popup', 'overlay')"> </div>
+                
+            
             <!-- Note Upload Modal -->
-            <button id="openFormButton" class="btn">Add Note</button>
+            <button id="openFormButton" class="btn">Add Note </button>
             <div id="noteModal" class="modal">
               <div class="modal-content">
                   <span class="close-btn">&times;</span>
@@ -74,7 +140,6 @@
         </div>
     </div>
       
-      
-      
+         
 </body>
 </html>

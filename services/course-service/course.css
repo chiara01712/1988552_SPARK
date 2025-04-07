@@ -219,3 +219,45 @@ body {
     word-wrap: break-word;
     
 }
+
+.addbutton{
+    width: 60px;
+    height: 60px;
+    position: fixed;
+    border-radius:  30px;
+    bottom:20px;
+    right:20px;
+    border-style: hidden;
+    font-size: 40px; 
+    background-color:  #007bff;
+    color: rgb(227, 197, 2);
+}
+
+.testbutton{
+    width: 60px;
+    height: 60px;
+    position: fixed;
+    border-radius:  30px;
+    bottom: 90px;
+    right:20px;
+    border-style: hidden;
+    font-size: 25px; 
+    background-color:  #007bff;
+    color: rgb(227, 197, 2);
+}
+
+.contentbutton{
+    width: 60px;
+    height: 60px;
+    position: fixed;
+    border-radius:  30px;
+    bottom: 160px;
+    right:20px;
+    border-style: hidden;
+    font-size: 25px; 
+    background-color:  #007bff;
+    color: rgb(227, 197, 2);
+}
+
+
+
