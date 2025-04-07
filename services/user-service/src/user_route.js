@@ -4,10 +4,9 @@ const { UserRepo } = require('./user_repo');
 const User = require("./user")
 
 const router = express.Router();
-//const userController = require('./usercontroller');
-//router.post('/addUser', userController.addUser);
 const userRepo = new UserRepo(User);
 const userService = new UserService(userRepo);
+const path = require('path');
 
 // Signup endpoint
 router.post('/signup', async (req, res) => {
@@ -27,7 +26,7 @@ router.post('/signup', async (req, res) => {
     }
 });
 
-// Recupero utente endpoint
+// Login endpoint
 router.post('/login', async (req, res) => {
     try {
         await userService.login(req, res);
@@ -37,6 +36,26 @@ router.post('/login', async (req, res) => {
     }
 });
 
+// When a GET request is made to the root URL, send back index.html
+router.get('/index', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+});
 
+// Logout endpoint
+router.post('/logout', async (req, res) => {
+    try {
+        await userService.logout(req, res);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal server error');
+    }
+});
+
+  
+
+router.get('/access', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public', 'access.html'));
+});
+  
 
 module.exports = router;

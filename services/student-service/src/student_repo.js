@@ -33,6 +33,19 @@ class StudentRepo{
           return [];
       }
     }
+
+    async getNotesByStudentId(student_id) {
+
+      const notes = await this.noteModel.findAll({ where: { student_id } });
+      if(notes){
+        const allDataValues = notes.map(note => note.dataValues);
+        console.log(allDataValues);
+        return allDataValues;  // Return the raw data
+      } else{
+          console.log("No notes found for student");
+          return null;
+      }
+    }
     
 
 

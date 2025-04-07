@@ -52,6 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
             try {
                 const response = await fetch("/login", {
                     method: "POST",
+                    // credentials: "include", // Include cookies in the request
                     headers: {
                         "Content-Type": "application/json",
                     },
@@ -61,11 +62,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (response.status === 200) {
                     const result = await response.json();
+
                     console.log("Login successful:", result);
-                    sessionStorage.setItem("access_token", result.access_token);
-                    sessionStorage.setItem("userRole", result.user.role);
-                    console.log("content of the session storage",sessionStorage.getItem("access_token"));
-                    redirectToIndex(); // Redirect to the index page
+                    console.log("Cookies: ",document.cookie);
+
+                    // Redirect to the home page of the student-service
+                    window.location.href = "http://localhost:7070/home";
+
 
                 } else {
                     const errorText = await response.text();
@@ -74,6 +77,10 @@ document.addEventListener("DOMContentLoaded", function () {
             } catch (error) {
                 console.error("Error during login:", error);
             }
+
+            
+
+
         });
     }
 });

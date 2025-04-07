@@ -22,7 +22,7 @@ Per eseguire un container a partire dall'immagine user-service e mappare la port
 
 ### Pacchetti necessari per il progetto fino ad ora:   
 
-`npm i sequelize express dotenv pg body-parser nodemond amqplib`   
+`npm i sequelize express dotenv pg body-parser nodemond amqplib bcryptjs jsonwebtoken cors`   
 
 ## Connessione con pgAdmin:  
 *userdb*:
@@ -35,13 +35,35 @@ Per eseguire un container a partire dall'immagine user-service e mappare la port
     - Username: user
     - Password: password
 
+# Struttura del progetto:
+Per ogni microservizio abbiamo una cartella con il nome del microservizio (es. user-service) che contiene:
+- La **cartella public** per i file html e css, e per i file javascript lato client
+- La **cartella src** per i file javascript lato server, in particolare:
+    - *microservizio*_repo.js: file che serve per fare le query al database
+    - *microservizio*_route.js: file che contiene le rotte del microservizio e le funzioni che gestiscono le richieste HTTP
+    - *microservizio*_service.js: file che contiene le funzioni che gestiscono la logica del microservizio e le chiamate al database tramite il file *_repo.js
+    - *microservizio*.js: file che contiene la definizione dei modelli del database (le tabelle)
+- Nella cartella src c'è una **cartella rabbitmq** che contiene i file per la comunicazione tra i microservizi tramite RabbitMQ:
+    - producer.js: file che contiene le funzioni per produrre messaggi su RabbitMQ
+    - consumer.js: file che contiene le funzioni per consumare messaggi da RabbitMQ
+    - *microservizio-s*.js: file che contiene le funzioni per gestire la comunicazione tra i microservizi tramite RabbitMQ (produce e consume)
+- File **package.json** per definire i pacchetti necessari per il microservizio e gli script per avviare il microservizio.
+- File **Dockerfile** per definire come costruire l'immagine del microservizio  
+- File **index.js** per avviare il server del microservizio in ascolto su una porta specifica.  
+- File **config.js** per definire la configurazione di rabbitMQ
+
+
+Il **docker-compose.yml** contiene la definizione dei servizi (microservizi) e delle loro dipendenze, della rete e del database. Per ogni servizio viene specificato il Dockerfile da usare per costruire l'immagine del servizio, le porte da esporre, le variabili d'ambiente e le dipendenze dai servizi. Inoltre, viene definito un volume per il database in modo che i dati siano persistenti anche dopo la chiusura del container.   
+
+
+
 # RabbitMQ  
 ### Come avviene il passaggio dei dati tra i microservizi:
 
 Il Client (microservizio che deve richiedere risorse/dati):  
 
-1. Il client invia una richiesta HTTP a /qualcosa (es. /operate)
-2. La richiesta viene gestita nell'index.js del client, il quale chiama la produce 
+1. Il client invia una richiesta HTTP a /*qualcosa* (es. /getUsername)
+2. La richiesta viene gestita nel *microservizio*_route.js del client, il quale chiama la produce 
 3. La produce è definita nel file microservizio-s.js, che chiama produceMessage(data), i data sono i dati della richiesta HTTP
 4. La produceMessage(data) è definita nel producer.js, che produce nella rpcQueue i data della richiesta HTTP
 
@@ -58,10 +80,12 @@ Il Client (microservizio che deve richiedere risorse/dati)
 1. Nel consumer.js è definita la funzione consumeMessage che tramite this.channel.consume è sempre in ascolto per consumare nuovi messaggi che arrivano nella replyQueue.
 
 -------------------------------------------
-Le funzioni usate per RabbitMQ devono essere chiamate direttamente da user_repo:  
-`const { UserRepo } = require('../user_repo');  `  
-` const User = require("../user");  `  
-` const userRepo = new UserRepo(User);`   
+Le funzioni usate per RabbitMQ devono essere chiamate direttamente da user_repo: 
+```
+const { UserRepo } = require('../user_repo');    
+const User = require("../user");    
+const userRepo = new UserRepo(User);
+```
 questo perchè user_service serve solo per estrarre i dati da una richiesta HTTP e chiamare la funzione che fa la query su questi dati. Poi invia la response (aggiungendo status e headers)
 
 
@@ -77,6 +101,15 @@ Per sistemare il problema per cui i microservizi partivano prima che RabbitMQ fo
 
 ---------------
 
+Per ora nei cookie abbiamo l'access_token con httpOnly: true (quindi non può essere letto da javascript) e lo user_id con httpOnly: false (quindi può essere letto da javascript).
+Per accedere ai cookie:
+```javascript
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+```
 
 
 
@@ -85,19 +118,26 @@ Per sistemare il problema per cui i microservizi partivano prima che RabbitMQ fo
 - Per creare l'ACCESS_TOKEN_SECRET nel .env abbiamo usato ` require('crypto').randomBytes(64).toString('hex')` in node. (il .env non viene caricato in git, quindi va creato in locale)
 
 1. Generazione del token:  
-    Quando l'utente invia email e password (richiesta a /login), il server verifica le credenziali (la password viene verificata con bcrypt), e se sono corrette, viene generato un token JWT (JSON Web Token) utilizzando la libreria jsonwebtoken (jwt.sign()). Il token contiene le informazioni dell'utente e viene firmato con una chiave segreta (ACCESS_TOKEN_SECRET). Il token viene restituito al client che se lo salva nel sessionStorage.
+    Quando l'utente invia email e password (richiesta POST a /login in access.js), il server (user_route.js che chiama user_service.js) verifica le credenziali (la password viene verificata con bcrypt), e se sono corrette, viene generato un token JWT (JSON Web Token) utilizzando la libreria jsonwebtoken (jwt.sign()). Il token contiene le informazioni dell'utente e viene firmato con una chiave segreta (ACCESS_TOKEN_SECRET). L'access_token viene salvato nei cookie (res.cookie in user_service.js).
 2. Autenticazione delle richieste:  
-    Quando il client invia una richiesta ad un microservizio (diverso da user-service) deve includere il token JWT nell'intestazione Authorization della richiesta HTTP. Il Middleware del microservizio estrae il token dall'intestazione e lo verifica (jwt.verify()) utilizzando la stessa chiave segreta. Se il token è valido, il microservizio può accettare la richiesta e procedere con l'operazione richiesta, estraendo anche le info dell'utente.
+    Quando il client invia una richiesta ad un microservizio (diverso da user-service) (ad esempio quando vuole accedere alla home di student-service), il microservizio estrae l'access_token dai cookie e lo verifica (jwt.verify()). Se il token è valido, il microservizio può accettare la richiesta e procedere con l'operazione richiesta.
     
 ----------------------------
 
-
+## User di test
+username: test@example.com
+password: test@example.com
+(role: student)
 
 
 TODO:
 
-- Header del consumer.js di user-service
-- Capire come funziona il passaggio tra i microservizi e aggiungere il middleware per l'autenticazione
-- file .env
-- Refresh token per il logout
+- Header del consumer.js di user-service (per gestire più richieste sulla stessa comunicazione con RabbitMQ)
+- file .env non viene letto (ci serve per ACCESS_TOKEN_SECRET)
+- Gestione Logout (serve refresh token o possiamo eliminare il token salvato nei cookie?)
 - Rinominare student-service in note-service
+
+DA DECIDERE:  
+- Noi stiamo usando una struttura a microfrontend (quindi ogni microservizio ha il suo frontend, ovvero pagine html separate per ogni microservizio), quindi ci obbliga a dover fare window.location.href (quindi una richiesta GET) ogni volta che dobbiamo accedere a pagine che non sono del microservizio in cui stiamo in quel momento.  
+Per esempio nella pagina dei corsi (quini un file.html in course-service) c'è il tab che permette di vedere tutte le note relative a quel corso(che però sono in un file html in note-service). Quindi biosgnerebbe fare una cosa del tipo che quando premiamo il tab note viene fatta una richiesta get a note-service che avrà un html con la struttura della pagina uguale a quella dei corsi e sotto al tab farà vedere le note.
+Potrebbe essere il caso di dividere le pagine in modo da limitare il numero di spostamenti da un microservizio all'altro? Quindi fare in modo che in ogni pagina del sito ci siano dati relativi ad un solo microservizio (esclusi ovviamente i dati che si possono richiedere con RabbitMQ).  

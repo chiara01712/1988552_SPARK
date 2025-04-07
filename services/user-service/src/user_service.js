@@ -1,6 +1,7 @@
 const bcryptjs = require('bcryptjs');
 const uuid = require('uuid');
 const jwt = require('jsonwebtoken');
+
 require ('dotenv').config();
 
 
@@ -77,22 +78,34 @@ class UserService{
                 console.log("ACCESS_TOKEN_SECRET:", '220fcf11de0e3f9307932fb2ff69258d190ecf08ef01d0d9c5d8d1c7c97d9149be27299a3ce8dfa0cbbfb6dc1328291786803344cdbf7f3916933a78ac47553e');
 
 
+                // Generate a JWT token with a secret key stored in .env
                 const token = jwt.sign(payload, "220fcf11de0e3f9307932fb2ff69258d190ecf08ef01d0d9c5d8d1c7c97d9149be27299a3ce8dfa0cbbfb6dc1328291786803344cdbf7f3916933a78ac47553e", { 
                     expiresIn: '365d',
                 });
 
-                console.log("TOKEN",token);
+                // Set the cookie with the JWT token
+                res.cookie("access_token",token, {
+                    httpOnly: true,  // Set to true to prevent client-side access
+                    secure: true, 
+                    sameSite: 'None', 
+                    maxAge: 365 * 24 * 60 * 60 * 1000 // 1 year
+                });
 
+                res.cookie("user_Id", user.id, {
+                    httpOnly: false, 
+                    secure: true,
+                    sameSite: "None",
+                    maxAge: 365 * 24 * 60 * 60 * 1000,
+                });
                 
                 return res.status(200).json({
                     message: 'Login successful',
-                    access_token: `Bearer ${token}`,
                     user: {
                         id: user.id,
                         username: user.username,
                         email: user.email,
                         role: user.role
-                    }
+                    },
                 });
 
  
@@ -105,6 +118,22 @@ class UserService{
         } catch (error) {
             return res.status(500).json({ message: 'Internal server error' });
         }
+    }
+
+    async logout(req, res) {
+        // Loop through all cookies and delete them by setting them to expire
+        const cookies = req.cookies;
+        for (const cookieName in cookies) {
+            res.cookie(cookieName, '', { 
+                httpOnly: true,
+                secure: true, 
+                sameSite: 'None', 
+                expires: new Date(0), 
+            });
+        }
+
+         // Redirect to the login page
+        res.redirect('/index'); 
     }
 
 

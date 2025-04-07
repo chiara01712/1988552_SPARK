@@ -13,16 +13,17 @@
             <a href="#" class="w3-bar-item w3-button">Courses</a>
             <a href="#" class="w3-bar-item w3-button">Notes</a>
         </div>
-      </div>
+    </div>
       
-      <div class="sidebar"  id="profileSidebar">
+    <div class="sidebar"  id="profileSidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="close_Profile()">&times;</a>
         <div class = "menu-items" >
             <a href="#" >Personal Data</a>
-            <a href="#" >Logout</a>
+            <a onclick="signOut()" >Logout</a>
         </div>
-      </div>
+    </div>
       
-      <div id="main">
+    <div id="main">
         <div class="header">
             <img id="openNav" src="menu.png" class="menu" onclick="open_Menu()">
             <div class="wrapper">
@@ -102,13 +103,17 @@
             
             <!-- Note Upload Modal -->
             <button id="openFormButton" class="btn">Add Note </button>
+            <h1 id="welcomeUser"> </h1>
+            <button id="openFormButton" class="btn">Add Note</button>
+
+            <!-- Note Upload Modal -->
+
             <div id="noteModal" class="modal">
               <div class="modal-content">
                   <span class="close-btn">&times;</span>
                   <h2>Add Note</h2>
-                  <form id="noteForm" action="/addNote" method="POST">
-                      <label for="studentId">Student ID</label>
-                      <input type="text" id="studentId" required>
+                  <form id="noteForm">
+                      
       
                       <label for="courseId">Course ID</label>
                       <input type="text" id="courseId" required>
@@ -131,15 +136,27 @@
       
                       <button type="submit" class="btn">Submit</button>
                   </form>
-              </div>
-          </div>
-      
+                </div>
+            </div>
 
-            
+          <!-- Carousel for displaying notes -->
+            <div id="carousel-content" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                <!-- Carousel items will be dynamically added here -->
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carousel-content" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carousel-content" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+            </div>
 
         </div>
     </div>
       
-         
+      
 </body>
 </html>

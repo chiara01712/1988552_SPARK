@@ -29,8 +29,11 @@ class StudentService{
     }
 
     // New method to fetch all notes
-    async getNotesByStudentId(student_id) {
-        if (!student_id) {
+    async getNotesByStudentId(req) {
+   
+       const student_id = req.headers.student_id; // Extract student_id from headers
+       console.log("Received student_id:", student_id); 
+        if(!student_id) {
             return { status: 400, message: 'Missing student_id' };
         }
     
