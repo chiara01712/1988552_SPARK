@@ -9,14 +9,16 @@ body {
     overflow-y: scroll;
 }
 
-.wrapper {
-    text-align: center;
-}
 
-.wrapper img {
+.wrapper {
+    display: block;
+    margin: auto;
+    padding: 35vw;
+    padding-left: 35vw;
     width: 30vw;
     height: auto;
-    margin-top: -10px;
+    margin-top: -60px;
+    margin-bottom: -470px;
 }
 
 #logo{
@@ -443,4 +445,13 @@ button {
 
 .carousel-control-prev, .carousel-control-next {
     filter: invert(0.5);
+}
+#welcomeUser{
+
+    padding-top: 2%;
+    color: #ffffff;
+    padding-right: 3%;
+    margin-left: -8%;
+    font-size: medium;
+    font-family: Poppins;
 }
