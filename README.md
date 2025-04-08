@@ -136,19 +136,17 @@ TODO:
 - file .env non viene letto (ci serve per ACCESS_TOKEN_SECRET)
 - Gestione Logout (serve refresh token o possiamo eliminare il token salvato nei cookie?)
 - Rinominare student-service in note-service
+- Student_Home da sistemare 
+- Pagina delle Note creata da zero 
+- Aggiungere un'altra pagina per importare note di altri studenti
+- Pagina da parte degli studenti per cercare corsi a cui iscriversi 
+- Pagina da parte dei professori per inserire test e annunci 
+
+Poca priorità 
+-Personal area
 
 DA DECIDERE:  
 - Noi stiamo usando una struttura a microfrontend (quindi ogni microservizio ha il suo frontend, ovvero pagine html separate per ogni microservizio), quindi ci obbliga a dover fare window.location.href (quindi una richiesta GET) ogni volta che dobbiamo accedere a pagine che non sono del microservizio in cui stiamo in quel momento.  
 Per esempio nella pagina dei corsi (quini un file.html in course-service) c'è il tab che permette di vedere tutte le note relative a quel corso(che però sono in un file html in note-service). Quindi biosgnerebbe fare una cosa del tipo che quando premiamo il tab note viene fatta una richiesta get a note-service che avrà un html con la struttura della pagina uguale a quella dei corsi e sotto al tab farà vedere le note.
 Potrebbe essere il caso di dividere le pagine in modo da limitare il numero di spostamenti da un microservizio all'altro? Quindi fare in modo che in ogni pagina del sito ci siano dati relativi ad un solo microservizio (esclusi ovviamente i dati che si possono richiedere con RabbitMQ).
 
-TODO:
--Student_Home da sistemare 
-
--pagina delle Note creata da zero 
-	-aggiungere un'altra pagina per importare note di altri studenti
--pagina da parte degli studenti per cercare corsi a cui iscriversi 
--pagina da parte dei professori per inserire test e annunci 
-
-Poca priorità 
--Personal area
