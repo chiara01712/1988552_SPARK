@@ -10,22 +10,24 @@
 </head>
 <body>
     <div class="sidebar"  id="mySidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="close_Menu()">&times;</a>
-        <div class = "menu-items" >
-            <a href="#" class="w3-bar-item w3-button">Courses</a>
-            <a href="#" class="w3-bar-item w3-button">Notes</a>
+        <div class = "menu-items">
+            <p><a href="#"><i class="fa-solid fa-chalkboard"></i> Courses</a></p>
+            <p><a href="#"><i class="fa-solid fa-file-pen"></i> Notes</a></p>
         </div>
     </div>
+
+    <div id="overlaybar" class="overlaybar" onclick="close_Menu()"></div>
       
-      <div class="sidebar"  id="profileSidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="close_Profile()">&times;</a>
+    <div class="sidebar"  id="profileSidebar">
         <div class = "menu-items" >
-            <a href="#" >Personal Data</a>
-            <a onclick="signout()" >Logout</a>
+            <p><a href="#"> <i class="fa-solid fa-user"></i> Personal Data</a></p>
+            <p><a onclick="signOut()"> <i class="fa-solid fa-right-from-bracket"></i> Logout</a></p>
         </div>
-      </div>
+    </div>
+
+    <div id="overlaysidebar" class="overlaybar" onclick="close_Profile()"></div>
       
-      <div id="main">
+    <div id="main">
         <div class="header">
             <img id="openNav" src="./images/menu.png" class="menu" onclick="open_Menu()">
             <div class="wrapper">
@@ -66,9 +68,13 @@
                 Not having more opportunities to meet each others personally, best wishes for the Holiday Season !! </h3>
         </div>
 
-        <div class=""
-
-        <button class="addbutton">+</button>
-        <button class="testbutton">  <i class="fa-regular fa-clipboard"></i> </button>
-        <button class="contentbutton"> <i class="fa-solid fa-pen-to-square"></i></button> 
+        <button id="addbutton" class="addbutton">+</button>
+        <div id="containerbutton" class="containerbutton">
+            <button class="testbutton"> <i class="fa-regular fa-clipboard"></i> </button>
+            <button class="contentbutton"> <i class="fa-solid fa-pen-to-square"></i></button> 
+        </div>
     </div>
+
+
+</body>
+</html>
