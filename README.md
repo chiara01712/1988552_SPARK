@@ -132,6 +132,12 @@ username: test@example.com
 password: test@example.com
 (role: student)
 
+Microservizi:
+1.⁠ ⁠User-service
+2.⁠ ⁠Note-service (student)
+3.⁠ ⁠Course-service (teacher)
+
+
 
 TODO:
 
@@ -148,8 +154,7 @@ TODO:
 Poca priorità 
 -Personal area
 
-DA DECIDERE:  
-- Noi stiamo usando una struttura a microfrontend (quindi ogni microservizio ha il suo frontend, ovvero pagine html separate per ogni microservizio), quindi ci obbliga a dover fare window.location.href (quindi una richiesta GET) ogni volta che dobbiamo accedere a pagine che non sono del microservizio in cui stiamo in quel momento.  
-Per esempio nella pagina dei corsi (quini un file.html in course-service) c'è il tab che permette di vedere tutte le note relative a quel corso(che però sono in un file html in note-service). Quindi biosgnerebbe fare una cosa del tipo che quando premiamo il tab note viene fatta una richiesta get a note-service che avrà un html con la struttura della pagina uguale a quella dei corsi e sotto al tab farà vedere le note.
-Potrebbe essere il caso di dividere le pagine in modo da limitare il numero di spostamenti da un microservizio all'altro? Quindi fare in modo che in ogni pagina del sito ci siano dati relativi ad un solo microservizio (esclusi ovviamente i dati che si possono richiedere con RabbitMQ).
-
+DECISIONI:
+•⁠  ⁠Le note si vedono in una pagian separata rispetto a quella dei corsi (nella home page si possono mostrare alcune note facendo la richiesta a note service con Rabbit)
+•⁠  ⁠Il professore quando crea un corso seleziona una categoria a cui associamo un colore e quindi le note con quella categoria saranno visualizzate con quel colore e copertina predefinita
+•⁠  ⁠Se la nota viene creata senza un corso di appartenenza allora la categoria viene scelta dallo studente
