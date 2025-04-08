@@ -86,16 +86,18 @@ function open_Profile() {
     document.getElementById("overlaysidebar").classList.add("overlayactive");
 }
 function close_Profile() {
-    document.getElementById("main").style.marginLeft = "0%";
     document.getElementById("profileSidebar").style.display = "none";
     document.getElementById("overlaysidebar").classList.remove("overlayactive");
 }
+
+
 
 document.addEventListener("DOMContentLoaded", function () {
     const modal = document.getElementById("noteModal");
     const openBtn = document.getElementById("openFormButton");
     const closeBtn = document.querySelector(".close-btn");
-
+    
+    
     // Open modal
     openBtn.addEventListener("click", function () {
         modal.style.display = "block";
@@ -111,6 +113,11 @@ document.addEventListener("DOMContentLoaded", function () {
         if (event.target === modal) {
             modal.style.display = "none";
         }
+        else if (!event.target === menu ){
+            document.getElementById("mySidebar").style.display = "none";
+        }
+        else if (!event.target === profile){
+            document.getElementById("profileSidebar").style.display = "none";        }
     });
 
     // Handle form submission
