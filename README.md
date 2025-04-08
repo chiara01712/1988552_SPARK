@@ -54,7 +54,10 @@ Per ogni microservizio abbiamo una cartella con il nome del microservizio (es. u
 
 
 Il **docker-compose.yml** contiene la definizione dei servizi (microservizi) e delle loro dipendenze, della rete e del database. Per ogni servizio viene specificato il Dockerfile da usare per costruire l'immagine del servizio, le porte da esporre, le variabili d'ambiente e le dipendenze dai servizi. Inoltre, viene definito un volume per il database in modo che i dati siano persistenti anche dopo la chiusura del container.   
-
+## Microservizi
+1. User-service
+2. Note-service (student)
+3. Course-service(professor)
 
 
 # RabbitMQ  
