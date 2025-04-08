@@ -144,6 +144,7 @@ Potrebbe essere il caso di dividere le pagine in modo da limitare il numero di s
 
 TODO:
 -Student_Home da sistemare 
+
 -pagina delle Note creata da zero 
 	-aggiungere un'altra pagina per importare note di altri studenti
 -pagina da parte degli studenti per cercare corsi a cui iscriversi 
