@@ -10,6 +10,7 @@
 | title        | String   | Title of the course                              |
 | description  | TEXT     | Description of the course                        |
 | professor_id | UUID     | Foreign Key, refers to the professor (User Management) |
+| student_ids  | String[] | Students ids                                     |
 | created_at   | TIMESTAMP| Timestamp of course creation                     |
 
 ---

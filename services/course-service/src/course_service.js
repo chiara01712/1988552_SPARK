@@ -12,12 +12,12 @@ class CourseService{
         const { title, description, professor_id} = req.body;
         const id = require('uuid').v4(); // Generate a UUID for the course
 
-        if (! !title || !professor_id) {
+        if (!title || !professor_id) {
             return { status: 400, message: 'Invalid request: Missing fields' };
         }
 
         try {
-            const course = await this.courseRepo.addCourse(id, title, description, professor_id);
+            const course = await this.courseRepo.addCourse(id, title, description, professor_id, student_ids);
             if (!course) {
                 return { status: 500, message: 'Internal server error' };
             }
@@ -27,7 +27,26 @@ class CourseService{
             return { status: 500, message: 'Internal server error' };
         }
     }
+    // Function to add a student to a course
+    async addStudentToCourse(req) {
+        const { course_id, student_id } = req.body;
 
+        if (!course_id || !student_id) {
+            return { status: 400, message: 'Invalid request: Missing fields' };
+        }
+
+        try {
+            const updatedCourse = await this.courseRepo.addStudentToCourse(course_id, student_id);
+            if (!updatedCourse) {
+                return { status: 500, message: 'Failed to add student to course' };
+            }
+
+            return { status: 200, message: 'Student added to course successfully' };
+        } catch (error) {
+            console.error('Error adding student to course:', error);
+            return { status: 500, message: 'Internal server error' };
+        }
+    }
     // New method to fetch all courses
     async getCoursesByProfessorId(req) {
    
@@ -45,6 +64,7 @@ class CourseService{
             return { status: 500, message: 'Internal server error' };
         }
     }
+
 }
 
 

@@ -52,6 +52,28 @@ services:
       - app_network
     restart: always
 
+  course-service:
+    build: # Build the image from the Dockerfile
+      context: ./  # This sets the root directory as the context
+      dockerfile: ./services/course-service/Dockerfile
+
+    container_name: course-service
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      postgres:
+        condition: service_started
+    environment:
+      POSTGRES_URI: postgres://user:password@postgres:5432/coursesdb  # Connection URI
+    ports:
+      - "6060:6060"  # Expose app on port 6060
+    volumes:
+      - ./services/course-service:/usr/src/app
+      - ./services/course-service/index.js:/usr/src/app/index.js  # Mount the index.js file to the container
+
+    networks:
+      - app_network
+    restart: always
   
 
   # Service for the database

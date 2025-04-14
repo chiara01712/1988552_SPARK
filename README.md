@@ -22,7 +22,7 @@ Per eseguire un container a partire dall'immagine user-service e mappare la port
 
 ### Pacchetti necessari per il progetto fino ad ora:   
 
-`npm i sequelize express dotenv pg body-parser nodemond amqplib bcryptjs jsonwebtoken cors`   
+`npm i bcryptjs body-parser cookie-parser cors dotenv express jsonwebtoken nodemon path pg sequelize`   
 
 ## Connessione con pgAdmin:  
 *userdb*:
@@ -132,12 +132,50 @@ username: test@example.com
 password: test@example.com
 (role: student)
 
+
+## Courses
+Allora ho creato il dockerfile per i corsi e l'ho aggiunto al dockercompose (se vedete che su pgAmin non vi compare il coursesdb provate a cancellare tutto quello che avete in Volumes nel docker e re-buildate)
+Al momento c'è solo una tabella nel db dei corsi (courses) e contiene: Id (id del corso), Titolo, Descrizione, Professor_id, Student_ids (arrey di id inizialmente vuoto pk il prof. può creare un corso a cui non è iscritto nessuno)
+In fondo a couse.js c'è anche il codice per un Corso di testper vedere se la fetch funzionava.
+Per i moduli npm che ho installato sono praticamente tutti quelli che sono scritti sopra
+Manca la tabella per i quiz e la parte dei materiali di un corso (che a questo punto penso aggiungerei sempre come un arrey a courses forse?)
+- Le seguenti funzioni sono nuove e non sono state provate:
+addStudentToCourse (gestisce l'iscrizione di uno studente a un corso)
+getCoursesByStudentId (usata dal consumer per trovare i corsi a cui è iscritto uno studente)
+
+## Rabbit e le code
+Vdendo su internet sembra che in config.js quando compare:
+queues: {
+        rpcQueue: "rpc_queue",
+      },
+Si possano mettere più code con diciture diverse e quindi avevo provato a creare due code (in student-service) in questo modo:
+queues: {
+        userRPC: "rpc_user_queue",
+        courseRPC: "rpc_course_queue",
+      },
+(mentre per user-> config.js sarebbe stato rpcQueue: "rpc_user_queue",) idem per course-service (in modo che il codice per consumer e producer non cambiasse).
+Dopo di che ho aggiunto la funzione fetchCourses gestita come fetchUsername in student_home.js e getCourses in note_route.js che era getsita allo stesso modo di getUsername ed ho modificato il messaggio che veniva passato al Producer non più req.body ma una variabile così definita:
+const message = {
+        payload: req.body,
+        target: 'getUsername',
+}
+in modo che il Producer potesse vedere che tipo di richiesta era stata fatta e in base al 'target' decidere su quale coda rpc aggiungerla (producer.js in student-service):
+const {target, payload} =data;
+let queue={};
+if (target.toString()=="getUsername") queue=config.rabbitMQ.queues.userRPC; 
+if (target.toString()=="getCourses") queue=config.rabbitMQ.queues.courseRPC; 
+this.channel.sendToQueue(
+      queue, // 2. Queue to send the message to
+      Buffer.from(JSON.stringify(data.payload)),// in modo che il formato del messaggio passato al consumer non cambi
+... //stesso codice
+)
+E fin qui ancora sembrava funzionare perchè il Consumer di user-service riceveva correttamente la richiesta (leggeva lo student id) e ritornava l'username corrispondente ... che però è come se non venisse mai ricevuto da student-service che dai Log non stampa nulla che mostri che la richiesta sia andata a buon fine o meno (ho provato a modificare welcomeMessage.textContent sia nel caso in cui ritorni con successo e student non è NULL sia nel caso in cui è NULL e sia nel caso in cui non ritorni .status==200, però il testo di welcome non è mai modificato)
+Quindi ho tolto tutte le modifiche che ho fatto anche basandomi sull'ultima versione del codice presente su Git però ancora non funzionaaaaaaaaa non so perchè ...
+
 Microservizi:
 1.⁠ ⁠User-service
 2.⁠ ⁠Note-service (student)
 3.⁠ ⁠Course-service (teacher)
-
-
 
 TODO:
 

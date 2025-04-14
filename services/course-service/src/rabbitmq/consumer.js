@@ -1,35 +1,64 @@
 
+const { CourseRepo } = require('../course_repo');
+const Course = require("../course");
+const e = require('express');
 
 class Consumer {
     // channel is the channel to listen to messages
-    // replyQueueName is the queue to send the reply to
+    // rpcQueue is the queue to consume messages from
     // eventEmitter is the event emitter to handle the communication between the producer and consumer
 
-  constructor(channel, replyQueueName, eventEmitter) {
+  constructor(channel, rpcQueue) {
     this.channel = channel;
-    this.replyQueueName = replyQueueName;
-    this.eventEmitter = eventEmitter;
+    this.rpcQueue = rpcQueue;
   }
 
   async consumeMessages() {
     console.log("Ready to consume messages...");
 
     // Ensures that the consumer remains continuously active,
-    // listening for incoming messages on the replyQueueName.
+    // listening for incoming messages on the rpcQueue.
     this.channel.consume(
-      this.replyQueueName,
-      (message) => {
-        if (!message) return; 
-        
-        console.log("The reply is:", JSON.parse(message.content.toString()));
+        this.rpcQueue,
+        async (message) => {
+          console.log("Message received:", message.content.toString());
+          const { correlationId, replyTo } = message.properties;
+  
+          if (!correlationId || !replyTo) {
+            console.log("Missing some properties...");
+            return;
+          }
+          // To understand which function to call (query) to reterieve the data that the client needs
+          //const operation = message.properties.headers.function;
 
-        // emit the message so that all listeners can receive it
-        this.eventEmitter.emit(
-          message.properties.correlationId.toString(),
-          message
-        );
-      },
-      {
+          let response = {};
+
+          const { id } = JSON.parse(message.content.toString()); 
+
+          console.log("id: ", id);
+
+          const courseRepo = new CourseRepo(Course);
+
+          const courses = await courseRepo.getCoursesByStudentId(id);
+      
+          
+          if (!courses) {
+            console.log("courses not found");
+            response = { error: "courses not found" };
+          }
+          else {
+            response =  courses ;
+          }
+          
+   
+           
+          // Produce the response back to the client
+            const RabbitMQCourse = require("./course-s");
+            await RabbitMQCourse.initPromise;  // Wait for RabbitMQCourse to be initialized
+            
+            await RabbitMQCourse.produce(response, correlationId, replyTo);    
+        },
+        {
         noAck: true, 
       }
     );

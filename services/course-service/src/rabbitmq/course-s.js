@@ -5,7 +5,7 @@ const Consumer = require("./consumer");
 const Producer = require("./producer");
 const { EventEmitter } = require("events");
 
-class RabbitMQNote {
+class RabbitMQCourse {
     constructor() {
         this.isInitialized = false;
         this.producer = null;

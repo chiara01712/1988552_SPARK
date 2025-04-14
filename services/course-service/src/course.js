@@ -15,7 +15,7 @@ sequelize.authenticate().then(() => {
   console.error('unable to connect to database', err);
 });
 
-const Course = sequelize.define('note', {
+const Course = sequelize.define('course', {
   id: {
     type: Sequelize.UUID,
     defaultValue: Sequelize.UUIDV4,
@@ -34,6 +34,10 @@ const Course = sequelize.define('note', {
     type: Sequelize.UUID,
     allowNull: false
   },
+  student_ids: {
+    type: Sequelize.ARRAY(Sequelize.UUID),
+    allowNull: true
+  },
 }, {
   timestamps: false
 });
@@ -44,32 +48,30 @@ sequelize.sync({ force: false })
   .then(() => {
     console.log('Course table ready.');
 
-    // Creation example note
+    // Creation example course
     return Course.findOrCreate({
       where:{
-        student_id: '123e4567-e89b-12d3-a456-426614174000',
         id: '987e6543-e21b-45f6-a654-423354174999',
          
       },
       defaults: {
-        title: 'Nota di esempio',
-        course_id: uuidv4(), 
+        title: 'Corso di esempio',
+        professor_id: uuidv4(), 
         description: 'decription.',
-        file_url: 'https://example.com/file.pdf',
-        file_type: 'pdf',
+        student_ids: ['123e4567-e89b-12d3-a456-426614174000'],
         uploaded_at: new Date()  
       }
     });
   })
-  .then(([note,created]) => {
+  .then(([course,created]) => {
     if (created) {
-      console.log('Course created:', note.toJSON());
+      console.log('Course created:', course.toJSON());
     } else {
-      console.log('Course already exists:', note.toJSON());
+      console.log('Course already exists:', course.toJSON());
     }
   })
   .catch(err => {
-    console.error('Error creation note:', err);
+    console.error('Error creation course:', err);
   });
 module.exports = Course; 
 

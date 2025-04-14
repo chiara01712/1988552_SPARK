@@ -1,2 +1,3 @@
+CREATE DATABASE coursesdb;
 CREATE DATABASE usersdb;
 CREATE DATABASE studentsdb;
