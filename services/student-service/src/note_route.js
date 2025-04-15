@@ -1,19 +1,21 @@
 const express = require('express');
-const { StudentService } = require('./student_service');
-const { StudentRepo } = require('./student_repo');
+const { NoteService } = require('./note_service');
+const { NoteRepo } = require('./note_repo');
 const RabbitMQNote = require('./rabbitmq/note-s');
 const Note = require("./note")
 const jwt = require('jsonwebtoken');
 const path = require('path');
 
+
+
 const router = express.Router();
-const studentRepo = new StudentRepo(Note);
-const studentService = new StudentService(studentRepo);
+const noteRepo = new NoteRepo(Note);
+const noteService = new NoteService(noteRepo);
 
 router.get('/getNotes', async (req, res) => {
     try {
-        const response = await studentService.getNotesByStudentId (req, res);
-        //console.log("Response, notes:",response);
+        const response = await noteService.getNotesByStudentId (req, res);
+        console.log("Response, notes:",response);
         
         if (response.status === 200) {
             res.json(response.data); // Send the notes as JSON response
@@ -29,7 +31,7 @@ router.get('/getNotes', async (req, res) => {
 
 router.post('/addNote', async (req, res) => {
     try {
-        await studentService.addNote(req, res);
+        await noteService.addNote(req, res);
 
     } catch (error) {
         console.error('Error adding note:', error);
@@ -37,12 +39,34 @@ router.post('/addNote', async (req, res) => {
     }
 });
 
+/*
+router.post('/getCourses', async (req, res, next) => {
+  console.log("/getCourse",req.body);
+  console.log("Type of req.body:", typeof req.body);
+  try {
+    const message = {
+      payload: req.body,
+      target: 'getCourses'
+    }
+    const response = await RabbitMQNote.produce(message);
+    res.send({ response });
+  } catch (error) {
+    next(error); 
+  }
+});
+*/
 // 1. When a post request is made to /getUsername, call the produce method of the RabbitMQNote class
 // go to the producer.js file and see the produce method
 router.post("/getUsername", async (req, res, next) => {
     console.log("/getUsername",req.body);
     console.log("Type of req.body:", typeof req.body);
     try {
+      /*
+      const message = {
+        payload: req.body,
+        target: 'getUsername',
+      }
+        */
       const response = await RabbitMQNote.produce(req.body);
       res.send({ response });
     } catch (error) {

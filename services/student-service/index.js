@@ -1,9 +1,7 @@
-
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const studentRoutes = require('./src/student_route');
+const noteRoutes = require('./src/note_route');
 const RabbitMQNote = require('./src/rabbitmq/note-s');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
@@ -22,7 +20,8 @@ app.use(cors({
 }));
 
 // Serve static files from the 'public' directory
-app.use('', studentRoutes);
+app.use('', noteRoutes);
+
 
 const port = 7070;
 app.listen(port, async() => {

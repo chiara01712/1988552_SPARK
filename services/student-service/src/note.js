@@ -28,7 +28,7 @@ const Note = sequelize.define('note', {
   },
   course_id: {
     type: Sequelize.UUID,
-    allowNull: false
+    allowNull: true
   },
   title: {
     type: Sequelize.STRING,

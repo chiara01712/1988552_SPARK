@@ -14,8 +14,16 @@ class Producer {
     console.log("/producer1",data);
     console.log("Type of data:", typeof data);
 
+    /*
+    const {target, payload} =data;
+    let queue={};
+    if (target.toString()=="getUsername") queue=config.rabbitMQ.queues.userRPC; 
+    if (target.toString()=="getCourses") queue=config.rabbitMQ.queues.courseRPC; 
+          console.log('Replying to:', this.replyQueueName);
+    */
     // Send the message to the RPC queue with the necessary properties
     this.channel.sendToQueue(
+      //queue,
       config.rabbitMQ.queues.rpcQueue,  // 2. Queue to send the message to
       Buffer.from(JSON.stringify(data)), // Data to be sent
       {
@@ -25,13 +33,15 @@ class Producer {
         expiration: 30, // Time in milliseconds after which the message will be deleted
         
         // headers: {
-        //   function: data.operation,
-        // },
+          // function: data.operation,
+         //},
       }
+      
     );
 
     // Return a Promise that resolves when the response is received
     return new Promise((resolve, reject) => {
+      console.log("We are in Promiseeeeeeeeeee");
       // Listen for the response with the specified UUID
       this.eventEmitter.once(uuid, async (data) => {
         try {

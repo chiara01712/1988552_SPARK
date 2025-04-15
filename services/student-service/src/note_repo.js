@@ -1,6 +1,6 @@
-const { use } = require("./student_route");
+const { use } = require("./note_route");
 
-class StudentRepo{
+class NoteRepo{
 
     constructor(noteModel){
         this.noteModel = noteModel;
@@ -28,7 +28,7 @@ class StudentRepo{
       async getNoteByUser(student_id) {
         try {
           return await this.noteModel.findAll({ where: { student_id } });
-      } catch (error) {
+      } catch (erUserror) {
           console.error("Error fetching notes for student:", error);
           return [];
       }
@@ -51,4 +51,4 @@ class StudentRepo{
 
 } 
 
-module.exports = {StudentRepo};
+module.exports = {NoteRepo};

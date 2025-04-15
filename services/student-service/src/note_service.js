@@ -1,8 +1,8 @@
 const uuid = require('uuid');
 
-class StudentService{
-    constructor(studentRepo){
-        this.studentRepo = studentRepo;
+class NoteService{
+    constructor(noteRepo){
+        this.noteRepo = noteRepo;
     }
 
     // Function to add a note to the database
@@ -12,12 +12,12 @@ class StudentService{
         const { student_id, course_id, title, description, file_url, file_type } = req.body;
         const id = require('uuid').v4(); // Generate a UUID for the note
 
-        if (!student_id || !course_id || !title || !file_url || !file_type) {
+        if (!student_id  || !title || !file_url || !file_type) {
             return { status: 400, message: 'Invalid request: Missing fields' };
         }
 
         try {
-            const note = await this.studentRepo.addNote(id, student_id, course_id, title, description, file_url, file_type);
+            const note = await this.noteRepo.addNote(id, student_id, course_id, title, description, file_url, file_type);
             if (!note) {
                 return { status: 500, message: 'Internal server error' };
             }
@@ -38,7 +38,7 @@ class StudentService{
         }
     
         try {
-            const notes = await this.studentRepo.getNotesByStudentId(student_id);
+            const notes = await this.noteRepo.getNotesByStudentId(student_id);
             return { status: 200, data: notes };
         } catch (error) {
             console.error('Error fetching notes for student:', error);
@@ -48,4 +48,4 @@ class StudentService{
 }
 
 
-module.exports = {StudentService};
+module.exports = {NoteService};

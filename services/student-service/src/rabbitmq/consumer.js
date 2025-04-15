@@ -1,9 +1,9 @@
 
 
 class Consumer {
-    // channel is the channel to listen to messages
-    // replyQueueName is the queue to send the reply to
-    // eventEmitter is the event emitter to handle the communication between the producer and consumer
+  // channel is the channel to listen to messages
+  // replyQueueName is the queue to send the reply to
+  // eventEmitter is the event emitter to handle the communication between the producer and consumer
 
   constructor(channel, replyQueueName, eventEmitter) {
     this.channel = channel;
@@ -22,7 +22,6 @@ class Consumer {
         if (!message) return; 
         
         console.log("The reply is:", JSON.parse(message.content.toString()));
-
         // emit the message so that all listeners can receive it
         this.eventEmitter.emit(
           message.properties.correlationId.toString(),
@@ -35,5 +34,4 @@ class Consumer {
     );
   }
 }
-
 module.exports = Consumer;
