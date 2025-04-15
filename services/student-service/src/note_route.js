@@ -39,6 +39,13 @@ router.post('/addNote', async (req, res) => {
     }
 });
 
+// When a GET request is made to /my_note, send back my_note.html
+router.get('/my_note', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public', 'my_note.html'));
+});
+
+
+
 /*
 router.post('/getCourses', async (req, res, next) => {
   console.log("/getCourse",req.body);

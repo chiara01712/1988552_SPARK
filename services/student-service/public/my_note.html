@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="home.css">
+    <script src="my_note.js"></script> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student_home</title>
+</head>
+<body>
+    <div class="sidebar"  id="mySidebar">
+        <div class = "menu-items">
+            <p><a href="#"><i class="fa-solid fa-chalkboard"></i> Courses</a></p>
+            <p><a href="/my_note"><i class="fa-solid fa-file-pen"></i> Notes</a></p>
+        </div>
+    </div>
+
+    <div id="overlaybar" class="overlaybar" onclick="close_Menu()"></div>
+      
+    <div class="sidebar"  id="profileSidebar">
+        <div class = "menu-items" >
+            <p><a href="#"> <i class="fa-solid fa-user"></i> Personal Data</a></p>
+            <p><a onclick="signOut()"> <i class="fa-solid fa-right-from-bracket"></i> Logout</a></p>
+        </div>
+    </div>
+
+    <div id="overlaysidebar" class="overlaybar" onclick="close_Profile()"></div>
+
+    <div id="main">
+        <div class="header">
+            <img id="menu" src="menu.png" class="menu" onclick="open_Menu()">
+            <img class="wrapper" src="Spark-LOGO-removebg-preview.png" id="logo">
+            <h1 id="welcomeUser"></h1>
+            <img id="profile" src="profilo.png" alt="" onclick="open_Profile()">
+        </div>
+
+        <div class="body">
+            <div class ="container"> 
+                <h1>Notes</h1>
+                <div class ="container-box" id="note-box">                 
+                </div>
+            </div>
+            <br>
+        
+            <div class="popup" id="popup">
+                <h1>New Course</h1> 
+                <div class = "input-field" >
+                    <div>
+                        <label>Course Name</label>
+                        <input type="text" name="" required="" id="course_name"> 
+                        <span></span>
+                        <label>Description</label>
+                        <input type="text" name="" required="" id="description"> 
+                        <span></span>
+                    </div>
+                </div>
+                <div class = "buttonbox">
+                    <button id="cancel" onclick="closePopup('popup', 'overlay')">Cancel </button>
+                    <button id="add" onclick="addCourse('popup', 'overlay')">Add</button>
+                </div>
+            </div>
+            
+            <!-- Note Upload Modal -->
+            <button id="openFormButton" class="btn">Add Note </button>
+            
+
+            <!-- Note Upload Modal -->
+
+            <div id="noteModal" class="modal">
+              <div class="modal-content">
+                  <span class="close-btn">&times;</span>
+                  <h2>Add Note</h2>
+                  <form id="noteForm">
+                      <label for="courseId">Course ID</label>
+                      <input type="text" id="courseId" required>
+      
+                      <label for="title">Note Title</label>
+                      <input type="text" id="title" required>
+      
+                      <label for="description">Description</label>
+                      <textarea id="description"></textarea>
+      
+                      <label for="fileUrl">File URL</label>
+                      <input type="text" id="fileUrl" required>
+      
+                      <label for="fileType">File Type</label>
+                      <select id="fileType" required>
+                          <option value="pdf">PDF</option>
+                          <option value="doc">DOC</option>
+                          <option value="image">Image</option>
+                      </select>
+      
+                      <button type="submit" class="btn">Submit</button>
+                  </form>
+                </div>
+            </div>
+            
+
+         
+</body>
+</html>
