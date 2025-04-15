@@ -195,7 +195,6 @@ Quindi ho tolto tutte le modifiche che ho fatto anche basandomi sull'ultima vers
 - pagina con tutte le note (è simile a quella delle "mie note" ma comprende anche le note degli altri studenti)
 - filtrare le note per corso ecc (dalla pagina di tutte le note) 
 - Capire come salvare file pdf/immagini nel db   
-La pagina le mie note è gia fatta (dove puoi anche creare una nuova nota), sarebbe quella che ora è la home dello studente ( ma va messa in un'altra pagina) 
 
 **Course-service**:
 - visualizzazione singolo corso con tutti i contenuti (per professore e per studente). Creiamo un tab per dividere i contenuti (annunci e documenti) dai test.

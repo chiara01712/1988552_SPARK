@@ -12,6 +12,17 @@ const router = express.Router();
 const noteRepo = new NoteRepo(Note);
 const noteService = new NoteService(noteRepo);
 
+router.get('/', (req, res) => {
+  res.redirect('/home');
+});
+
+// When a GET request is made to /my_note, send back my_note.html
+router.get('/my_note', (req, res) => {
+  console.log('GET /my_note called');
+    res.sendFile(path.join(__dirname, '..', 'public', 'student_home.html'));
+});
+
+
 router.get('/getNotes', async (req, res) => {
     try {
         const response = await noteService.getNotesByStudentId (req, res);
@@ -39,10 +50,6 @@ router.post('/addNote', async (req, res) => {
     }
 });
 
-// When a GET request is made to /my_note, send back my_note.html
-router.get('/my_note', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'public', 'my_note.html'));
-});
 
 
 
