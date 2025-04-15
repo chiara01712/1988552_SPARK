@@ -194,18 +194,17 @@ Quindi ho tolto tutte le modifiche che ho fatto anche basandomi sull'ultima vers
 **Note-service**:  
 - pagina con tutte le note (è simile a quella delle "mie note" ma comprende anche le note degli altri studenti)
 - filtrare le note per corso ecc (dalla pagina di tutte le note) 
-- Capire come salvare file pdf/immagini nel db
+- Capire come salvare file pdf/immagini nel db   
 La pagina le mie note è gia fatta (dove puoi anche creare una nuova nota), sarebbe quella che ora è la home dello studente ( ma va messa in un'altra pagina) 
 
 **Course-service**:
-- visualizzazione singolo corso con tutti i contenuti (per professore e per studente). Vogliamo fare che nella pagina nel corso si visualizzano uno sotto l'altro tutti i contenuti (test/annunci/materiale pdf), oppure un tab con sezione annunci/sezione materiale/sezione test.
+- visualizzazione singolo corso con tutti i contenuti (per professore e per studente). Creiamo un tab per dividere i contenuti (annunci e documenti) dai test.
 - visualizzazione pagina dei "miei corsi" lato studente (con tutti i corsi a cui lo studente è iscritto) e ricerca di un corso per iscriversi. (La richiesta per i corsi dello specifico studente va fatta all'interno dello stesso microservizio, quindi sempre dentro course-service)
 - visualizzazione pagina "I miei corsi" lato professore con bottone per creare nuovo corso
 - aggiunta contenuto al corso (Per il professore)
 - Capire come salvare file pdf/immagini nel db
 
 **Test:**  
-(sempre da decidere se inserire test come contenuto nella pagina del corso oppure come sezione separata)
 - Pagina da parte dei professori per creare un test 
 - Professore visualizza riepilogo test
 - Pagina studente per svolgere il test 
@@ -214,6 +213,6 @@ La pagina le mie note è gia fatta (dove puoi anche creare una nuova nota), sare
 
 
 ## DECISIONI:
-•⁠  ⁠Le note si vedono in una pagian separata rispetto a quella dei corsi (nella home page si possono mostrare alcune note facendo la richiesta a note service con Rabbit)  
+•⁠  ⁠Le note si vedono in una pagina separata rispetto a quella dei corsi (nella home page si possono mostrare alcune note facendo la richiesta a note service con Rabbit)  
 •⁠  ⁠Il professore quando crea un corso seleziona una categoria a cui associamo un colore e quindi le note con quella categoria saranno visualizzate con quel colore e copertina predefinita  
 •⁠  ⁠Se la nota viene creata senza un corso di appartenenza allora la categoria viene scelta dallo studente  
