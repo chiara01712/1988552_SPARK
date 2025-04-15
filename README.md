@@ -179,7 +179,15 @@ Quindi ho tolto tutte le modifiche che ho fatto anche basandomi sull'ultima vers
 
 - file .env non viene letto (ci serve per ACCESS_TOKEN_SECRET)
 - Rinominare student-service in note-service
-- Gestione pagine a cui l'utente non ha accesso
+- Gestione pagine a cui l'utente non ha accesso (RISOLTO, ma va messo su tutte le richieste, guardare note_route.js la get di '/my_notes', la gestione del messaggio di errore tramite popup viene fatta nello script in index.html di user-service)
+
+```javascript
+  const token = req.cookies.access_token;
+  if (!token) {
+    const error = encodeURIComponent('You need to login to access the website.');
+    return res.redirect(`http://localhost:8080?error=${error}`);
+  }
+```
 
 **Gestione user e ruoli**:   
 - Homepage studente:

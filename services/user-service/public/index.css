@@ -172,9 +172,16 @@ form button:hover {
     width: 150px;
     height: auto;
     padding-top: 2%;
-    margin-bottom: -8vw; /* Adjust this value to control spacing */
+    margin-bottom: -8vw; 
 }
 
 .logo:hover {
     opacity: 0.7;
 }
+
+
+/* For the animation of the popup error in index.html */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
