@@ -14,30 +14,47 @@ class Producer {
     console.log("/producer1",data);
     console.log("Type of data:", typeof data);
 
-    /*
-    const {target, payload} =data;
-    let queue={};
-    if (target.toString()=="getUsername") queue=config.rabbitMQ.queues.userRPC; 
-    if (target.toString()=="getCourses") queue=config.rabbitMQ.queues.courseRPC; 
-          console.log('Replying to:', this.replyQueueName);
-    */
-    // Send the message to the RPC queue with the necessary properties
-    this.channel.sendToQueue(
-      //queue,
-      config.rabbitMQ.queues.rpcQueue,  // 2. Queue to send the message to
-      Buffer.from(JSON.stringify(data)), // Data to be sent
-      {
-        // Queue in which the response will be sent by user-service
-        replyTo: this.replyQueueName, 
-        correlationId: uuid, // ID to correlate the request with the response
-        expiration: 30, // Time in milliseconds after which the message will be deleted
+    const target = data.target; // Extract the target from the data
+    console.log("Target:", target);
+
+    if (target.toString() == "getUsername") {
+      console.log("Target is getUsername");
+      this.channel.sendToQueue(
+        config.rabbitMQ.queues.rpcQueue,  // 2. Queue to send the message to
+        Buffer.from(JSON.stringify(data)), // Data to be sent
+        {
+          // Queue in which the response will be sent by user-service
+          replyTo: this.replyQueueName, 
+          correlationId: uuid, // ID to correlate the request with the response
+          expiration: 30, // Time in milliseconds after which the message will be deleted
+          
+          // headers: {
+            // function: data.operation,
+           //},
+        }
         
-        // headers: {
-          // function: data.operation,
-         //},
-      }
+      );
       
-    );
+    }
+    else if (target.toString() == "getCourses") {
+      console.log("Target is getCourses");
+      // Send the message to the RPC queue with the necessary properties
+      this.channel.sendToQueue(
+        config.rabbitMQ.queues.rpcQueueC,  // 2. Queue to send the message to
+        Buffer.from(JSON.stringify(data)), // Data to be sent
+        {
+          // Queue in which the response will be sent by course-service
+          replyTo: this.replyQueueName, 
+          correlationId: uuid, // ID to correlate the request with the response
+          expiration: 30, // Time in milliseconds after which the message will be deleted
+          
+          // headers: {
+            // function: data.operation,
+          //},
+        }
+        
+      );
+    }
 
     // Return a Promise that resolves when the response is received
     return new Promise((resolve, reject) => {

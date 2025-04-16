@@ -100,7 +100,7 @@ async function fetchUsername() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ id: studentId }),
+            body: JSON.stringify({ id: studentId, target: "getUsername" }),
         });
 
         if(response.status === 200) {
@@ -126,51 +126,49 @@ async function fetchUsername() {
 }
 document.addEventListener("DOMContentLoaded", fetchUsername);
 
-// Fetch courses when the page loads
-/*
 async function fetchCourses() {
-    console.log("Trying to fetch username");
     const studentId = getCookie("user_Id");
-    try {
+    try{
+
         const response = await fetch('/getCourses', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ id: studentId }),
+            body: JSON.stringify({ id: studentId, target: "getCourses" }),
         });
 
         if(response.status === 200) {
             const res = await response.json();
             const courses = res.response
             
-            console.log("Courses title fetched successfully:", courses);
-            const carouselContent = document.getElementById('course-box');
-            carouselContent.innerHTML = '';
+            console.log("Courses fetched successfully:", courses);
 
-            if (courses.length === 0) {
-                carouselContent.innerHTML = '<div class="box">No submissions available</div>';
-                return;
-            }
+             const carouselContent = document.getElementById('course-box');
+             carouselContent.innerHTML = '';
 
-            let id = 0; 
-            courses.forEach((course, index) => {
-                const isActive = index === 0 ? 'active' : '';
-                const courseHtml = `
-                    <div class="box ${isActive}" id="submission-${id}">
-                        <h2>${course.course_title}</h2>
-                    </div>
-                `;
-                carouselContent.innerHTML += courseHtml;
-                id++;
-        });
+             if (courses.length === 0) {
+                 carouselContent.innerHTML = '<div class="box"> No courses available</div>';
+                 return;
+             }
+
+             let id = 0; 
+             courses.forEach((course, index) => {
+                 const isActive = index === 0 ? 'active' : '';
+                 const courseHtml = `
+                     <div class="box ${isActive}" id="courses-${id}">
+                         <h2>${course.title}</h2>
+                     </div>
+                 `;
+                 carouselContent.innerHTML += courseHtml;
+                 id++;
+             });
         }
         else{
-            console.error("Failed to fetch student name:", response.statusText);
+            console.error("Failed to fetch courses:", response.statusText);
         }
-    } catch (error) {
+    }catch (error) {
         console.error('Error fetching student name:', error);
     }
 }
-//document.addEventListener("DOMContentLoaded", fetchCourses);
-*/
+document.addEventListener("DOMContentLoaded", fetchCourses);

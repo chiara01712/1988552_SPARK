@@ -64,44 +64,31 @@ router.post('/addNote', async (req, res) => {
     }
 });
 
-
-
-
-/*
-router.post('/getCourses', async (req, res, next) => {
-  console.log("/getCourse",req.body);
-  console.log("Type of req.body:", typeof req.body);
-  try {
-    const message = {
-      payload: req.body,
-      target: 'getCourses'
-    }
-    const response = await RabbitMQNote.produce(message);
-    res.send({ response });
-  } catch (error) {
-    next(error); 
-  }
-});
-*/
 // 1. When a post request is made to /getUsername, call the produce method of the RabbitMQNote class
 // go to the producer.js file and see the produce method
 router.post("/getUsername", async (req, res, next) => {
     console.log("/getUsername",req.body);
     console.log("Type of req.body:", typeof req.body);
     try {
-      /*
-      const message = {
-        payload: req.body,
-        target: 'getUsername',
-      }
-        */
       const response = await RabbitMQNote.produce(req.body);
       res.send({ response });
     } catch (error) {
       next(error); 
     }
 });
-  
+
+// When a post request is made to /getCourses, call the produce method of the RabbitMQNote class
+router.post("/getCourses", async (req, res, next) => {
+  console.log("/getCourses",req.body);
+  console.log("Type of req.body:", typeof req.body);
+  try {
+    const response = await RabbitMQNote.produce(req.body);
+    res.send({ response });
+  } catch (error) {
+    next(error); 
+  }
+});
+
   
 router.get("/home", (req, res) => {
     const token = req.cookies.access_token;

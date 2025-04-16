@@ -26,7 +26,6 @@ const port = 8080;
 app.listen(port, async() => {
   console.log(`Server running on port ${port}`);
   await RabbitMQUser.initPromise;  // Wait for initialization to finish before proceeding
-  console.log("(Index) Rabbit Client after init:", RabbitMQUser);
 });
 
 
