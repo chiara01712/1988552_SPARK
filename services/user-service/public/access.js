@@ -66,10 +66,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     console.log("Login successful:", result);
                     console.log("Cookies: ",document.cookie);
 
-                    // Redirect to the home page of the student-service
-                    window.location.href = "http://localhost:7070/home";
-
-
+                    //if role is student
+                    if(sessionStorage.getItem("userRole") === "student"){
+                        // Redirect to the home page of the student-service
+                        window.location.href = "http://localhost:7070/home";
+                    }
+                    //if role is teacher
+                    else if(sessionStorage.getItem("userRole") === "teacher"){
+                        // Redirect to the home page of the teacher
+                        window.location.href = "http://localhost:6060/home";
+                    }
                 } else {
                     const errorText = await response.text();
                     console.error("Login failed:", errorText);
