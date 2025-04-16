@@ -47,8 +47,6 @@ class RabbitMQUser {
 
         this.isInitialized = true;
 
-        console.log("RabbitMQUser initialized:", this);
-        console.log("RabbitMQUser produce function:", this.produce);
       } catch (error) {
         console.error("RabbitMQ error:", error);
       }
@@ -59,7 +57,6 @@ class RabbitMQUser {
       if (!this.isInitialized) {
         await this.initialize();
       }
-      console.log("Producer instance:", this.producer);
 
       return await this.producer.produceMessages(
         data,
