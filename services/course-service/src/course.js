@@ -55,14 +55,32 @@ sequelize.sync({ force: false })
          
       },
       defaults: {
-        title: 'Corso di esempio',
+        title: 'Algorithm Design',
         professor_id: uuidv4(), 
         description: 'decription.',
         student_ids: ['123e4567-e89b-12d3-a456-426614174000'],
-        uploaded_at: new Date()  
+        
       }
     });
   })
+  .then(() => {
+    // Create another course
+    return Course.findOrCreate({
+      where: {
+        id: '123e4567-e89b-12d3-a456-426614174111',
+      },
+      defaults: {
+        title: 'Cybersecurity',
+        professor_id: uuidv4(),
+        description: 'Un altro corso per test.',
+        student_ids: [
+          '123e4567-e89b-12d3-a456-426614174000',
+        ],
+        
+      }
+    });
+  })
+
   .then(([course,created]) => {
     if (created) {
       console.log('Course created:', course.toJSON());
@@ -76,3 +94,4 @@ sequelize.sync({ force: false })
 module.exports = Course; 
 
 
+ 

@@ -3,25 +3,33 @@ const { CourseRepo } = require('../course_repo');
 const Course = require("../course");
 const e = require('express');
 
+let isConsuming = false;
+
 class Consumer {
     // channel is the channel to listen to messages
-    // rpcQueue is the queue to consume messages from
+    // rpcQueueC is the queue to consume messages from
     // eventEmitter is the event emitter to handle the communication between the producer and consumer
 
-  constructor(channel, rpcQueue) {
+  constructor(channel, rpcQueueC) {
     this.channel = channel;
-    this.rpcQueue = rpcQueue;
+    this.rpcQueueC = rpcQueueC;
+    
   }
 
   async consumeMessages() {
-    console.log("Ready to consume messages...");
+    if (isConsuming) {
+      console.log("Already consuming messages on this queue.");
+      return;
+    }
+    isConsuming = true;
+    console.log("Course Ready to consume messages...");
 
     // Ensures that the consumer remains continuously active,
-    // listening for incoming messages on the rpcQueue.
+    // listening for incoming messages on the rpcQueueC.
     this.channel.consume(
-        this.rpcQueue,
+        this.rpcQueueC,
         async (message) => {
-          console.log("Message received:", message.content.toString());
+          console.log("Course Message received:", message.content.toString());
           const { correlationId, replyTo } = message.properties;
   
           if (!correlationId || !replyTo) {
@@ -36,10 +44,12 @@ class Consumer {
           const { id } = JSON.parse(message.content.toString()); 
 
           console.log("id: ", id);
-
+  
           const courseRepo = new CourseRepo(Course);
 
           const courses = await courseRepo.getCoursesByStudentId(id);
+
+          console.log("Courses are:", courses);
       
           
           if (!courses) {

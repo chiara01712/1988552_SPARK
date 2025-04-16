@@ -1,4 +1,5 @@
 const { use } = require("./course_route");
+const { Op } = require("sequelize");
 
 class CourseRepo{
 
@@ -72,13 +73,16 @@ class CourseRepo{
 
     // Functions for RabbitMQ
     async getCoursesByStudentId(student_id) {
-      const courses = await this.courseModel.findAll({ where: { student_id } }); // non sono sicura che funzione se è in un array
-      if (courses) {
-          console.log("Courses is: ", courses.dataValues);  // Access the raw data in dataValues
-          return courses.dataValues;  // Return the raw data
+      const courses = await this.courseModel.findAll({ 
+        where: {  student_ids: { [Op.contains]: [student_id]}}
+      }); 
+      if (courses && courses.length > 0) {
+        const courseData = courses.map(course => course.dataValues);
+        console.log("Courses is: ", courseData);
+        return courseData;
       } else {
-          console.log("Courses not found");
-          return null;
+        console.log("Courses not found");
+        return null;
       }
 
     }

@@ -92,6 +92,25 @@ const userRepo = new UserRepo(User);
 ```
 questo perchè user_service serve solo per estrarre i dati da una richiesta HTTP e chiamare la funzione che fa la query su questi dati. Poi invia la response (aggiungendo status e headers)
 
+### Come funzionano le code
+La RPCQueue definita nel config.js è identificata dal nome "rpc_queue", è definita nel consig.js in modo che due microsrvizi diversi possano accedere alla stessa coda, il micorservizio che deve richiedere dati sa che la coda su cui il microservizio a cui deve richiedere i dati ascolta è quella.    
+```
+module.exports = {
+    rabbitMQ: {
+      url: "amqp://rabbitmq",
+      queues: {
+        rpcQueue: "rpc_queue",
+      },
+    },
+  };
+  
+```
+Invece la ReplyQueue è definita direttamente nel microservizio-s.js (il file che si occupa della configurazione) perchè verrà direttamente inviata quando il microservizio che deve richiedere dati fa la produce.   
+
+Abbiamo definito 2 code:
+rpcQueue: è la coda su cui user-service ascolta le richieste da parte di altri microservizi
+rpcQueueC: è la coda su cui course-service ascolta le richieste da parte di altri microservizi
+
 
 # Note 
 

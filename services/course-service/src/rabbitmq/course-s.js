@@ -3,17 +3,18 @@ const { Channel, Connection,connect } = require("amqplib");
 const config = require("../../config");
 const Consumer = require("./consumer");
 const Producer = require("./producer");
-const { EventEmitter } = require("events");
+
 
 class RabbitMQCourse {
     constructor() {
+      
         this.isInitialized = false;
         this.producer = null;
         this.consumer = null;
         this.connection = null;
         this.producerChannel = null;
         this.consumerChannel = null;
-        this.eventEmitter = null;
+        this.initPromise = this.initialize();  // Store the promise to ensure it's awaited everywhere
       }
     
   
@@ -30,24 +31,16 @@ class RabbitMQCourse {
         this.consumerChannel = await this.connection.createChannel();
 
         // Create the reply queue
-        const { queue: replyQueueName } = await this.consumerChannel.assertQueue(
-          "",
+        const { queue: rpcQueueC } = await this.consumerChannel.assertQueue(
+          config.rabbitMQ.queues.rpcQueueC,
           { exclusive: true }
         );
 
-        // Initialize the EventEmitter to handle the communication between the producer and consumer
-        this.eventEmitter = new EventEmitter();
-
         // Initialize the producer and consumer
-        this.producer = new Producer(
-          this.producerChannel,
-          replyQueueName,
-          this.eventEmitter
-        );
+        this.producer = new Producer(this.producerChannel,);
         this.consumer = new Consumer(
           this.consumerChannel,
-          replyQueueName,
-          this.eventEmitter
+          rpcQueueC
         );
 
         // Start consuming messages
@@ -60,11 +53,17 @@ class RabbitMQCourse {
     }
 
     // Function to make the producer send messages
-    async produce(data) {
+    async produce(data, correlationId, replyToQueue) {
       if (!this.isInitialized) {
         await this.initialize();
       }
-      return await this.producer.produceMessages(data);
+      
+
+      return await this.producer.produceMessages(
+        data,
+        correlationId,
+        replyToQueue
+    );
     }
   }
   

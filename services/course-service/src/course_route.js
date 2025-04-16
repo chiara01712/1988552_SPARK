@@ -1,7 +1,7 @@
 const express = require('express');
 const { CourseService } = require('./course_service');
 const { CourseRepo } = require('./course_repo');
-const RabbitMQCourse = require('./rabbitmq/course-s');
+
 const Course = require("./course")
 const jwt = require('jsonwebtoken');
 const path = require('path');
@@ -45,19 +45,6 @@ router.post('/addStudentToCourse', async (req, res) => {
     console.error('Error adding student to course:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
-});
-
-// 1. When a post request is made to /getUsername, call the produce method of the RabbitMQCourse class
-// go to the producer.js file and see the produce method
-router.post("/getUsername", async (req, res, next) => {
-    console.log("/getUsername",req.body);
-    console.log("Type of req.body:", typeof req.body);
-    try {
-      const response = await RabbitMQCourse.produce(req.body);
-      res.send({ response });
-    } catch (error) {
-      next(error); 
-    }
 });
   
   
