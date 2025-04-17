@@ -172,3 +172,12 @@ async function fetchCourses() {
     }
 }
 document.addEventListener("DOMContentLoaded", fetchCourses);
+
+async function viewAllNotes(){
+    //redirect to my_note
+    window.location.href = '/my_note';
+}
+
+async function viewAllCourses(){
+    window.location.href = 'http://localhost:6060/home';
+}

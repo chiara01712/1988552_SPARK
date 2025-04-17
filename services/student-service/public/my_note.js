@@ -183,7 +183,7 @@ async function fetchUsername() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ id: studentId }),
+            body: JSON.stringify({ id: studentId, target: "getUsername" }),
         });
 
         if(response.status === 200) {

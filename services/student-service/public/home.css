@@ -207,18 +207,46 @@ button {
     margin-left: 10%;
     background-color : white;
     width: 80%;
-    height: 20rem;
+    height: auto;
+    min-height:20rem;
     border-radius: 30px;
     border: 0;
     overflow: hidden;
-    padding-bottom: 2%;
+    padding-left: 20px;
+    padding-right: 20px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
     
 }
+.container-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.view-all-btn {
+    background-color: #293b5c;
+    color: rgb(252, 252, 252);
+    border: 2px solid rgb(255, 255, 255);
+    border-radius: 15px;
+    padding: 8px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.view-all-btn:hover {
+    background-color: #366da8;
+    transform: scale(1.05);
+}
+
  /* Quando si passa sopra con il mouse */
  .container::-webkit-scrollbar-thumb:hover {
     background: #555;
   }
 
+  /* Container for all the notes */
 .container-box{
     height: max-content;
     min-height: 50%;
@@ -228,21 +256,32 @@ button {
     row-gap: 10px;
     justify-content: start;
     overflow-x: auto;
+    padding: 20px;
 
 }
-.container-box .box{
-    padding-bottom: 0px;
-    background-color: rgb(153, 14, 246);
-    padding-block: 10px;
-    left: 20px;
-    margin-inline: 10px;    
-    width: fit-content;
-    min-height: max-content;
+/*Box of a single note*/
+.container-box .box {
+    padding: 15px;
+    background-color: #f0f0f0;
+    margin-inline: 10px;
+    width: 200px;
+    min-height: 100px;
     border-radius: 15px;
-    background-size: cover;
-	position:relative;
-    justify-content: center;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 10px;
 }
+
+.container-box .box h2 {
+    width: 100%;
+    font-size: 18px;
+    color: #333;
+    margin: 0 0 10px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .container-box .box::-webkit-scrollbar { 
     display: none; 
 }
@@ -460,11 +499,26 @@ button {
     filter: invert(0.5);
 }
 #welcomeUser{
-
     padding-top: 2%;
     color: #ffffff;
     padding-right: 3%;
     margin-left: -8%;
     font-size: medium;
     font-family: Poppins;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        margin-left: 5%;
+    }
+    
+    .container-box .box {
+        width: 150px;
+    }
+    
+    .view-all-btn {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
 }
