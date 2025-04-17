@@ -179,10 +179,6 @@ async function viewAllNotes(){
 }
 
 async function viewAllCourses(){
-    window.location.href = 'http://localhost:6060/home';
+    window.location.href = 'http://localhost:6060/getCoursesPage';
 }
 
-function goToCourses() {
-    window.location.href = 'http://localhost:6060/courses.html';
-  
-}  
