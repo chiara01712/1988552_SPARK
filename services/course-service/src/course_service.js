@@ -65,6 +65,24 @@ class CourseService{
         }
     }
 
+    async getCoursesByStudentId(req) {
+        try {
+          const studentId = req.headers.student_id;  // Recupera lo student_id dai parametri della query
+          if (!studentId) {
+            console.log("YOOOOOOOO");
+            return { status: 400, message: "Missing student_id" };
+          }
+          
+          const courses = await this.courseRepo.findCoursesByStudentId(studentId);
+
+          console.log("Corsi ricevuti in course_Service:", JSON.stringify(courses, null, 2));
+          return { status: 200, data: courses };
+        } catch (error) {
+          console.error("Error in getCoursesByStudentId:", error);
+          return { status: 500, message: "Internal server error" };
+        }
+      }
+
 }
 
 

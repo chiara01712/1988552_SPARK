@@ -65,5 +65,21 @@ router.get("/home", (req, res) => {
     }
 });
 
+router.get('/getCoursesByStudentId', async (req,res) => {
+  try {
+      
+      const response = await courseService.getCoursesByStudentId(req);
+      if (response.status === 200) {
+          res.sendFile(path.join(__dirname, '..', 'public', 'courses.html'));
+          res.json(response.data);
+      } else {
+          res.status(response.status).json({ message: response.message });
+      }
+  } catch (error) {
+      console.error('Error fetching courses by student ID:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
   
 module.exports = router;

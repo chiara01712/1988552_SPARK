@@ -86,6 +86,24 @@ class CourseRepo{
       }
 
     }
+
+    async findCoursesByStudentId(studentId) {
+      try {
+        const courses = await this.courseModel.findAll({
+          where: {
+            student_ids: {
+              [require('sequelize').Op.contains]: [studentId]
+            }
+          }
+        });
+        console.log(" Corsi trovati nel DB per studentId", studentId, ":", courses.map(c => c.dataValues));
+    
+        return courses.map(course => course.dataValues);
+      } catch (error) {
+        console.error("Errore nella query findCoursesByStudentId:", error);
+        return [];
+      }
+    }
     
 } 
 

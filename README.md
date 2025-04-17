@@ -198,47 +198,16 @@ Quindi ho tolto tutte le modifiche che ho fatto anche basandomi sull'ultima vers
 
 - file .env non viene letto (ci serve per ACCESS_TOKEN_SECRET)
 - Rinominare student-service in note-service
-- Gestione pagine a cui l'utente non ha accesso (RISOLTO, ma va messo su tutte le richieste, guardare note_route.js la get di '/my_notes', la gestione del messaggio di errore tramite popup viene fatta nello script in index.html di user-service)
+- Student_Home da sistemare 
+- Pagina delle Note creata da zero 
+- Aggiungere un'altra pagina per importare note di altri studenti
+- Pagina da parte degli studenti per cercare corsi a cui iscriversi 
+- Pagina da parte dei professori per inserire test e annunci 
 
-```javascript
-  const token = req.cookies.access_token;
-  if (!token) {
-    const error = encodeURIComponent('You need to login to access the website.');
-    return res.redirect(`http://localhost:8080?error=${error}`);
-  }
-```
+Poca priorità 
+-Personal area
 
-**Gestione user e ruoli**:   
-- Homepage studente:
-    - mostrare le ultime note (da fixare)
-    - mostrare alcuni corsi (con richiesta a course-service tramite RabbitMQ)    
-(nella sidebar lo studente avra quindi i miei corsi, le mie note, bacheca con tutte le note)
-- Homepage professore = reindirizzare alla pagina dei suoi corsi   
-(Nella sidebar il professore avrebbe solo "i miei corsi" forse potremmo non metterla)  
-- Gestione ruolo studente e professore
-- Area personale per studente e professore  
-
-**Note-service**:  
-- pagina con tutte le note (è simile a quella delle "mie note" ma comprende anche le note degli altri studenti)
-- filtrare le note per corso ecc (dalla pagina di tutte le note) 
-- Capire come salvare file pdf/immagini nel db   
-
-**Course-service**:
-- visualizzazione singolo corso con tutti i contenuti (per professore e per studente). Creiamo un tab per dividere i contenuti (annunci e documenti) dai test.
-- visualizzazione pagina dei "miei corsi" lato studente (con tutti i corsi a cui lo studente è iscritto) e ricerca di un corso per iscriversi. (La richiesta per i corsi dello specifico studente va fatta all'interno dello stesso microservizio, quindi sempre dentro course-service)
-- visualizzazione pagina "I miei corsi" lato professore con bottone per creare nuovo corso
-- aggiunta contenuto al corso (Per il professore)
-- Capire come salvare file pdf/immagini nel db
-
-**Test:**  
-- Pagina da parte dei professori per creare un test 
-- Professore visualizza riepilogo test
-- Pagina studente per svolgere il test 
-- Far visualizzare allo studente il risultato del test
-
-
-
-## DECISIONI:
-•⁠  ⁠Le note si vedono in una pagina separata rispetto a quella dei corsi (nella home page si possono mostrare alcune note facendo la richiesta a note service con Rabbit)  
-•⁠  ⁠Il professore quando crea un corso seleziona una categoria a cui associamo un colore e quindi le note con quella categoria saranno visualizzate con quel colore e copertina predefinita  
-•⁠  ⁠Se la nota viene creata senza un corso di appartenenza allora la categoria viene scelta dallo studente  
+DECISIONI:
+•⁠  ⁠Le note si vedono in una pagian separata rispetto a quella dei corsi (nella home page si possono mostrare alcune note facendo la richiesta a note service con Rabbit)
+•⁠  ⁠Il professore quando crea un corso seleziona una categoria a cui associamo un colore e quindi le note con quella categoria saranno visualizzate con quel colore e copertina predefinita
+•⁠  ⁠Se la nota viene creata senza un corso di appartenenza allora la categoria viene scelta dallo studente

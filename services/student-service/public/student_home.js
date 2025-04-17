@@ -181,3 +181,8 @@ async function viewAllNotes(){
 async function viewAllCourses(){
     window.location.href = 'http://localhost:6060/home';
 }
+
+function goToCourses() {
+    window.location.href = 'http://localhost:6060/courses.html';
+  
+}  
