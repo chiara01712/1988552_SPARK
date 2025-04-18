@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="Personal_page.css">
+</head>
+<body>
+    <div class="sidebar" id="mySidebar">
+        <div class="menu-items">
+            <p><a href="#"><i class="fa-solid fa-chalkboard"></i> Courses</a></p>
+            <p><a href="#"><i class="fa-solid fa-file-pen"></i> Notes</a></p>
+        </div>
+    </div>
+    
+    <div id="overlaybar" class="overlaybar"></div>
+    
+    <div class="sidebar" id="profileSidebar">
+        <div class="menu-items">
+            <p><a href="#"><i class="fa-solid fa-user"></i> Personal Data</a></p>
+            <p><a href="#"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></p>
+        </div>
+    </div>
+    
+    <div id="overlaysidebar" class="overlaybar"></div>
+    
+    <div id="main">
+        <div class="header">
+            <img id="menu" src="/api/placeholder/40/40" class="menu" alt="Menu">
+            <a href="#">
+                <img class="wrapper" src="/api/placeholder/200/200" id="logo" alt="Logo">
+            </a>
+            <h1 id="welcomeUser">Welcome, John Doe</h1>
+            <img id="profile" src="/api/placeholder/40/40" alt="Profile">
+        </div>
+        
+        <div class="profile-container">
+            <div class="profile-header">
+                <img id="profileImage" alt="Profile Picture" class="profile-image">
+                <div class="profile-title">
+                    <h1>Personal Information</h1>
+                    <p>Manage your account details</p>
+                </div>
+            </div>
+            
+            <div class="personal-info">
+                <div class="info-item">
+                    <div class="info-label">Username:</div>
+                    <div class="info-value">johndoe123</div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label">Full Name:</div>
+                    <div class="info-value">John Doe</div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label">Email:</div>
+                    <div class="info-value">john.doe@example.com</div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label">Role:</div>
+                    <div class="info-value">Student</div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label">Joined Date:</div>
+                    <div class="info-value">January 15, 2025</div>
+                </div>
+            </div>
+            
+            <div class="btn-container">
+                <button class="edit-profile-btn">Edit Profile</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Menu functionality
+        function open_Menu() {
+            document.getElementById("mySidebar").style.display = "block";
+            document.getElementById("overlaybar").classList.add("overlayactive");
+        }
+        
+        function close_Menu() {
+            document.getElementById("mySidebar").style.display = "none";
+            document.getElementById("overlaybar").classList.remove("overlayactive");
+        }
+        
+        function open_Profile() {
+            document.getElementById("profileSidebar").style.display = "block";
+            document.getElementById("overlaysidebar").classList.add("overlayactive");
+        }
+        
+        function close_Profile() {
+            document.getElementById("profileSidebar").style.display = "none";
+            document.getElementById("overlaysidebar").classList.remove("overlayactive");
+        }
+        
+        // Add event listeners
+        document.getElementById("menu").addEventListener("click", open_Menu);
+        document.getElementById("profile").addEventListener("click", open_Profile);
+        document.getElementById("overlaybar").addEventListener("click", close_Menu);
+        document.getElementById("overlaysidebar").addEventListener("click", close_Profile);
+
+        //To change the profile image based on the role
+        const role = sessionStorage.getItem("userRole");
+        const profileImage = document.getElementById("profileImage");
+
+        if (role == "student") {
+            profileImage.src = "student.png";
+        } else if (role == "teacher") {
+            profileImage.src = "Professor.png";
+        } 
+    </script>
+</body>
+</html>
