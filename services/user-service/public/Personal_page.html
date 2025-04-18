@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal Profile</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="Personal_page.css">
+    <link rel="stylesheet" type="text/css" href="personal_page.css">
 </head>
 <body>
     <div class="sidebar" id="mySidebar">
@@ -41,80 +41,20 @@
                 <img id="profileImage" alt="Profile Picture" class="profile-image">
                 <div class="profile-title">
                     <h1>Personal Information</h1>
-                    <p>Manage your account details</p>
+                    <p>Your account details</p>
                 </div>
             </div>
             
-            <div class="personal-info">
-                <div class="info-item">
-                    <div class="info-label">Username:</div>
-                    <div class="info-value">johndoe123</div>
-                </div>
-                
-                <div class="info-item">
-                    <div class="info-label">Full Name:</div>
-                    <div class="info-value">John Doe</div>
-                </div>
-                
-                <div class="info-item">
-                    <div class="info-label">Email:</div>
-                    <div class="info-value">john.doe@example.com</div>
-                </div>
-                
-                <div class="info-item">
-                    <div class="info-label">Role:</div>
-                    <div class="info-value">Student</div>
-                </div>
-                
-                <div class="info-item">
-                    <div class="info-label">Joined Date:</div>
-                    <div class="info-value">January 15, 2025</div>
-                </div>
+            <div class="personal-info" id="personalInfo">
+                <!-- here inserted info -->
             </div>
             
-            <div class="btn-container">
+            <!-- <div class="btn-container">
                 <button class="edit-profile-btn">Edit Profile</button>
-            </div>
+            </div> -->
         </div>
     </div>
-
-    <script>
-        // Menu functionality
-        function open_Menu() {
-            document.getElementById("mySidebar").style.display = "block";
-            document.getElementById("overlaybar").classList.add("overlayactive");
-        }
-        
-        function close_Menu() {
-            document.getElementById("mySidebar").style.display = "none";
-            document.getElementById("overlaybar").classList.remove("overlayactive");
-        }
-        
-        function open_Profile() {
-            document.getElementById("profileSidebar").style.display = "block";
-            document.getElementById("overlaysidebar").classList.add("overlayactive");
-        }
-        
-        function close_Profile() {
-            document.getElementById("profileSidebar").style.display = "none";
-            document.getElementById("overlaysidebar").classList.remove("overlayactive");
-        }
-        
-        // Add event listeners
-        document.getElementById("menu").addEventListener("click", open_Menu);
-        document.getElementById("profile").addEventListener("click", open_Profile);
-        document.getElementById("overlaybar").addEventListener("click", close_Menu);
-        document.getElementById("overlaysidebar").addEventListener("click", close_Profile);
-
-        //To change the profile image based on the role
-        const role = sessionStorage.getItem("userRole");
-        const profileImage = document.getElementById("profileImage");
-
-        if (role == "student") {
-            profileImage.src = "student.png";
-        } else if (role == "teacher") {
-            profileImage.src = "Professor.png";
-        } 
-    </script>
+    <script src="personal_page.js"></script> 
+    
 </body>
 </html>
