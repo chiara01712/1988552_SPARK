@@ -135,6 +135,15 @@ function getCookie(name) {
 ```
 - Header del consumer.js di user-service (per gestire più richieste sulla stessa comunicazione con RabbitMQ)
 
+--------
+
+Visto che in course.js abbiamo definito più di 1 modello (abbiamo anche i modelli per i quiz), quando importiamo i modelli nei vari file dobbiamo usare le parentesi {} e inserirci i modelli che ci servono.
+```
+const { Course, Question } = require("./course");
+```
+
+------------
+
 
 # Authentication 
 
