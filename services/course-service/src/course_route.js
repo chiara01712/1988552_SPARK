@@ -113,5 +113,17 @@ router.get('/getQuizzes', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+router.post('/addQuiz', async (req, res) => {
+  try {
+    const response = await courseService.addQuiz(req, res); // Add a quiz to the course
+    res.status(response.status).json({ message: response.message });
+
+  } catch (error) {
+    console.error('Error adding quiz:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+);
   
 module.exports = router;

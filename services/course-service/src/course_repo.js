@@ -128,6 +128,22 @@ class CourseRepo{
       }
     }
 
+    async addQuiz(uuidV4, course_id, title, description, questions) {
+        try {
+          const newQuiz = await this.quizModel.create({
+            id: uuidV4,       // Set the generated UUID
+            course_id,         // Insert the course_id
+            title,              // Insert the title
+            description,        // Insert the description
+            questions           // Insert the questions
+          });
+          return newQuiz;     // Return the created quiz object
+        } catch (error) {
+          console.error("Error inserting quiz:", error);
+          return null;        // Return null in case of an error
+        }
+      }
+
     
 } 
 
