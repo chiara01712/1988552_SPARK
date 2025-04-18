@@ -2,12 +2,12 @@ const express = require('express');
 const { CourseService } = require('./course_service');
 const { CourseRepo } = require('./course_repo');
 
-const Course = require("./course")
+const {Course, Quiz, QuizAnswer} = require("./course");
 const jwt = require('jsonwebtoken');
 const path = require('path');
 
 const router = express.Router();
-const courseRepo = new CourseRepo(Course);
+const courseRepo = new CourseRepo(Course, Quiz, QuizAnswer);
 const courseService = new CourseService(courseRepo);
 
 router.get('/getCourses', async (req, res) => {
@@ -98,5 +98,20 @@ router.get("/getCoursesPage", (req, res) => {
   }
 });
 
+router.get('/getQuizzes', async (req, res) => {
+  try { 
+    const response = await courseService.getQuizzesByCourseId(req,res); // Fetch quizzes by course ID
+    console.log("Response, quizzes:",response);
+    if (response.status === 200) {
+      console.log("typeof response.data:",typeof response.data);
+      res.json(response.data); // Send the quizzes as JSON response
+    } else {
+      res.status(response.status).json({ message: response.message });
+    }
+  } catch (error) {
+    console.error('Error fetching quizzes:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
   
 module.exports = router;

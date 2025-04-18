@@ -83,6 +83,22 @@ class CourseService{
         }
       }
 
+    async getQuizzesByCourseId(req) {
+        const courseId = req.headers.course_id; // Extract courseId from request parameters
+        console.log("Received courseId:", courseId);
+        if (!courseId) {
+            return { status: 400, message: 'Missing courseId' };
+        }
+        try {
+            const quizzes = await this.courseRepo.getQuizzesByCourseId(courseId);
+            return { status: 200, data: quizzes };
+        } catch (error) {
+            console.error('Error fetching quizzes for course:', error);
+            return { status: 500, message: 'Internal server error' };
+        }
+    }
+
+
 }
 
 

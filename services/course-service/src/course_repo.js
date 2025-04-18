@@ -3,8 +3,10 @@ const { Op } = require("sequelize");
 
 class CourseRepo{
 
-    constructor(courseModel){
+    constructor(courseModel, quizModel, quizAnswerModel){
         this.courseModel = courseModel;
+        this.quizModel = quizModel;
+        this.quizAnswerModel = quizAnswerModel;
     } 
 
     async addCourse(uuidV4, title, description, professor_id, student_ids) {
@@ -104,6 +106,28 @@ class CourseRepo{
         return [];
       }
     }
+
+    async getQuizzesByCourseId(course_id) {
+      try {
+        console.log("Received courseId:", course_id);
+        const quizzes = await this.quizModel.findAll({ where: { course_id } });
+        console.log("Quizzes trovati nel DB per courseId", quizzes);
+        if (quizzes && quizzes.length > 0) {
+          const quizData = quizzes.map(quiz => quiz.dataValues);
+          console.log("Quizzes is: ", quizData);
+          console.log("typeof quizData", typeof quizData);
+          return quizData;
+        } else {
+          console.log("Quizzes not found");
+          return null;
+        }
+
+      } catch (error) {
+        console.error("Error fetching quizzes for course:", error);
+        return [];
+      }
+    }
+
     
 } 
 
