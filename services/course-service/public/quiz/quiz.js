@@ -69,21 +69,20 @@ function addQuestionForm() {
     questionForm.innerHTML = `
         <div class="form-group">
             <label for="question-${questionIndex}">Question ${questionIndex + 1}</label>
+            
             <input type="text" id="question-${questionIndex}" placeholder="Enter your question" required>
-            <button type="button" class="remove-btn" onclick="removeQuestion(this)">
-                <i class="fa-solid fa-trash"></i> Remove Question
-            </button>
+            
         </div>
         
         <div class="options-container" id="options-container-${questionIndex}">
-            <div class="option-form">
+            <div class="option-form" style="display: flex; align-items: center; gap: 10px;">
                 <input type="radio" name="correct-${questionIndex}" checked>
                 <input type="text" placeholder="Option 1" required>
                 <button type="button" class="remove-btn" onclick="removeOption(this)">
                     <i class="fa-solid fa-times"></i>
                 </button>
             </div>
-            <div class="option-form">
+            <div class="option-form" style="display: flex; align-items: center; gap: 10px;">
                 <input type="radio" name="correct-${questionIndex}">
                 <input type="text" placeholder="Option 2" required>
                 <button type="button" class="remove-btn" onclick="removeOption(this)">
@@ -92,9 +91,14 @@ function addQuestionForm() {
             </div>
         </div>
         
+        <div style="display: flex; justify-content: space-between; width: 100%;">
         <button type="button" class="add-option-btn" onclick="addOption(${questionIndex})">
             <i class="fa-solid fa-plus"></i> Add Option
         </button>
+        <button type="button" class="remove-question-btn" onclick="removeQuestion(this)">
+            <i class="fa-solid fa-trash"></i> Remove Question
+        </button>
+    </div>
     `;
     
     document.getElementById('questions-container').appendChild(questionForm);
@@ -107,6 +111,9 @@ function addOption(questionIndex) {
     
     const optionForm = document.createElement('div');
     optionForm.classList.add('option-form');
+    optionForm.style.display = 'flex';
+    optionForm.style.alignItems = 'center';
+    optionForm.style.gap = '10px';
     optionForm.innerHTML = `
         <input type="radio" name="correct-${questionIndex}">
         <input type="text" placeholder="Option ${optionCount + 1}" required>
@@ -226,7 +233,7 @@ function renderQuizzes(quizzes) {
 //             <div class="form-group">
 //                 <label for="question-${qIndex}">Question ${qIndex + 1}</label>
 //                 <input type="text" id="question-${qIndex}" value="${question.text}" required>
-//                 <button type="button" class="remove-btn" onclick="removeQuestion(this)">
+//                 <button type="button" class="remove-question-btn" onclick="removeQuestion(this)">
 //                     <i class="fa-solid fa-trash"></i> Remove Question
 //                 </button>
 //             </div>
