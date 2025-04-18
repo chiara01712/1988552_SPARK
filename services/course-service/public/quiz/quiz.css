@@ -256,14 +256,6 @@ body {
     background-color: #1e2e4a;
 }
 
-.delete-btn {
-    background-color: #f44336;
-    color: white;
-}
-
-.delete-btn:hover {
-    background-color: #d32f2f;
-}
 
 .new-quiz {
     position: fixed;

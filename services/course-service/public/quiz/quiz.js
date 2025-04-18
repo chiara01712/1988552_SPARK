@@ -134,7 +134,14 @@ function removeOption(button) {
 // Function to remove a question
 function removeQuestion(button) {
     const questionForm = button.closest('.question-form');
-    document.getElementById('questions-container').removeChild(questionForm);
+
+    if (document.querySelectorAll('.question-form').length > 1) {
+        document.getElementById('questions-container').removeChild(questionForm);
+    }
+    else{
+        alert("At least one question is required.");
+        
+    }
 }
 
 // Function to render quizzes
@@ -177,9 +184,6 @@ function renderQuizzes(quizzes) {
             <div class="quiz-actions">
                 <button class="quiz-btn edit-btn" onclick="editQuiz(${quiz.id})">
                     <i class="fa-solid fa-edit"></i> Edit
-                </button>
-                <button class="quiz-btn delete-btn" onclick="deleteQuiz(${quiz.id})">
-                    <i class="fa-solid fa-trash"></i> Delete
                 </button>
             </div>
         `;
@@ -243,60 +247,70 @@ function renderQuizzes(quizzes) {
 //     openQuizPopup();
 // }
 
-// Function to delete a quiz
-// function deleteQuiz(quizId) {
-//     if (confirm('Are you sure you want to delete this quiz?')) {
-//         const index = quizzes.findIndex(q => q.id === quizId);
-//         if (index !== -1) {
-//             quizzes.splice(index, 1);
-//             renderQuizzes();
-//         }
-//     }
-// }
 
-// Handle form submission
-// document.getElementById('quiz-form').addEventListener('submit', function(e) {
-//     e.preventDefault();
+
+//Handle form submission
+document.getElementById('quiz-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
     
-//     const title = document.getElementById('quiz-title').value;
-//     const description = document.getElementById('quiz-description').value;
+    const title = document.getElementById('quiz-title').value;
+    const description = document.getElementById('quiz-description').value;
     
-//     const questions = [];
-//     const questionForms = document.querySelectorAll('.question-form');
+    const questions = [];
+    const questionForms = document.querySelectorAll('.question-form');
     
-//     questionForms.forEach((qForm, qIndex) => {
-//         const questionText = qForm.querySelector(`#question-${qIndex}`).value;
-//         const options = [];
+    questionForms.forEach((qForm, qIndex) => {
+        const questionText = qForm.querySelector(`#question-${qIndex}`).value;
+        const options = [];
         
-//         const optionForms = qForm.querySelectorAll('.option-form');
-//         optionForms.forEach((oForm) => {
-//             const optionText = oForm.querySelector('input[type="text"]').value;
-//             const isCorrect = oForm.querySelector('input[type="radio"]').checked;
+        const optionForms = qForm.querySelectorAll('.option-form');
+        optionForms.forEach((oForm) => {
+            const optionText = oForm.querySelector('input[type="text"]').value;
+            const isCorrect = oForm.querySelector('input[type="radio"]').checked;
             
-//             options.push({
-//                 text: optionText,
-//                 correct: isCorrect
-//             });
-//         });
+            options.push({
+                text: optionText,
+                correct: isCorrect
+            });
+        });
         
-//         questions.push({
-//             text: questionText,
-//             options: options
-//         });
-//     });
+        questions.push({
+            text: questionText,
+            options: options
+        });
+    });
+    // Create new quiz or update existing
+    const data = {
+        course_id: '123e4567-e89b-12d3-a456-426614174111', // TODO: Retrive the courseId from the session storage 
+        title,
+        description,
+        questions
+    };
+    console.log("Quiz data to be sent:", data);
+    try {
+        const response = await fetch("/addQuiz", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (response.status === 200) {
+            const result = await response.json();
+            console.log("Quiz added successfully:", result);
+            getQuizzes();
+            closeQuizPopup();
+        } else {
+            console.error("Failed to add quiz:", response.statusText);
+        }
+    } catch (error) {
+        console.error("Error adding quiz:", error);
+    }
+
     
-//     // Create new quiz or update existing
-//     const newQuiz = {
-//         id: quizzes.length > 0 ? Math.max(...quizzes.map(q => q.id)) + 1 : 1,
-//         title,
-//         description,
-//         questions
-//     };
     
-//     quizzes.push(newQuiz);
-//     renderQuizzes();
-//     closeQuizPopup();
-// });
+});
 
 document.addEventListener('DOMContentLoaded', getQuizzes);
 
