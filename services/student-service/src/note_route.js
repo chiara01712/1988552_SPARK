@@ -56,7 +56,8 @@ router.get('/getNotes', async (req, res) => {
 
 router.post('/addNote', async (req, res) => {
     try {
-        await noteService.addNote(req, res);
+        const response = await noteService.addNote(req, res);
+        res.status(response.status).json({ message: response.message });
 
     } catch (error) {
         console.error('Error adding note:', error);
