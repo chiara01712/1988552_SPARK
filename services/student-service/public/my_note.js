@@ -1,5 +1,7 @@
+
 async function signOut() {
     console.log("Logout function called");
+    
     try {
         // Send a request to localhost:8080 to clear the cookies
         const response = await fetch('http://localhost:8080/logout', {       
@@ -23,10 +25,38 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
+function search(prefix) {
+    const noResults = document.getElementById("no-results");
+
+    const container = document.getElementById('course-container');
+    const boxes = container.querySelectorAll('.box');
+    let found = 0;
+  
+    boxes.forEach(box => {
+      const text = box.textContent.toLowerCase();
+      if (text.startsWith(prefix.toLowerCase())) {
+        box.style.display = 'block';
+        found++;
+      } else {
+        box.style.display = 'none';
+      }
+    });
+  
+    noResults.style.display = found === 0 ? 'block' : 'none';
+  }
+  
+  // Esegui la funzione ogni volta che cambia l'input
+  document.addEventListener('DOMContentLoaded', () => {
+    const input = document.getElementById('searchInput');
+    input.addEventListener('input', () => {
+      const value = input.value.trim();
+      search(value);
+    });
+  });
 
 // Fetch notes when the page loads
 async function fetchNotes() {
-
+    const noResults = document.getElementById("no-results");
     const studentId = getCookie("user_Id");
     try {
         const response = await fetch('/getNotes', {
@@ -41,26 +71,28 @@ async function fetchNotes() {
             const notes = await response.json();
             console.log("Notes fetched successfully:", notes);
             const carouselContent = document.getElementById('note-box');
-            carouselContent.innerHTML = '';
-
-            if (notes.length === 0) {
-                carouselContent.innerHTML = '<div class="box">No notes available</div>';
-                return;
-            }
             
+            if (notes.length === 0) {
+                noResults.style.display = "block";
+            }
+            else {
+                noResults.style.display = "none";
+                carouselContent.innerHTML = '';
+                let id = 0; 
+                notes.forEach((note, index) => {
+                    const isActive = index === 0 ? 'active' : '';
+                    const noteHtml = `
+                        <div class="box ${isActive}" id="note-${id}">
+                            <h2>${note.title}</h2>
+                            ${note.file_url ? `<a href="${note.file_url}" target="_blank">Download File</a>` : ''}
+                        </div>
+                    `;
+                    carouselContent.innerHTML += noteHtml;
+                    id++;
+                });
+            }
 
-            let id = 0; 
-            notes.forEach((note, index) => {
-                const isActive = index === 0 ? 'active' : '';
-                const noteHtml = `
-                    <div class="box ${isActive}" id="note-${id}">
-                        <h2>${note.title}</h2>
-                        ${note.file_url ? `<a href="${note.file_url}" target="_blank">Download File</a>` : ''}
-                    </div>
-                `;
-                carouselContent.innerHTML += noteHtml;
-                id++;
-            });
+            
         }
     }catch (error) {
         console.error('Error fetching notes:', error);
@@ -69,13 +101,29 @@ async function fetchNotes() {
 
 document.addEventListener('DOMContentLoaded', fetchNotes);
 
+
+function openPopup(popup, overlay){
+    document.getElementById(popup).classList.add("popupactive");
+    document.getElementById(overlay).classList.add("overlayactive");
+}
+
+function closePopup(popup, overlay){
+    document.getElementById(popup).classList.remove("popupactive");
+    document.getElementById(overlay).classList.remove("overlayactive");
+}
+
+function addNote(popup,overlay){
+    document.getElementById(popup).classList.remove("popupactive");
+    document.getElementById(overlay).classList.remove("overlayactive");
+}
+  
 function open_Menu() {
     document.getElementById("mySidebar").style.width = "25%";
     document.getElementById("mySidebar").style.display = "block";
     document.getElementById("overlaybar").classList.add("overlayactive");
 }
 function close_Menu() {
-    document.getElementById("main").style.marginLeft = "0%";
+    document.getElementById("openNav").style.marginLeft = "0%";
     document.getElementById("mySidebar").style.display = "none";
     document.getElementById("overlaybar").classList.remove("overlayactive");
 }
@@ -92,32 +140,7 @@ function close_Profile() {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    const modal = document.getElementById("noteModal");
-    const openBtn = document.getElementById("openFormButton");
-    const closeBtn = document.querySelector(".close-btn");
     
-    
-    // Open modal
-    openBtn.addEventListener("click", function () {
-        modal.style.display = "block";
-    });
-
-    // Close modal when clicking on 'X'
-    closeBtn.addEventListener("click", function () {
-        modal.style.display = "none";
-    });
-
-    // Close modal when clicking outside the modal content
-    window.addEventListener("click", function (event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
-        else if (!event.target === menu ){
-            document.getElementById("mySidebar").style.display = "none";
-        }
-        else if (!event.target === profile){
-            document.getElementById("profileSidebar").style.display = "none";        }
-    });
 
     // Handle form submission
     const noteForm = document.getElementById("noteForm");
@@ -168,7 +191,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("noteForm").addEventListener("submit", function (event) {
         event.preventDefault(); // Prevent page refresh
         fetchNotes(); // Refresh the notes after adding a new one
-        modal.style.display = "none"; // Hide modal after submission
+        pop.style.display = "none"; // Hide modal after submission
     });
 
 
@@ -208,52 +231,3 @@ async function fetchUsername() {
     }
 }
 document.addEventListener("DOMContentLoaded", fetchUsername);
-
-// Fetch courses when the page loads
-/*
-async function fetchCourses() {
-    console.log("Trying to fetch username");
-    const studentId = getCookie("user_Id");
-    try {
-        const response = await fetch('/getCourses', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ id: studentId }),
-        });
-
-        if(response.status === 200) {
-            const res = await response.json();
-            const courses = res.response
-            
-            console.log("Courses title fetched successfully:", courses);
-            const carouselContent = document.getElementById('course-box');
-            carouselContent.innerHTML = '';
-
-            if (courses.length === 0) {
-                carouselContent.innerHTML = '<div class="box">No submissions available</div>';
-                return;
-            }
-
-            let id = 0; 
-            courses.forEach((course, index) => {
-                const isActive = index === 0 ? 'active' : '';
-                const courseHtml = `
-                    <div class="box ${isActive}" id="submission-${id}">
-                        <h2>${course.course_title}</h2>
-                    </div>
-                `;
-                carouselContent.innerHTML += courseHtml;
-                id++;
-        });
-        }
-        else{
-            console.error("Failed to fetch student name:", response.statusText);
-        }
-    } catch (error) {
-        console.error('Error fetching student name:', error);
-    }
-}
-//document.addEventListener("DOMContentLoaded", fetchCourses);
-*/

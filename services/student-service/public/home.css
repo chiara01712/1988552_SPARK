@@ -42,13 +42,7 @@ body {
     flex-direction: row;
     justify-content: space-between;
 }
-.menu{
-    padding-left: 2%;
-    padding-top: 2%;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-}
+
 #profile{
     padding-right: 2%;
     padding-top: 2%;
@@ -112,6 +106,13 @@ body {
     z-index: 1;
 }
 
+.menu{
+    padding-left: 2%;
+    padding-top: 2%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
 .menu-items a:hover {background-color: #f1f1f1}
 
 .btn {
