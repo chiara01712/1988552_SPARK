@@ -51,10 +51,22 @@ router.post('/logout', async (req, res) => {
     }
 });
 
-  
+router.get('/userData', (req, res) => {
+    const userId = req.headers.user_id;
+    console.log("User ID from headers:", userId);
+    if (!userId) {
+        return res.status(400).json({ error: 'User ID is required' });
+    }
+
+    userService.getUserData(req, res);
+});
 
 router.get('/access', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'access.html'));
+});
+
+router.get('/personalData', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public', 'personal_page.html'));
 });
   
 

@@ -17,6 +17,11 @@ async function signOut() {
 
 }
 
+async function personalData() {
+    console.log("Personal data function called");
+    window.location.href = 'http://localhost:8080/personalData';
+}
+
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -179,10 +184,6 @@ async function viewAllNotes(){
 }
 
 async function viewAllCourses(){
-    window.location.href = 'http://localhost:6060/home';
+    window.location.href = 'http://localhost:6060/getCoursesPage';
 }
 
-function goToCourses() {
-    window.location.href = 'http://localhost:6060/courses.html';
-  
-}  

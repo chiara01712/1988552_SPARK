@@ -33,7 +33,7 @@ class RabbitMQCourse {
         // Create the reply queue
         const { queue: rpcQueueC } = await this.consumerChannel.assertQueue(
           config.rabbitMQ.queues.rpcQueueC,
-          { exclusive: true }
+          { exclusive: false }
         );
 
         // Initialize the producer and consumer

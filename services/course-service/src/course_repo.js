@@ -3,9 +3,11 @@ const { Op, Sequelize} = require("sequelize");
 
 class CourseRepo {
 
-  constructor(courseModel) {
-    this.courseModel = courseModel;
-  }
+    constructor(courseModel, quizModel, quizAnswerModel){
+        this.courseModel = courseModel;
+        this.quizModel = quizModel;
+        this.quizAnswerModel = quizAnswerModel;
+    } 
 
   async addCourse(uuidV4, title, description, professor_id, student_ids) {
     console.log("AAA", title, description, professor_id, student_ids);
@@ -191,6 +193,45 @@ class CourseRepo {
 
   
  
+
+    async getQuizzesByCourseId(course_id) {
+      try {
+        console.log("Received courseId:", course_id);
+        const quizzes = await this.quizModel.findAll({ where: { course_id } });
+        console.log("Quizzes trovati nel DB per courseId", quizzes);
+        if (quizzes && quizzes.length > 0) {
+          const quizData = quizzes.map(quiz => quiz.dataValues);
+          console.log("Quizzes is: ", quizData);
+          console.log("typeof quizData", typeof quizData);
+          return quizData;
+        } else {
+          console.log("Quizzes not found");
+          return null;
+        }
+
+      } catch (error) {
+        console.error("Error fetching quizzes for course:", error);
+        return [];
+      }
+    }
+
+    async addQuiz(uuidV4, course_id, title, description, questions) {
+        try {
+          const newQuiz = await this.quizModel.create({
+            id: uuidV4,       // Set the generated UUID
+            course_id,         // Insert the course_id
+            title,              // Insert the title
+            description,        // Insert the description
+            questions           // Insert the questions
+          });
+          return newQuiz;     // Return the created quiz object
+        } catch (error) {
+          console.error("Error inserting quiz:", error);
+          return null;        // Return null in case of an error
+        }
+      }
+
+    
 } 
 
 module.exports = { CourseRepo };

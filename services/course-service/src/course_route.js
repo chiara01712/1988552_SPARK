@@ -2,12 +2,12 @@ const express = require('express');
 const { CourseService } = require('./course_service');
 const { CourseRepo } = require('./course_repo');
 
-const Course = require("./course")
+const {Course, Quiz, QuizAnswer} = require("./course");
 const jwt = require('jsonwebtoken');
 const path = require('path');
 
 const router = express.Router();
-const courseRepo = new CourseRepo(Course);
+const courseRepo = new CourseRepo(Course, Quiz, QuizAnswer);
 const courseService = new CourseService(courseRepo);
 
 router.get('/getCourses', async (req, res) => {
@@ -85,36 +85,56 @@ router.get('/getCoursesBySearch', async (req, res) => {
 
     if (response.status === 200) {
       res.json(response.data);
+    }
+  }
+  catch(error){
+    console.log("Error in GetCoursesBySearch");
+  }
+});
+
+router.get("/getCoursesPage", (req, res) => {
+  const token = req.cookies.access_token;
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+  try{
+    // Verify the token using the same secret key used for signing
+    const decoded = jwt.verify(token, '220fcf11de0e3f9307932fb2ff69258d190ecf08ef01d0d9c5d8d1c7c97d9149be27299a3ce8dfa0cbbfb6dc1328291786803344cdbf7f3916933a78ac47553e');
+    console.log("Authenticated user: ",decoded);
+    
+    res.sendFile(path.join(__dirname, '..', 'public', 'courses.html'));
+  } catch (error) {
+    console.error("Error verifying token:", error);
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+});
+
+router.get('/getQuizzes', async (req, res) => {
+  try { 
+    const response = await courseService.getQuizzesByCourseId(req,res); // Fetch quizzes by course ID
+    console.log("Response, quizzes:",response);
+    if (response.status === 200) {
+      console.log("typeof response.data:",typeof response.data);
+      res.json(response.data); // Send the quizzes as JSON response
     } else {
       res.status(response.status).json({ message: response.message });
     }
   } catch (error) {
-    console.error("Errore route getCoursesBySearch:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
- 
-router.post('/subscribeToCourse', async (req, res) => {
-  const { student_id, course_id } = req.body;
-  console.log("Student ID:", student_id, "Course ID:", course_id);
-  try {
-    await courseService.subscribeToCourse(student_id, course_id);
-    res.status(200).send("Iscritto al corso");
-  } catch (err) {
-    console.error("Errore in /subscribeToCourse:", err); // <--- LOG DETTAGLIATO
-    res.status(500).send("Errore iscrizione");
+    console.error('Error fetching quizzes:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-router.post('/unsubscribeFromCourse', async (req, res) => {
-  const { student_id, course_id } = req.body;
+router.post('/addQuiz', async (req, res) => {
   try {
-    await courseService.unsubscribeFromCourse(student_id, course_id);
-    res.status(200).send("Disiscritto dal corso");
-  } catch (err) {
-    res.status(500).send("Errore disiscrizione");
-  }
-});
+    const response = await courseService.addQuiz(req, res); // Add a quiz to the course
+    res.status(response.status).json({ message: response.message });
 
+  } catch (error) {
+    console.error('Error adding quiz:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+);
   
 module.exports = router;

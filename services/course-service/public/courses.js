@@ -42,7 +42,7 @@ function open_Menu() {
   document.getElementById("overlaybar").classList.add("overlayactive");
 }
 function close_Menu() {
-  document.getElementById("main").style.marginLeft = "0%";
+  document.getElementById("openNav").style.marginLeft = "0%";
   document.getElementById("mySidebar").style.display = "none";
   document.getElementById("overlaybar").classList.remove("overlayactive");
 }

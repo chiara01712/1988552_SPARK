@@ -35,3 +35,18 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("profileSidebar").style.display = "none";
         document.getElementById("overlaysidebar").classList.remove("overlayactive");
     }
+
+   /*  
+async function goHome() {
+    const role = sessionStorage.getItem("userRole");
+    if(role === "student"){
+      // Redirect to the home page of the student-service
+      window.location.href = "http://localhost:7070/home";
+    }
+    //if role is teacher
+    else if(role === "teacher"){
+        // Redirect to the home page of the teacher
+        window.location.href = "./professor.html";  
+    }
+    // non so come passargli il ruolo
+  } */

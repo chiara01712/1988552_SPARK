@@ -134,6 +134,42 @@ class CourseService {
     }
 
 
+    async getQuizzesByCourseId(req) {
+        const courseId = req.headers.course_id; // Extract courseId from request parameters
+        console.log("Received courseId:", courseId);
+        if (!courseId) {
+            return { status: 400, message: 'Missing courseId' };
+        }
+        try {
+            const quizzes = await this.courseRepo.getQuizzesByCourseId(courseId);
+            return { status: 200, data: quizzes };
+        } catch (error) {
+            console.error('Error fetching quizzes for course:', error);
+            return { status: 500, message: 'Internal server error' };
+        }
+    }
+
+    async addQuiz(req) {
+        console.log("Received Request Body:", req.body); // Debugging log
+        const { course_id, title, description, questions } = req.body;
+        const id = require('uuid').v4(); // Generate a UUID for the quiz
+        if (!course_id || !title || !questions) {
+            return { status: 400, message: 'Invalid request: Missing fields' };
+        }
+        try {
+            const quiz = await this.courseRepo.addQuiz(id, course_id, title, description, questions);
+            if (!quiz) {
+                return { status: 500, message: 'Internal server error' };
+            }
+            console.log("Quiz added successfully:", quiz);
+            return { status: 200, message: 'Quiz added successfully' };
+        } catch (error) {
+            console.error('Error adding quiz:', error);
+            return { status: 500, message: 'Internal server error' };
+        }   
+    }
+
+
 }
 
 

@@ -1,6 +1,6 @@
 
 const { CourseRepo } = require('../course_repo');
-const Course = require("../course");
+const {Course} = require("../course");
 const e = require('express');
 
 let isConsuming = false;
