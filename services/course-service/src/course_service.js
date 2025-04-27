@@ -1,7 +1,8 @@
 const uuid = require('uuid');
 
-class CourseService{
-    constructor(courseRepo){
+
+class CourseService {
+    constructor(courseRepo) {
         this.courseRepo = courseRepo;
     }
 
@@ -9,7 +10,7 @@ class CourseService{
     async addCourse(req) {
         console.log("Received Request Body:", req.body); // Debugging log
 
-        const { title, description, professor_id} = req.body;
+        const { title, description, professor_id } = req.body;
         const id = require('uuid').v4(); // Generate a UUID for the course
 
         if (!title || !professor_id) {
@@ -49,13 +50,13 @@ class CourseService{
     }
     // New method to fetch all courses
     async getCoursesByProfessorId(req) {
-   
-       const professor_id = req.headers.professor_id; // Extract professor_id from headers
-       console.log("Received professor_id:", professor_id); 
-        if(!professor_id) {
+
+        const professor_id = req.headers.professor_id; // Extract professor_id from headers
+        console.log("Received professor_id:", professor_id);
+        if (!professor_id) {
             return { status: 400, message: 'Missing professor_id' };
         }
-    
+
         try {
             const courses = await this.courseRepo.getCoursesByProfessorId(professor_id);
             return { status: 200, data: courses };
@@ -67,23 +68,73 @@ class CourseService{
 
     async getCoursesByStudentId(req) {
         try {
-          const studentId = req.headers.student_id;  // Recupera lo student_id dai parametri della query
-          if (!studentId) {
-            console.log("YOOOOOOOO");
-            return { status: 400, message: "Missing student_id" };
-          }
-          
-          const courses = await this.courseRepo.findCoursesByStudentId(studentId);
+            const studentId = req.headers.student_id;  // Recupera lo student_id dai parametri della query
+            if (!studentId) {
 
-          console.log("Corsi ricevuti in course_Service:", JSON.stringify(courses, null, 2));
-          return { status: 200, data: courses };
+                return { status: 400, message: "Missing student_id" };
+            }
+
+            const courses = await this.courseRepo.findCoursesByStudentId(studentId);
+
+            console.log("Corsi ricevuti in course_Service:", JSON.stringify(courses, null, 2));
+            return { status: 200, data: courses };
+
         } catch (error) {
-          console.error("Error in getCoursesByStudentId:", error);
-          return { status: 500, message: "Internal server error" };
+            console.error("Error in getCoursesByStudentId:", error);
+            return { status: 500, message: "Internal server error" };
         }
-      }
+    }
+
+
+
+    async getCoursesBySearch(req) {
+        try {
+            const profName = req.headers.professor_name?.trim();
+            const courseName = req.headers.course_name?.trim();
+            const studentId = req.headers.student_id;
+
+
+
+            if (!profName && !courseName) {
+                return { status: 400, message: "Devi fornire almeno il nome del professore o del corso." };
+            }
+
+            const courses = await this.courseRepo.findCourses(profName, courseName, studentId);
+            return { status: 200, data: courses };
+        } catch (error) {
+            console.error("Errore in getCoursesBySearch:", error);
+            return { status: 500, message: "Internal server error" };
+        }
+    }
+
+    async subscribeToCourse(studentId, courseId) {
+        try {
+            const course = await this.courseRepo.findByPk(courseId);
+            if (!course) throw new Error("Corso non trovato");
+
+            await this.courseRepo.rawSubscribeToCourse(studentId, courseId);
+            console.log("Studente iscritto al corso con successo");
+        } catch (error) {
+            console.error("Errore durante l'iscrizione:", error);
+            throw error;
+        }
+    }
+
+    async unsubscribeFromCourse(studentId, courseId) {
+        try {
+            const course = await this.courseRepo.findByPk(courseId);
+            if (!course) throw new Error("Corso non trovato");
+
+            await this.courseRepo.rawUnsubscribeFromCourse(studentId, courseId);
+            console.log("Studente disiscritto dal corso con successo");
+        } catch (error) {
+            console.error("Errore durante la disiscrizione:", error);
+            throw error;
+        }
+    }
+
 
 }
 
 
-module.exports = {CourseService};
+module.exports = { CourseService };

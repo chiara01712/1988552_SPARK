@@ -37,8 +37,17 @@ const Course = sequelize.define('course', {
   student_ids: {
     type: Sequelize.ARRAY(Sequelize.UUID),
     allowNull: true
+  }, 
+  professor_name: {
+    type: Sequelize.STRING,
+    allowNull: false
   },
-}, {
+  tag: {
+    type: Sequelize.STRING,
+    allowNull: true
+  }
+}
+, {
   timestamps: false
 });
 
@@ -59,6 +68,7 @@ sequelize.sync({ force: false })
         professor_id: uuidv4(), 
         description: 'decription.',
         student_ids: ['123e4567-e89b-12d3-a456-426614174000'],
+        professor_name : 'Leonardi'
         
       }
     });
@@ -76,6 +86,7 @@ sequelize.sync({ force: false })
         student_ids: [
           '123e4567-e89b-12d3-a456-426614174000',
         ],
+        professor_name : 'D Amore'
         
       }
     });

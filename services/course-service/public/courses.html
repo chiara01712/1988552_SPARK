@@ -67,16 +67,22 @@
             </div>
         </div>
         <div class = "buttonbox">
-            <button id="add" onclick="">Search</button>
-            <button id="cancel" onclick="closePopup('popup', 'overlay')">Cancel </button>
+            <button id="add" onclick="openSearchPopup('popup-search','overlay-search')">Search</button>
+            <button id="cancel" onclick="closePopup('popup', 'overlay')">Cancel </button> 
         </div>
     </div>
 
     <div id="overlay" class="overlay" onclick="closePopup('popup','overlay')"> </div>
-        
-    </div>
-    
 
+
+    <div class="popup-search" id="popup-search">
+        <div class="search-results" id="search-results">
+            
+         </div>
+        <button id="close-search" onclick="closeSearchPopup('popup-search','overlay-search')">Close</button>
+    </div>
+
+    <div id="overlay-search" class="overlay-search" onclick="closeSearchPopup('popup-search','overlay-search')"> </div>
     
     <script src="courses.js"></script> 
       
