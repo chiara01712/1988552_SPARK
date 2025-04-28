@@ -235,7 +235,7 @@ Quindi ho tolto tutte le modifiche che ho fatto anche basandomi sull'ultima vers
 **Course-service**:
 - visualizzazione singolo corso con tutti i contenuti (per professore e per studente). Creiamo un tab per dividere i contenuti (annunci e documenti) dai test.
 - visualizzazione pagina dei "miei corsi" lato studente (con tutti i corsi a cui lo studente è iscritto) e ricerca di un corso per iscriversi. (La richiesta per i corsi dello specifico studente va fatta all'interno dello stesso microservizio, quindi sempre dentro course-service) FATTO 
-- visualizzazione pagina "I miei corsi" lato professore con bottone per creare nuovo corso
+- visualizzazione pagina "I miei corsi" lato professore con bottone per creare nuovo corso FATTO
 - aggiunta contenuto al corso (Per il professore)
 
 **Test:**  
