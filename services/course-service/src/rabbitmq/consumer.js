@@ -54,7 +54,7 @@ class Consumer {
           
           if (!courses) {
             console.log("courses not found");
-            response = { error: "courses not found" };
+            response = "";
           }
           else {
             response =  courses ;

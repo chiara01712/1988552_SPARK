@@ -8,14 +8,7 @@
     <title>Studen_home</title>
 </head> 
 <body>
-    <div class="sidebar"  id="mySidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="close_Menu()">&times;</a>
-        <div class = "menu-items" >
-            <a href="#" class="w3-bar-item w3-button">Courses</a>
-            <a href="#" class="w3-bar-item w3-button">Notes</a>
-        </div>
-    </div>
-      
+          
       <div class="sidebar"  id="profileSidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="close_Profile()">&times;</a>
         <div class = "menu-items" >
@@ -35,24 +28,14 @@
 
     <!-- Da aggiungere la funzione che aggiunge i corsi a "courses"-->
     <div class ="container"> 
-        <h1>Courses</h1>
-        <div class ="container-box">   
-            <div class="box" id="science">
-                <h1>Chemistry</h1>
-            </div>
-            <div class="box" id="math">
-                <h1>Math</h1>
-            </div>
-            <div class="box" id="science">
-                <h1>Topics in Physics</h1>
-            </div>
-            <div class="box" id="compscience">
-                <h1>Laboratory of Adv. Prog.</h1>
-            </div>
-            <div class="box" id="tech">
-                <h1>Web Technlogies</h1>
-            </div>
+        <div class="container-header">
+            <h1>Courses</h1>
+            <button class="view-all-btn" onclick="viewAllCourses()">View all</button>
         </div>
+        <div class ="container-box" id="course-box">  
+            <!-- Courses will be dynamically loaded here --> 
+        </div>
+    </div>
 
     <button class="new_course" onclick="openPopup('popup','overlay')">Add course</button>
 

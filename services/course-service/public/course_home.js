@@ -48,5 +48,5 @@ async function goHome() {
         // Redirect to the home page of the teacher
         window.location.href = "./professor.html";  
     }
-    // non so come passargli il ruolo
+    
   } */
