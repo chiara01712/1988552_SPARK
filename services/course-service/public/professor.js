@@ -1,25 +1,8 @@
-async function signOut() {
-    console.log("Logout function called");
-    try {
-        // Send a request to localhost:8080 to clear the cookies
-        const response = await fetch('http://localhost:8080/logout', {       
-            method: 'POST',
-            credentials: 'include' // Include credentials (cookies) in the request
-        });
-        if (response.status === 200) {
-            console.log("Logout successful");
-            window.location.href = 'http://localhost:8080/';
-        }
-    }
-    catch (error) {
-        console.error('Error during sign-out:', error);
-    }
 
-}
-async function personalData() {
-    console.log("Personal data function called");
-    window.location.href = 'http://localhost:8080/personalData';
-}
+const prof_id = "015a5b67-a570-4a7c-8f30-5ce374fac818"; // DA SOSTITUIRE CON QUELLI PASSATI DAL LOGIN
+const prof_name = "Leonardi";
+
+
 
 function openPopup(popup, overlay){
     document.getElementById(popup).classList.add("popupactive");
@@ -30,106 +13,102 @@ function closePopup(popup, overlay){
     document.getElementById(popup).classList.remove("popupactive");
     document.getElementById(overlay).classList.remove("overlayactive");
 }
- 
-function addCourse(popup,overlay){
-    document.getElementById(popup).classList.remove("popupactive");
-    document.getElementById(overlay).classList.remove("overlayactive");
-}
-function open_Profile() {
-    document.getElementById("profileSidebar").style.width = "25%";
-    document.getElementById("profileSidebar").style.display = "block";
-    document.getElementById("overlaysidebar").classList.add("overlayactive");
-}
-function close_Profile() {
-document.getElementById("profileSidebar").style.display = "none";
-document.getElementById("overlaysidebar").classList.remove("overlayactive");
-}
 
+async function loadCourses() {
+
+    try {
+      const response = await fetch('/getCourses', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'professor_id': prof_id  
+        }
+      });
   
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-}
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      const courses = await response.json(); // I dati ricevuti
+      console.log("Corsi ricevuti:", courses);
+  
+      const container = document.getElementById('coursesContainer');
+      container.innerHTML = ''; // Pulisce il contenitore
+  
+      courses.forEach(course => {
+        const box = document.createElement('div');
+        box.className = 'box';
+        box.id = course.tag ? course.tag.toLowerCase().replace(/\s+/g, '-') : `course-${course.id}`;
 
-// Request for the name of the student to user-service
-async function fetchUsername() {
-    const studentId = getCookie("user_Id");
-    try{
-        const response = await fetch('/getUsername', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ id: studentId, target: "getUsername" }),
+        box.addEventListener('click', () => {
+          // Crea l'URL con i parametri
+          localStorage.setItem("courseId", course.id);
+          localStorage.setItem("title", course.title);
+          localStorage.setItem("professor", course.professor_name);
+          localStorage.setItem("subject", course.tag);
+          
+          // Reindirizza alla pagina (senza passare parametri in URL)
+          window.location.href = "course_home.html";
         });
 
-        if(response.status === 200) {
-            const res = await response.json();
-            const student = res.response
-            
-            console.log("Student name fetched successfully:", student);
-
-            const welcomeMessage = document.getElementById('welcomeUser');
-            if(welcomeMessage) {
-                // Set the welcome message in the HTML element with ID 'welcomeUser'
-                welcomeMessage.textContent = `Welcome, ${student}`;
-            } else {
-                console.error("Element with ID 'welcomeUser' not found.");
-            }
-        }
-        else{
-            console.error("Failed to fetch student name:", response.statusText);
-        }
+        box.innerHTML = `<h1>${course.title}</h1>`;
+        container.appendChild(box);
+      });
     } catch (error) {
-        console.error('Error fetching student name:', error);
+      console.error('Errore nella richiesta dei corsi:', error);
     }
-}
-document.addEventListener("DOMContentLoaded", fetchUsername);
+  }
 
-async function fetchCourses() {
-    const studentId = getCookie("user_Id");
-    try{
-
-        const response = await fetch('/getCourses', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ id: studentId, target: "getCourses" }),
+  async function addCourse(popupId, overlayId) {
+    const titleInput = document.getElementById('course_name');
+    const descriptionInput = document.getElementById('description');
+    const subjectInput = document.getElementById('subject');
+    
+    const title = titleInput.value.trim();
+    const description = descriptionInput.value.trim();
+    const subject = subjectInput.value.trim(); 
+  
+    if (!title || !description || !subject) {
+      alert('Please fill all the fields.');
+      return;
+    }
+  
+    try {
+        const response = await fetch('/addCourse', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            title: title,
+            description: description,
+            professor_id: prof_id,
+            professor_name: prof_name,
+            tag : subject
+        })
         });
-
-        if(response.status === 200) {
-            const res = await response.json();
-            const courses = res.response
-            
-            console.log("Courses fetched successfully:", courses);
-
-             const carouselContent = document.getElementById('course-box');
-             carouselContent.innerHTML = '';
-
-             if (courses.length === 0) {
-                 carouselContent.innerHTML = '<div class="box"> No courses available</div>';
-                 return;
-             }
-
-             let id = 0; 
-             courses.forEach((course, index) => {
-                 const isActive = index === 0 ? 'active' : '';
-                 const courseHtml = `
-                     <div class="box ${isActive}" id="courses-${id}">
-                         <h2>${course.title}</h2>
-                     </div>
-                 `;
-                 carouselContent.innerHTML += courseHtml;
-                 id++;
-             });
-        }
-        else{
-            console.error("Failed to fetch courses:", response.statusText);
-        }
-    }catch (error) {
-        console.error('Error fetching student name:', error);
+        
+        console.log('Response Status:', response.status);
+        const responseData = await response.json();
+        console.log('Response Body:', responseData);
+  
+      // Verifica se la funzione loadCourses viene chiamata
+      console.log('Ricarico i corsi...');
+      await loadCourses();  // Ricarica i corsi per includere il nuovo corso
+   
+      // Chiudi il popup
+      closePopup(popupId, overlayId);
+  
+      // Pulisci i campi input
+      titleInput.value = '';
+      descriptionInput.value = '';
+      subjectInput.value = ''
+    } catch (error) {
+      console.error('Errore nell\'aggiunta del corso:', error);
     }
-}
-document.addEventListener("DOMContentLoaded", fetchCourses);
+  }
+  
+  // Chiamata al caricamento della pagina
+  loadCourses();
+
+

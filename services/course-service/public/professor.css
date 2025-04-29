@@ -188,13 +188,17 @@ button {
 
 .box{
     
-    background-color: rgb(153, 14, 246);
     width: 80%;
     margin: 0 auto;
     height: 60%;
     border-radius: 30px;
     background-size: cover;
  
+}
+
+
+.box:hover{
+    cursor: pointer;
 }
 
 #math{
@@ -207,7 +211,7 @@ button {
 #compscience{
     background-image: url("./images/BGcompscience.png");
     
-}
+} 
 #tech{
     background-image: url("./images/BGTech.png");
 }
@@ -268,7 +272,7 @@ button {
     transition: 200ms ease-in-out;
     z-index: 10;
     width: 700px;
-    height: 380px;
+    height: 480px;
     border-radius: 20px;
 }
 
