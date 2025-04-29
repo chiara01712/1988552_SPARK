@@ -1,196 +1,230 @@
-
 document.addEventListener('DOMContentLoaded', () => {
-    const button = document.getElementById("addbutton");
-    const container = document.getElementById("containerbutton");
+  const fileButton = document.getElementById("fileButton");
+  const fileInput = document.getElementById("fileInput");
+  const addButton = document.getElementById("addbutton");
+  const containerButton = document.getElementById("containerbutton");
 
-    button.addEventListener('click' , () => {
-        
-        if ( container.style.display === 'none'){
-            container.style.display = 'block';
-        }
-        else{
-            container.style.display ='none'
-        }
+  if (addButton && containerButton) {
+    addButton.addEventListener('click', () => {
+      containerButton.style.display = (containerButton.style.display === 'none') ? 'block' : 'none';
+    });
+  }
 
-        });
-    }); 
+  if (fileButton) fileButton.addEventListener("click", triggerFileInput);
+  if (fileInput) fileInput.addEventListener("change", handleFileChange);
 
-    function open_Menu() {
-        document.getElementById("mySidebar").style.width = "25%";
-        document.getElementById("mySidebar").style.display = "block";
-        document.getElementById("overlaybar").classList.add("overlayactive");
-    }
-    function close_Menu() {
-        document.getElementById("main").style.marginLeft = "0%";
-        document.getElementById("mySidebar").style.display = "none";
-        document.getElementById("overlaybar").classList.remove("overlayactive");
-    }
-    function open_Profile() {
-        document.getElementById("profileSidebar").style.width = "25%";
-        document.getElementById("profileSidebar").style.display = "block";
-        document.getElementById("overlaysidebar").classList.add("overlayactive");
-    }
-    function close_Profile() {
-        document.getElementById("main").style.marginLeft = "0%";
-        document.getElementById("profileSidebar").style.display = "none";
-        document.getElementById("overlaysidebar").classList.remove("overlayactive");
-    }
+  populateCourseDetails();
+  const { courseId } = getQueryParams();
+  if (courseId) loadMaterials(courseId);
+});
 
-    function openPopup(popup, overlay){
-        document.getElementById(popup).classList.add("popupactive");
-        document.getElementById(overlay).classList.add("overlayactive");
-    }
-    
-    function closePopup(popup, overlay){
-        document.getElementById(popup).classList.remove("popupactive");
-        document.getElementById(overlay).classList.remove("overlayactive");
-    }
+function open_Menu() {
+  document.getElementById("mySidebar").style.width = "25%";
+  document.getElementById("mySidebar").style.display = "block";
+  document.getElementById("overlaybar").classList.add("overlayactive");
+}
 
-    function changeTag(box, tag, title){
-        if ( tag == 'Computer Science'){
-          box.classList.add("cs");
-        }
-        if ( tag == 'Math'){
-          box.classList.add("math");
-        }
-        if ( tag == 'Science'){
-          box.classList.add("science");
-          title.style.color = 'black'
-        }
-        if ( tag == 'Tech'){
-          box.classList.add("tech");
-        }
+function close_Menu() {
+  document.getElementById("main").style.marginLeft = "0%";
+  document.getElementById("mySidebar").style.display = "none";
+  document.getElementById("overlaybar").classList.remove("overlayactive");
+}
+
+function open_Profile() {
+  document.getElementById("profileSidebar").style.width = "25%";
+  document.getElementById("profileSidebar").style.display = "block";
+  document.getElementById("overlaysidebar").classList.add("overlayactive");
+}
+
+function close_Profile() {
+  document.getElementById("main").style.marginLeft = "0%";
+  document.getElementById("profileSidebar").style.display = "none";
+  document.getElementById("overlaysidebar").classList.remove("overlayactive");
+}
+
+function openPopup(popup, overlay) {
+  document.getElementById(popup).classList.add("popupactive");
+  document.getElementById(overlay).classList.add("overlayactive");
+}
+
+function closePopup(popup, overlay) {
+  document.getElementById(popup).classList.remove("popupactive");
+  document.getElementById(overlay).classList.remove("overlayactive");
+}
+
+function changeTag(box, tag, title) {
+  if (tag === 'Computer Science') box.classList.add("cs");
+  if (tag === 'Math') box.classList.add("math");
+  if (tag === 'Science') {
+    box.classList.add("science");
+    title.style.color = 'black';
+  }
+  if (tag === 'Tech') box.classList.add("tech");
+}
+
+function getQueryParams() {
+  return {
+    courseId: localStorage.getItem("courseId"),
+    title: localStorage.getItem("title"),
+    professor: localStorage.getItem("professor"),
+    subject: localStorage.getItem("subject")
+  };
+}
+
+function populateCourseDetails() {
+  const { title, subject } = getQueryParams();
+  const courseTitle = document.getElementById('courseTitle');
+  const tagTitle = document.getElementById('titlebox');
+  if (courseTitle && tagTitle) {
+    courseTitle.textContent = title;
+    changeTag(tagTitle, subject, courseTitle);
+  }
+}
+
+function getOriginalFileName(filePath) {
+  const fullName = filePath.split('/').pop();
+  const ext = fullName.split('.').pop();
+  const base = fullName.slice(0, -(ext.length + 1));
+  const nameParts = base.split('_');
+  nameParts.pop();
+  return nameParts.join('_') + '.' + ext;
+}
+
+let selectedFile = null;
+
+async function publishMaterial() {
+  const description = document.getElementById('Textarea').value.trim();
+  const { courseId } = getQueryParams();
+
+  if (!description) {
+    alert('Please insert a description.');
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('courseId', courseId);
+  formData.append('description', description);
+  if (selectedFile) formData.append('file', selectedFile);
+
+  try {
+    const response = await fetch('/publishMaterial', {
+      method: 'POST',
+      body: formData
+    });
+
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+    const result = await response.json();
+    console.log('Materiale pubblicato con successo:', result);
+
+    loadMaterials(courseId);
+    closePopup('popup', 'overlay');
+    document.getElementById('Textarea').value = '';
+    clearFile();
+  } catch (error) {
+    console.error('Errore nella pubblicazione del materiale:', error);
+  }
+}
+
+async function loadMaterials(courseId) {
+  try {
+    const response = await fetch(`/by-course-id/${courseId}`);
+    if (!response.ok) throw new Error(`Errore HTTP: ${response.status}`);
+
+    const materials = await response.json();
+    console.log('Materiali trovati:', materials);
+
+    const container = document.getElementById('publicationsContainer');
+    container.innerHTML = '';
+    const { professor } = getQueryParams();
+
+    materials.forEach(mat => {
+      const pub = document.createElement('div');
+      pub.className = 'pubblication';
+
+      const h1 = document.createElement('h1');
+      h1.textContent = "Prof. " + professor;
+      pub.appendChild(h1);
+
+      const h2 = document.createElement('h2');
+      h2.textContent = new Date(mat.date).toLocaleDateString('en-GB', {
+        day: '2-digit', month: 'short', year: 'numeric'
+      });
+      pub.appendChild(h2);
+
+      const h3 = document.createElement('h3');
+      h3.textContent = mat.description;
+      pub.appendChild(h3);
+
+      if (mat.file_url && mat.file_type) {
+        const downloadButton = document.createElement('a');
+        downloadButton.href = mat.file_url;
+        downloadButton.download = '';
+        downloadButton.classList.add('download-button');
+
+        const extension = mat.file_url.split('.').pop().toLowerCase();
+        const iconClass = extension === 'pdf' ? 'fa-file-pdf'
+                          : ['jpg', 'jpeg', 'png'].includes(extension) ? 'fa-image'
+                          : ['mp4', 'webm'].includes(extension) ? 'fa-video'
+                          : 'fa-file';
+
+        const displayedName = getOriginalFileName(mat.file_url);
+        downloadButton.innerHTML = `<i class="fa-solid ${iconClass}"></i>&nbsp;${displayedName}`;
+        pub.appendChild(downloadButton);
       }
 
- 
-      function getQueryParams() {
-        const params = {
-          courseId: localStorage.getItem("courseId"),
-          title: localStorage.getItem("title"),
-          professor: localStorage.getItem("professor"),
-          subject: localStorage.getItem("subject")
-        };  
-        return params;
-      }
+      container.appendChild(pub);
+    });
 
-    // Popola i dettagli del corso
-    function populateCourseDetails() {
-        const {title, subject } = getQueryParams();
-    
-        // Controlla che gli elementi esistano nel DOM prima di modificarli
-        const courseTitle = document.getElementById('courseTitle');
-        courseTitle.textContent = title;
-        const tagTitle = document.getElementById('titlebox');
-        changeTag(tagTitle,subject,courseTitle);
-    }
+  } catch (error) {
+    console.error('Errore durante il recupero dei materiali:', error);
+  }
+}
 
+function triggerFileInput() {
+  if (!selectedFile) document.getElementById("fileInput").click();
+}
 
-    async function publishMaterial() {
-        const description = document.getElementById('Textarea').value.trim();
-        const { courseId } = getQueryParams();
-        if (!description) {
-          alert('Please insert a description.');
-          return;
-        }
-      
-        try {
-          const response = await fetch('/publishMaterial', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              courseId: courseId, // Devi passare l'ID del corso
-              description: description
-            })
-          });
-      
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-      
-          const result = await response.json();
-          console.log('Materiale pubblicato con successo:', result);
-          loadMaterials(courseId);
-          closePopup('popup', 'overlay'); // Chiude il popup
-          document.getElementById('Textarea').value = ''; // Pulisce la textarea
-        } catch (error) {
-          console.error('Errore nella pubblicazione del materiale:', error);
-        }
-      }
+function handleFileChange(event) {
+  const file = event.target.files[0];
+  const button = document.getElementById("fileButton");
 
-      async function loadMaterials(courseId) {
-        try {
-          const response = await fetch(`/by-course-id/${courseId}`);
-          
-          if (!response.ok) {
-            throw new Error(`Errore HTTP: ${response.status}`);
-          }
-      
-          const materials = await response.json();
+  if (!file) return;
 
-            const container = document.getElementById('publicationsContainer');
-            container.innerHTML = ''; // pulisce
-            const { professor } = getQueryParams();
+  const ext = file.name.split('.').pop().toLowerCase();
+  const allowed = ['pdf', 'jpg', 'jpeg', 'png', 'mp4', 'webm'];
+  if (!allowed.includes(ext)) {
+    alert("File type not supported. Please upload a PDF, image, or video.");
+    clearFile();
+    return;
+  }
 
-            materials.forEach(mat => {
-            const pub = document.createElement('div');
-            pub.className = 'pubblication';
+  selectedFile = file;
 
-            const h1 = document.createElement('h1');
-            h1.textContent = "Prof." + professor;
-            pub.appendChild(h1);
+  const iconClass = ext === 'pdf' ? 'fa-file-pdf'
+                   : ['jpg', 'jpeg', 'png'].includes(ext) ? 'fa-image'
+                   : ['mp4', 'webm'].includes(ext) ? 'fa-video'
+                   : 'fa-file';
 
-            const h2 = document.createElement('h2');
-            // formatta la data come preferisci:
-            h2.textContent = new Date(mat.date).toLocaleDateString('en-GB', {
-                day: '2-digit', month: 'short', year: 'numeric'
-            });
-            pub.appendChild(h2);
+  button.innerHTML = `<i class="fa-solid ${iconClass}"></i>&nbsp;${file.name} <span class="remove-icon">&#10006;</span>`;
+  button.querySelector(".remove-icon").addEventListener("click", removeFile);
+}
 
-            const span = document.createElement('span');
-            pub.appendChild(span);
+function clearFile() {
+  document.getElementById("fileInput").value = '';
+  selectedFile = null;
+  document.getElementById("fileButton").innerHTML = "Add File +";
+}
 
-            const h3 = document.createElement('h3');
-            h3.textContent = mat.description;
-            pub.appendChild(h3);
+function removeFile(event) {
+  if (event && event.stopPropagation) event.stopPropagation();
+  clearFile();
+}
 
-            container.appendChild(pub);
-            });
+function goToQuiz() {
+  window.location.href = "../quiz/quiz_teacher.html";
+}
 
-          console.log('Materiali trovati:', materials);
-        } catch (error) {
-          console.error('Errore durante il recupero dei materiali:', error);
-        }
-      }
-
-      const { courseId } = getQueryParams();
-      loadMaterials(courseId);
-
-      function goToQuiz(){
-        window.location.href = "../quiz/quiz_teacher.html";
-      }
-
-      function goToCourses(){
-        window.location.href = "professor.html";
-      }
-
-    // Popola i dettagli quando la pagina è pronta
-    document.addEventListener('DOMContentLoaded', populateCourseDetails);
-    
-
-
-   /*  
-async function goHome() {
-    const role = sessionStorage.getItem("userRole");
-    if(role === "student"){
-      // Redirect to the home page of the student-service
-      window.location.href = "http://localhost:7070/home";
-    }
-    //if role is teacher
-    else if(role === "teacher"){
-        // Redirect to the home page of the teacher
-        window.location.href = "./professor.html";  
-    }
-    // non so come passargli il ruolo
-  } */
+function goToCourses() {
+  window.location.href = "professor.html";
+}

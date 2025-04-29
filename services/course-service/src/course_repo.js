@@ -227,22 +227,26 @@ class CourseRepo {
         }
       }
 
-    async saveMaterial(materialId, courseId, date, description) {
-      try {
-        const newMaterial = await this.materialModel.create({
-          materialId: materialId,
-          courseId: courseId,
-          date: date,
-          description: description,
-          file_url: null,
-          file_type: null
-        });
-        return newMaterial;
-      } catch (error) {
-        console.error('Error saving material:', error);
-        return null;
+      async saveMaterial(materialId, courseId, date, description, file_url, file_type) {
+        try {
+          // Se il file_url o file_type non sono forniti, saranno null
+          const newMaterial = await this.materialModel.create({
+            materialId,
+            courseId,
+            date,
+            description,
+            file_url: file_url || null,
+            file_type: file_type || null
+          });
+      
+          // Restituisce il nuovo materiale
+          return newMaterial;
+        } catch (error) {
+          console.error('Error saving material:', error);
+          return null;
+        }
       }
-    }
+      
 
     async findMaterialsByCourseId(courseId) {
       const materials = await this.materialModel.findAll({

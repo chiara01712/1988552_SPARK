@@ -5,10 +5,27 @@ const { CourseRepo } = require('./course_repo');
 const {Course, Quiz, QuizAnswer, Material} = require("./course");
 const jwt = require('jsonwebtoken');
 const path = require('path');
+const multer = require('multer');
+const { v4: uuidv4 } = require('uuid'); 
 
 const router = express.Router();
 const courseRepo = new CourseRepo(Course, Quiz, QuizAnswer,Material);
 const courseService = new CourseService(courseRepo);
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '../uploads'));;
+  },
+  filename: function (req, file, cb) {
+    const ext = path.extname(file.originalname);
+    const nameWithoutExt = path.basename(file.originalname, ext);
+    const uniqueSuffix = uuidv4(); 
+    const finalName = `${nameWithoutExt}_${uniqueSuffix}${ext}`;
+    cb(null, finalName);
+  }
+});
+
+const upload = multer({ storage: storage });
 
 router.get('/getCourses', async (req, res) => {
     try {
@@ -140,15 +157,61 @@ router.post('/addQuiz', async (req, res) => {
   }
 });
 
-router.post('/publishMaterial', async (req, res) => {
+router.post('/publishMaterial', upload.single('file'), async (req, res) => {
   try {
-    const result = await courseService.publishMaterial(req.body);
+    // Log dei dati ricevuti
+    console.log('Dati ricevuti:', req.body);
+    console.log('File ricevuto:', req.file);
+
+    const file = req.file;
+
+    // Se non è stato caricato un file, file_url sarà null e file_type non sarà definito
+    let file_url = null;
+    let file_type = null;
+
+    // Gestione file (se presente)
+    if (file) {
+      file_url = path.join('/uploads', file.filename);
+
+      const mt = file.mimetype;
+      if (mt === 'application/pdf') {
+        file_type = 'pdf';
+      } else if (mt.startsWith('image/')) {
+        file_type = 'image';
+      } else if (mt.startsWith('video/')) {
+        file_type = 'video';
+      } else if (mt === 'application/msword' ||
+                mt === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        file_type = 'doc';
+      } else {
+        return res.status(400).json({ message: 'Unsupported file type' });
+      }
+    }
+
+    // Prepara i dati per inviarli al servizio (anche senza file)
+    const data = {
+      courseId: req.body.courseId,
+      description: req.body.description,
+      file_url,  // Se non ci sono file, questo sarà null
+      file_type  // Se non ci sono file, questo sarà null
+    };
+
+    // Log dei dati prima di inviarli al servizio
+    console.log('Dati preparati per il servizio:', data);
+
+    // Chiama il servizio per pubblicare il materiale
+    const result = await courseService.publishMaterial(data);
+
+    // Restituisce la risposta al client
     res.status(result.status).json({ message: result.message });
   } catch (error) {
     console.error('Error publishing material:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+
+
 
 router.get('/by-course-id/:courseId', async (req, res) => {
   try {
