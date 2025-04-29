@@ -48,6 +48,7 @@ const Course = sequelize.define('course', {
   }
 }
 , {
+  tableName: 'courses',
   timestamps: false
 });
 
@@ -103,6 +104,37 @@ const QuizAnswer = sequelize.define('quiz_answer', {
     allowNull: true
   },
 });
+
+
+const Material = sequelize.define('course_materials', {
+  materialId: {
+    type: Sequelize.UUID,
+    primaryKey: true,
+    allowNull: false
+  },
+  courseId: {
+    type: Sequelize.UUID,
+    allowNull: false
+  },
+  date: {
+    type: Sequelize.DATE,
+    allowNull: false
+  },
+  description: {
+    type: Sequelize.TEXT,
+    allowNull: false
+  },
+  file_url: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  file_type:{
+    type : Sequelize.ENUM('pdf', 'doc', 'image', 'video'),
+    allowNull : true 
+  }
+});
+
+
 
 
 // Quiz for testing 
@@ -208,6 +240,25 @@ const { v4: uuidv4 } = require('uuid');
 sequelize.sync({ force: true }) 
 
 .then(() => {
+  console.log('Material table ready.');
+
+  // Creazione esempio Material
+  return Material.findOrCreate({
+    where: {
+      materialId: uuidv4(), // Condizione di ricerca: nuovo id random
+    },
+    defaults: {
+      courseId: '987e6543-e21b-45f6-a654-423354174999',
+      date: new Date(),
+      description: 'Materiale introduttivo del corso',
+      file_url: 'https://example.com/materials/lezione1.pdf',
+      file_type: 'pdf'
+    }
+  });
+})
+
+
+.then(() => {
   console.log('Course table ready.');
 
   // Creation example course
@@ -218,14 +269,16 @@ sequelize.sync({ force: true })
     },
     defaults: {
       title: 'Algorithm Design',
-      professor_id: uuidv4(), 
+      professor_id: '015a5b67-a570-4a7c-8f30-5ce374fac818', 
       description: 'decription.',
       student_ids: ['123e4567-e89b-12d3-a456-426614174000'],
+      professor_name: 'Leonardi',
+      tag: 'Tech'
       
     }
-  });
+  }); 
 })
-.then(() => {
+.then(() => { 
   // Create another course
   return Course.findOrCreate({
     where: {
@@ -233,12 +286,14 @@ sequelize.sync({ force: true })
     },
     defaults: {
       title: 'Cybersecurity',
-      professor_id: uuidv4(),
+      professor_id: 'e1424969-a7d7-4be5-aab4-1a4a36ee80ec',
       description: 'Un altro corso per test.',
       student_ids: [
         '123e4567-e89b-12d3-a456-426614174000',
       ],
-      
+      professor_name: 'D Amore',
+      tag: 'Computer Science'
+       
     }
   });
 })
@@ -250,6 +305,7 @@ sequelize.sync({ force: true })
     console.log('Course already exists:', course.toJSON());
   }
 })
+
 
 // Create the quizzes and questions
 .then(() => {
@@ -277,8 +333,11 @@ sequelize.sync({ force: true })
 .catch(err => {
   console.error('Error :', err);
 });
+
+
 module.exports = {
   Course,
   Quiz,
-  QuizAnswer
+  QuizAnswer, 
+  Material
 };

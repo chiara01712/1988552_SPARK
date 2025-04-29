@@ -2,12 +2,12 @@ const express = require('express');
 const { CourseService } = require('./course_service');
 const { CourseRepo } = require('./course_repo');
 
-const {Course, Quiz, QuizAnswer} = require("./course");
+const {Course, Quiz, QuizAnswer, Material} = require("./course");
 const jwt = require('jsonwebtoken');
 const path = require('path');
 
 const router = express.Router();
-const courseRepo = new CourseRepo(Course, Quiz, QuizAnswer);
+const courseRepo = new CourseRepo(Course, Quiz, QuizAnswer,Material);
 const courseService = new CourseService(courseRepo);
 
 router.get('/getCourses', async (req, res) => {
@@ -28,13 +28,17 @@ router.get('/getCourses', async (req, res) => {
 });
 
 router.post('/addCourse', async (req, res) => {
-    try {
-        await courseService.addCourse(req, res);
-
-    } catch (error) {
-        console.error('Error adding course:', error);
-        res.status(500).json({ error: 'Internal server error' });
-    }
+  try {
+      const response = await courseService.addCourse(req);
+      if (response.status === 200) {
+          res.status(200).json({ message: 'Course added successfully', course: response.course });
+      } else {
+          res.status(response.status).json({ error: response.message });
+      }
+  } catch (error) {
+      console.error('Error adding course:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 router.post('/addStudentToCourse', async (req, res) => {
@@ -134,7 +138,29 @@ router.post('/addQuiz', async (req, res) => {
     console.error('Error adding quiz:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
-}
-);
+});
+
+router.post('/publishMaterial', async (req, res) => {
+  try {
+    const result = await courseService.publishMaterial(req.body);
+    res.status(result.status).json({ message: result.message });
+  } catch (error) {
+    console.error('Error publishing material:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+router.get('/by-course-id/:courseId', async (req, res) => {
+  try {
+    const { courseId } = req.params;
+    const materials = await courseService.getMaterialsByCourseId(courseId);
+    res.status(200).json(materials);
+  } catch (err) {
+    console.error('Errore nel recupero materiali per ID:', err);
+    res.status(500).json({ message: 'Errore interno del server' });
+  }
+});
+
+
   
 module.exports = router;

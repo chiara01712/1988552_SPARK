@@ -35,23 +35,9 @@
 
     <!-- Da aggiungere la funzione che aggiunge i corsi a "courses"-->
     <div class ="container"> 
-        <h1>Courses</h1>
-        <div class ="container-box">   
-            <div class="box" id="science">
-                <h1>Chemistry</h1>
-            </div>
-            <div class="box" id="math">
-                <h1>Math</h1>
-            </div>
-            <div class="box" id="science">
-                <h1>Topics in Physics</h1>
-            </div>
-            <div class="box" id="compscience">
-                <h1>Laboratory of Adv. Prog.</h1>
-            </div>
-            <div class="box" id="tech">
-                <h1>Web Technlogies</h1>
-            </div>
+        <h1>My courses</h1>
+        <div class ="container-box" id="coursesContainer">   
+            
         </div>
 
     <button class="new_course" onclick="openPopup('popup','overlay')">Add course</button>
@@ -64,24 +50,23 @@
                 <input type="text" name="" required="" id="course_name"> 
                 <span></span>
                 <label>Description</label>
-                <input type="text" name="" required="" id="description"> 
+                <input type="text" name="" required="" id="description">
+                <span></span>
+                <label>Subject</label>
+                <input type="text" name="" required="" id="subject">
                 <span></span>
             </div>
         </div>
         <div class = "buttonbox">
-            <button id="cancel" onclick="closePopup('popup', 'overlay')">Cancel </button>
             <button id="add" onclick="addCourse('popup', 'overlay')">Add</button>
+            <button id="cancel" onclick="closePopup('popup', 'overlay')">Cancel </button>
+            
         </div>
     </div>
 
-    <div id="overlay" class="overlay" onclick="closePopup('overlay')"> </div>
+    <div id="overlay" class="overlay" onclick="closePopup('popup', 'overlay')"> </div>
         
     </div>
-    
 
-    
-      
-      
-      
 </body>
 </html>

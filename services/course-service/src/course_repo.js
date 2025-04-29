@@ -3,40 +3,36 @@ const { Op, Sequelize} = require("sequelize");
 
 class CourseRepo {
 
-    constructor(courseModel, quizModel, quizAnswerModel){
+    constructor(courseModel, quizModel, quizAnswerModel,materialModel){
         this.courseModel = courseModel;
         this.quizModel = quizModel;
         this.quizAnswerModel = quizAnswerModel;
+        this.materialModel = materialModel;
     } 
 
-  async addCourse(uuidV4, title, description, professor_id, student_ids) {
-    console.log("AAA", title, description, professor_id, student_ids);
-    try {
-      const newCourse = await this.courseModel.create({
-        id: uuidV4,       // Set the generated UUID
-        title,              // Insert the title
-        description,        // Insert the description
-        professor_id,        // Insert the professor id
-        student_ids
-      });
-      return newCourse;     // Return the created course object
-    } catch (error) {
-      console.error("Error inserting course:", error);
-      return null;        // Return null in case of an error
-    }
+    async addCourse(uuidV4, title, description, professor_id, professor_name, student_ids,tag) {
+      console.log("AAA", title, description, professor_id, student_ids);
+      try {
+          const newCourse = await this.courseModel.create({
+              id: uuidV4,       // Set the generated UUID
+              title,             // Insert the title
+              description,       // Insert the description
+              professor_id,      // Insert the professor id
+              student_ids,
+              professor_name,
+              tag
+          });
+          console.log("Corso creato:", newCourse);
+          return newCourse;     // Return the created course object
+      } catch (error) {
+          console.error("Error inserting course:", error);
+          throw new Error('Database error');  // Throw an error if creation fails
+      }
   }
-
-  async getCourseByProfessor(professor_id) {
-    try {
-      return await this.courseModel.findAll({ where: { professor_id } });
-    } catch (error) {
-      console.error("Error fetching courses for course:", error);
-      return [];
-    }
-  }
+  
 
   async getCoursesByProfessorId(professor_id) {
-
+    console.log("Cercando i corsi per professor_id:", professor_id);
     const courses = await this.courseModel.findAll({ where: { professor_id } });
     if (courses) {
       const allDataValues = courses.map(course => course.dataValues);
@@ -230,6 +226,33 @@ class CourseRepo {
           return null;        // Return null in case of an error
         }
       }
+
+    async saveMaterial(materialId, courseId, date, description) {
+      try {
+        const newMaterial = await this.materialModel.create({
+          materialId: materialId,
+          courseId: courseId,
+          date: date,
+          description: description,
+          file_url: null,
+          file_type: null
+        });
+        return newMaterial;
+      } catch (error) {
+        console.error('Error saving material:', error);
+        return null;
+      }
+    }
+
+    async findMaterialsByCourseId(courseId) {
+      const materials = await this.materialModel.findAll({
+        where: { courseId },
+        order: [['date', 'DESC']]
+      });
+    
+      console.log('Materiali trovati per courseId', courseId, ':', materials);
+      return materials;
+    }
 
     
 } 
