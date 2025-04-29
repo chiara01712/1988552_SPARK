@@ -233,10 +233,10 @@ Quindi ho tolto tutte le modifiche che ho fatto anche basandomi sull'ultima vers
 - Pagina le mie note (sistemare la visualizzazione delle note con tutti i campi e sistemare il form per aggiunta nota con upload pdf/immagine)
 
 **Course-service**:
-- visualizzazione singolo corso con tutti i contenuti (per professore e per studente). Creiamo un tab per dividere i contenuti (annunci e documenti) dai test.
+- visualizzazione singolo corso con tutti i contenuti (per professore e per studente). Creiamo un tab per dividere i contenuti (annunci e documenti) dai test.FATTO per prof
 - visualizzazione pagina dei "miei corsi" lato studente (con tutti i corsi a cui lo studente è iscritto) e ricerca di un corso per iscriversi. (La richiesta per i corsi dello specifico studente va fatta all'interno dello stesso microservizio, quindi sempre dentro course-service) FATTO 
 - visualizzazione pagina "I miei corsi" lato professore con bottone per creare nuovo corso FATTO
-- aggiunta contenuto al corso (Per il professore)
+- aggiunta contenuto al corso (Per il professore) FATTO
 
 **Test:**  
 - Pagina da parte dei professori per creare un test 
