@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const button = document.getElementById("addbutton");
     const container = document.getElementById("containerbutton");
-
+    container.style.display ='none';
     button.addEventListener('click' , () => {
         
         if ( container.style.display === 'none'){
@@ -14,7 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         });
     }); 
-
+    
+    function closeOverlay(overlay){
+        document.getElementById(overlay).classList.remove("overlayactive");
+    }
+    
     function open_Menu() {
         document.getElementById("mySidebar").style.width = "25%";
         document.getElementById("mySidebar").style.display = "block";
@@ -31,19 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("overlaysidebar").classList.add("overlayactive");
     }
     function close_Profile() {
-        document.getElementById("main").style.marginLeft = "0%";
         document.getElementById("profileSidebar").style.display = "none";
         document.getElementById("overlaysidebar").classList.remove("overlayactive");
-    }
-
-    function openPopup(popup, overlay){
-        document.getElementById(popup).classList.add("popupactive");
-        document.getElementById(overlay).classList.add("overlayactive");
-    }
-    
-    function closePopup(popup, overlay){
-        document.getElementById(popup).classList.remove("popupactive");
-        document.getElementById(overlay).classList.remove("overlayactive");
     }
 
     function changeTag(box, tag, title){

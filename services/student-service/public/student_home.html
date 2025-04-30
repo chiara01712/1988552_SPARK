@@ -30,9 +30,7 @@
     <div id="main">
         <div class="header">
             <img id="menu" src="menu.png" class="menu" onclick="open_Menu()">
-            <a href="/home">
-                <img class="wrapper" src="Spark-LOGO-removebg-preview.png" id="logo">
-            </a>
+            <img class="wrapper" src="Spark-LOGO-removebg-preview.png" id="logo">
             <h1 id="welcomeUser"></h1>
             <img id="profile" src="profilo.png" alt="" onclick="open_Profile()">
         </div>
@@ -44,7 +42,9 @@
                     <button class="view-all-btn" onclick="viewAllNotes()">View all</button>
                 </div>
                 <div class ="container-box" id="note-box">   
-                    <!-- Notes will be dynamically loaded here --> 
+                    <p id="no-results">
+                        Ops...No note has been found 
+                    </p>
                 </div>
             </div>
             <br>
@@ -59,6 +59,8 @@
             </div>
         </div>
     </div>
+    <div id="overlay" class="overlay" onclick="closeOverlay('overlay')"> </div>
+
             
 
          

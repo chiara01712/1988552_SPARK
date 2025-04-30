@@ -1,4 +1,3 @@
-
 const prof_id = "015a5b67-a570-4a7c-8f30-5ce374fac818"; // DA SOSTITUIRE CON QUELLI PASSATI DAL LOGIN
 const prof_name = "Leonardi";
 
@@ -59,54 +58,59 @@ async function loadCourses() {
     }
   }
 
-  async function addCourse(popupId, overlayId) {
-    const titleInput = document.getElementById('course_name');
-    const descriptionInput = document.getElementById('description');
-    const subjectInput = document.getElementById('subject');
-    
-    const title = titleInput.value.trim();
-    const description = descriptionInput.value.trim();
-    const subject = subjectInput.value.trim(); 
+const subjectInput = document.getElementById('subject');
+
+
+
+// Access the value directly when needed
+async function addCourse(popupId, overlayId) {
+  const titleInput = document.getElementById('course_name');
+  const descriptionInput = document.getElementById('description');
+  const subjectInput = document.querySelector('#subject');
   
-    if (!title || !description || !subject) {
-      alert('Please fill all the fields.');
-      return;
-    }
-  
+  const title = titleInput.value.trim();
+  const description = descriptionInput.value.trim();
+  const subject = subjectInput.value.trim(); 
+  console.log("the subject is: "+subject);
+  if (!title || !description || !subject) {
+    alert('Please fill all the fields.');
+    return;
+  }
+
     try {
         const response = await fetch('/addCourse', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            title: title,
-            description: description,
-            professor_id: prof_id,
-            professor_name: prof_name,
-            tag : subject
-        })
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                title: title,
+                description: description,
+                professor_id: prof_id,
+                professor_name: prof_name,
+                tag: subject // Use the selected subject
+            })
         });
-        
+
         console.log('Response Status:', response.status);
         const responseData = await response.json();
         console.log('Response Body:', responseData);
-  
-      // Verifica se la funzione loadCourses viene chiamata
-      console.log('Ricarico i corsi...');
-      await loadCourses();  // Ricarica i corsi per includere il nuovo corso
-   
-      // Chiudi il popup
-      closePopup(popupId, overlayId);
-  
-      // Pulisci i campi input
-      titleInput.value = '';
-      descriptionInput.value = '';
-      subjectInput.value = ''
+
+        // Reload courses to include the new course
+        console.log('Reloading courses...');
+        await loadCourses();
+
+        // Close the popup
+        closePopup(popupId, overlayId);
+
+        // Clear input fields
+        titleInput.value = '';
+        descriptionInput.value = '';
+        subjectInput.value = '';
     } catch (error) {
-      console.error('Errore nell\'aggiunta del corso:', error);
+        console.error('Error adding course:', error);
     }
-  }
+}
   
   // Chiamata al caricamento della pagina
   loadCourses();

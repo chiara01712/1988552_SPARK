@@ -5,6 +5,7 @@ const noteRoutes = require('./src/note_route');
 const RabbitMQNote = require('./src/rabbitmq/note-s');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+
 const app = express();
 
 app.use(bodyParser.json());
