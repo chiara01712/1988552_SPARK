@@ -204,7 +204,8 @@ body {
     border-radius: 30px;
     margin-top: 30px;
     padding-top: 10px;
-    margin-bottom: -30px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .pubblication{
@@ -238,6 +239,8 @@ body {
     margin: 0 auto;
     color: black;
     word-wrap: break-word;
+    word-wrap: break-word;margin-bottom: 10px;
+
     
 }
 
@@ -336,7 +339,7 @@ body {
     transition: 200ms ease-in-out;
     z-index: 20;
     width: 700px;
-    height: 480px;
+    height: 555px;
     border-radius: 20px;
 }
 
@@ -406,7 +409,7 @@ body {
     color: #293b5c;
     border-radius: 10px;
     border-width: 4px;
-    border-color: #293b5c;;
+    border-color: #293b5c;
     margin-left:5px;
 }
 
@@ -454,3 +457,117 @@ body {
     cursor: pointer;
 }
 
+.file-upload {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  #fileButton {     
+    display: inline-flex;   
+    text-align: center;
+    position: relative;
+    font-size: 20px;
+    background-color: lightgray;
+    border-radius: 20px;
+    color: rgb(51, 51, 51);
+    cursor: pointer;
+    margin-left: 5px;
+    margin-bottom: 10px;
+    white-space: nowrap;  
+    max-width: 90%;
+    padding: 8px 8px;
+}
+
+.remove-icon {
+    cursor: pointer;
+    color: red;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-right: 5px;
+  }
+
+  .fa-file-pdf{
+    color: red;
+    margin-top: 5px;
+    margin-left: 5px;
+  }
+  .fa-image{
+    color: rgb(0, 157, 255);
+    margin-top: 5px;
+    margin-left: 5px;
+
+  }
+  .fa-video{
+    color: rgb(0, 157, 255);
+    margin-top: 5px;
+    margin-left: 5px;
+  }
+
+  .download-button {
+    display: inline-flex;
+    text-align: center;
+    position: relative;
+    white-space: nowrap;
+    max-width: fit-content;
+    width: auto;
+    margin-left: 26px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    padding: 10px 10px;
+    font-size: 20px;
+    background-color: lightgray;
+    border-radius: 20px;
+    color: rgb(51, 51, 51);
+    cursor: pointer;
+    
+  }
+  
+  .students-box{
+    display: none;
+    flex-direction:column;
+    align-items: stretch;
+    width: 70%;
+    min-height: 90px;
+    background-color: white;
+    margin: 0 auto;
+    border-radius: 30px;
+    margin-top: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.student {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;               /* Imposta il layout flex */
+    flex-direction: row;         /* Allineamento orizzontale */
+    align-items: center;         /* Centra verticalmente gli elementi */
+    justify-content:space-evenly;
+    border-radius:20px;
+}
+
+.student h1 {
+    font-size:25px;
+}
+
+.profile_letter{
+    color:WHITE;
+    background-color:purple;
+    width:50px;
+    height:50px;
+    border-radius:30px;
+    text-align:center;
+    align-items:center;
+    justify-content:center;
+    font-size:34px;
+}
+
+.student-separator{
+    height: 1px;
+    width: 80%;
+    background-color: #b8becf;
+    margin: 0 auto; 
+}

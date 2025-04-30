@@ -43,9 +43,9 @@
     </div>
 
     <div class="sectionbar">
-        <label onclick="goToCourses()" href="">Home</label>
-        <label onclick="goToQuiz()">Tests</label>
-        <label>Students</label>
+        <label onclick="goToCourses()"  >Home</label>
+        <label onclick="goToQuiz()"     >Tests</label>
+        <label id="stud_annou"  onclick="openStudents()" >Students</label>
     </div>
 
     <div class="contents" id="publicationsContainer">
@@ -64,10 +64,17 @@
                 <textarea id="Textarea" rows="4" cols="50"></textarea>
                 <span></span>
         </div>
+        <div class="file-upload">
+            <button type="button" id="fileButton">Add File +</button>
+            <input type="file" id="fileInput" style="display: none;" accept=".pdf,image/*,video/*">
+        </div>
         <div class = "buttonbox">
             <button id="publish" onclick="publishMaterial()">Publish</button>
             <button id="cancel" onclick="closePopup('popup', 'overlay')">Cancel </button>    
         </div>
+    </div>
+
+    <div class="students-box" id="students-box"> 
     </div>
 
     <div id="overlay" class="overlay" onclick="closePopup('popup', 'overlay')"> </div>

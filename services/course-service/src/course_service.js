@@ -171,20 +171,31 @@ class CourseService {
     }
 
     async publishMaterial(materialData) {
-        const { courseId, description } = materialData;
-      
+        const { courseId, description, file_url, file_type } = materialData;
+        
+        // Verifica che tutti i parametri necessari siano presenti
         if (!courseId || !description) {
-          return { status: 400, message: 'Missing courseId or description' };
+          return { status: 400, message: 'Missing required fields: courseId or description' };
         }
       
         const uuid = require('uuid').v4();
         const date = new Date();
       
         try {
-          const savedMaterial = await this.courseRepo.saveMaterial(uuid, courseId, date, description);
+          // Se non c'è un file, file_url e file_type saranno nulli, quindi non sono necessari per salvare il materiale
+          const savedMaterial = await this.courseRepo.saveMaterial(
+            uuid,
+            courseId,
+            date,
+            description,
+            file_url || null,  // Se non c'è file_url, passeremo null
+            file_type || null   // Se non c'è file_type, passeremo null
+          );
+      
           if (!savedMaterial) {
             return { status: 500, message: 'Failed to save material' };
           }
+      
           return { status: 200, message: 'Material published successfully' };
         } catch (error) {
           console.error('Error in service publishMaterial:', error);
@@ -196,6 +207,21 @@ class CourseService {
         const materials = await this.courseRepo.findMaterialsByCourseId(courseId);
         return materials;
       };
+
+      async getStudentsByCourseID(courseId) {
+        try {
+          const studentIds = await this.courseRepo.findCourseById(courseId);
+          
+          // Aggiungi un log per vedere cosa arriva
+          console.log('Student IDs ricevuti dal repo:', studentIds);
+          
+          return studentIds || [];
+        } catch (error) {
+          console.error('Error in service getStudentsByCourseID:', error);
+          throw error;
+        }
+      }
+      
 }
 
 

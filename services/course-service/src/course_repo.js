@@ -227,22 +227,26 @@ class CourseRepo {
         }
       }
 
-    async saveMaterial(materialId, courseId, date, description) {
-      try {
-        const newMaterial = await this.materialModel.create({
-          materialId: materialId,
-          courseId: courseId,
-          date: date,
-          description: description,
-          file_url: null,
-          file_type: null
-        });
-        return newMaterial;
-      } catch (error) {
-        console.error('Error saving material:', error);
-        return null;
+      async saveMaterial(materialId, courseId, date, description, file_url, file_type) {
+        try {
+          // Se il file_url o file_type non sono forniti, saranno null
+          const newMaterial = await this.materialModel.create({
+            materialId,
+            courseId,
+            date,
+            description,
+            file_url: file_url || null,
+            file_type: file_type || null
+          });
+      
+          // Restituisce il nuovo materiale
+          return newMaterial;
+        } catch (error) {
+          console.error('Error saving material:', error);
+          return null;
+        }
       }
-    }
+      
 
     async findMaterialsByCourseId(courseId) {
       const materials = await this.materialModel.findAll({
@@ -253,6 +257,30 @@ class CourseRepo {
       console.log('Materiali trovati per courseId', courseId, ':', materials);
       return materials;
     }
+
+    async findCourseById(courseId) {
+      try {
+        const course = await this.courseModel.findOne({
+          where: { id: courseId },
+          attributes: ['student_ids'] // selezioniamo solo ciò che ci serve
+        });
+        
+        // Aggiungi un log per vedere cosa ricevi
+    console.log('Course found:', course);
+    
+    // Se `course` non esiste o `student_ids` è undefined, ritorna un array vuoto
+    if (!course || !course.student_ids) {
+      console.log('Nessun student_ids trovato per il corso:', courseId);
+      return [];
+    }
+
+    // Restituisci l'array di student_ids
+    return course.student_ids;
+  } catch (error) {
+    console.error('Error in repo findCourseById:', error);
+    throw error;
+  }
+}
 
     
 } 

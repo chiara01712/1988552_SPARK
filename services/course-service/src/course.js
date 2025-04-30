@@ -271,7 +271,12 @@ sequelize.sync({ force: true })
       title: 'Algorithm Design',
       professor_id: '015a5b67-a570-4a7c-8f30-5ce374fac818', 
       description: 'decription.',
-      student_ids: ['123e4567-e89b-12d3-a456-426614174000'],
+      student_ids: [
+        '123e4567-e89b-12d3-a456-426614174000',
+        '223e4567-e89b-12d3-a456-426614174001',
+        '323e4567-e89b-12d3-a456-426614174002',
+        '423e4567-e89b-12d3-a456-426614174003'
+      ],
       professor_name: 'Leonardi',
       tag: 'Tech'
       

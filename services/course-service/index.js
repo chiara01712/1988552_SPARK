@@ -11,6 +11,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // Add this line to parse form data
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Allow CORS for requests from the specified frontend origin, because the frontend that makes the 
 // request is on a different port (8080) than the backend (7070)
@@ -21,6 +22,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Serve static files from the 'public' directory
 app.use('', courseRoutes);
+
+
+
 
 const port = 6060;
 app.listen(port, async() => {
