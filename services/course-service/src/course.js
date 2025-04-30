@@ -43,7 +43,7 @@ const Course = sequelize.define('course', {
     allowNull: false
   },
   tag: {
-    type: Sequelize.STRING,
+    type: Sequelize.ENUM('Arts & Design', 'Business & Management','Communication & Media', 'Engineering & Technology','Health & Life Sciences','Humanities','Law & Legal Studies','Mathematical Sciences','Natural Sciences', 'Social Sciences'),
     allowNull: true
   }
 }

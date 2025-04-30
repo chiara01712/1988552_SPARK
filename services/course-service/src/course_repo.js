@@ -20,7 +20,7 @@ class CourseRepo {
               professor_id,      // Insert the professor id
               student_ids,
               professor_name,
-              tag
+              tag,
           });
           console.log("Corso creato:", newCourse);
           return newCourse;     // Return the created course object

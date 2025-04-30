@@ -58,6 +58,8 @@ router.post('/addCourse', async (req, res) => {
   }
 });
 
+
+
 router.post('/addStudentToCourse', async (req, res) => {
   try {
     const response = await courseService.addStudentToCourse(courseId, studentId);

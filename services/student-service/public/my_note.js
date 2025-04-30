@@ -1,4 +1,3 @@
-
 async function signOut() {
     console.log("Logout function called");
     
@@ -56,7 +55,6 @@ function search(prefix) {
 
 // Fetch notes when the page loads
 async function fetchNotes() {
-    const noResults = document.getElementById("no-results");
     const studentId = getCookie("user_Id");
     try {
         const response = await fetch('/getNotes', {
@@ -71,12 +69,12 @@ async function fetchNotes() {
             const notes = await response.json();
             console.log("Notes fetched successfully:", notes);
             const carouselContent = document.getElementById('note-box');
-            
+            const noResults = document.getElementById("no-results");
             if (notes.length === 0) {
                 noResults.style.display = "block";
             }
             else {
-                noResults.style.display = "none";
+                noResults.style.display = "none"; 
                 carouselContent.innerHTML = '';
                 let id = 0; 
                 notes.forEach((note, index) => {
@@ -84,7 +82,7 @@ async function fetchNotes() {
                     const noteHtml = `
                         <div class="box ${isActive}" id="note-${id}">
                             <h2>${note.title}</h2>
-                            ${note.file_url ? `<a href="${note.file_url}" target="_blank">Download File</a>` : ''}
+                            <h4 onclick="showFile('${note.file_type}', '${note.file_url}')">Download File</h4>
                         </div>
                     `;
                     carouselContent.innerHTML += noteHtml;
@@ -98,7 +96,24 @@ async function fetchNotes() {
         console.error('Error fetching notes:', error);
     }
 }
+function showFile(file_type,url){
+    console.log("entering show function");
+    if(file_type=="image"){
+        document.getElementById('overlay').classList.add("overlayactive");
+        document.getElementById('overlay').innerHTML+= `<embed type="image/png" src="`+url+`" width="500" height="400" >`;
+    }
+    
+    else {
+        document.getElementById('overlay').classList.add("overlayactive");
+        document.getElementById('overlay').innerHTML+= `
+        
+    <embed src="`+url+`" type="application/pdf" width="100%" height="100%">
+        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="`+url+`">Download PDF</a>.</p>
+    </embed> 
+`;
 
+    }
+}
 document.addEventListener('DOMContentLoaded', fetchNotes);
 
 
@@ -138,10 +153,8 @@ function close_Profile() {
 }
 
 
-
+const file_type="";
 document.addEventListener("DOMContentLoaded", function () {
-    
-
     // Handle form submission
     const noteForm = document.getElementById("noteForm");
     if(noteForm){
@@ -152,14 +165,42 @@ document.addEventListener("DOMContentLoaded", function () {
             const courseId = document.getElementById("courseId").value;
             const title = document.getElementById("title").value;
             const description = document.getElementById("description").value;
-            const fileUrl = document.getElementById("fileUrl").value;
+            const file = document.getElementById("file");
             const fileType = document.getElementById("fileType").value;
+            
+            if (!file.files[0]) {
+                console.error("No file selected for upload.");
+                return;
+            }
+            
+            let fileNmae= "";            
+            try {
+                const formData = new FormData();
+                formData.append('file', file.files[0]); // Append the file
+
+                const v = await fetch("/upload", {
+                    method: "POST",
+                    body: formData, // Use FormData as the body
+                });
+
+                if (v.status === 200) {
+                    const ret = await v.json();
+                    console.log("File uploaded successfully:", ret);
+                    fileNmae=ret.filename;
+                } else {
+                    console.error("Failed to add file:", v.statusText);
+                }
+            } catch (error) {
+                console.error("Error adding file:", error);
+            }
+            let baseUrl = "./uploads/"+fileNmae;
+
             const data = {
                 student_id: studentId,
                 course_id: courseId,
                 title: title,
                 description: description,
-                file_url: fileUrl,
+                file_url: baseUrl,
                 file_type: fileType
             };
             console.log("data",data);
@@ -178,7 +219,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 } else {
                     console.error("Failed to add note:", response.statusText);
                 }
-            } catch (error) {
+                   
+            }catch (error) {
                 console.error("Error adding note:", error);
             }
             
@@ -191,7 +233,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("noteForm").addEventListener("submit", function (event) {
         event.preventDefault(); // Prevent page refresh
         fetchNotes(); // Refresh the notes after adding a new one
-        pop.style.display = "none"; // Hide modal after submission
+        //popup.style.display = "none"; // Hide modal after submission
     });
 
 

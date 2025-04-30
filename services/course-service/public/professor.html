@@ -8,14 +8,7 @@
     <title>Studen_home</title>
 </head> 
 <body>
-    <div class="sidebar"  id="mySidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="close_Menu()">&times;</a>
-        <div class = "menu-items" >
-            <a href="#" class="w3-bar-item w3-button">Courses</a>
-            <a href="#" class="w3-bar-item w3-button">Notes</a>
-        </div>
-    </div>
-      
+          
       <div class="sidebar"  id="profileSidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="close_Profile()">&times;</a>
         <div class = "menu-items" >
@@ -39,6 +32,10 @@
         <div class ="container-box" id="coursesContainer">   
             
         </div>
+        <div class ="container-box" id="course-box">  
+            <!-- Courses will be dynamically loaded here --> 
+        </div>
+    </div>
 
     <button class="new_course" onclick="openPopup('popup','overlay')">Add course</button>
 
@@ -53,7 +50,19 @@
                 <input type="text" name="" required="" id="description">
                 <span></span>
                 <label>Subject</label>
-                <input type="text" name="" required="" id="subject">
+                <select name="" required id="subject">
+                    <option value="">Select the subject</option>
+                    <option value="Arts & Design">Arts & Design</option>
+                    <option value="Business & Management">Business & Management</option>
+                    <option value="Communication & Media">Communication & Media</option>
+                    <option value="Engineering & Technology">Engineering & Technology</option>
+                    <option value="Health & Life Sciences">Health & Life Sciences</option>
+                    <option value="Humanities">Humanities</option>
+                    <option value="Law & Legal Studies">Law & Legal Studies</option>
+                    <option value="Mathematical Sciences">Mathematical Sciences</option>
+                    <option value="Natural Sciences">Natural Sciences</option>
+                    <option value="Social Sciences">Social Sciences</option>
+                </select>
                 <span></span>
             </div>
         </div>
