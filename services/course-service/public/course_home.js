@@ -16,7 +16,28 @@ document.addEventListener('DOMContentLoaded', () => {
   populateCourseDetails();
   const { courseId } = getQueryParams();
   if (courseId) loadMaterials(courseId);
+  if (courseId) loadStudentsByCourse(courseId);
 });
+
+function openStudents() {
+  const publicationsContainer = document.getElementById('publicationsContainer');
+  const studentsBox = document.getElementById('students-box');
+  const label = document.getElementById('stud_annou');
+
+  const isShowingStudents = studentsBox.style.display === 'block';
+
+  if (isShowingStudents) {
+    // Mostra pubblicazioni, nasconde studenti
+    studentsBox.style.display = 'none';
+    publicationsContainer.style.display = 'block';
+    label.innerText = 'Students';
+  } else {
+    // Mostra studenti, nasconde pubblicazioni
+    publicationsContainer.style.display = 'none';
+    studentsBox.style.display = 'block';
+    label.innerText = 'Announcements';
+  }
+}
 
 function open_Menu() {
   document.getElementById("mySidebar").style.width = "25%";
@@ -227,4 +248,53 @@ function goToQuiz() {
 
 function goToCourses() {
   window.location.href = "professor.html";
+}
+
+function getRandomColor() {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+async function loadStudentsByCourse(courseId) {
+  try {
+    const response = await fetch(`/getStudentsByCourseID/${courseId}`);
+    const studentIds = await response.json();
+
+    console.log('Student IDs ricevuti dal server:', studentIds);
+
+    const studentsBox = document.getElementById('students-box');
+    studentsBox.innerHTML = ''; // Pulisce il contenuto precedente
+
+    studentIds.forEach((id, index) => {
+      const profileLetter = id.charAt(0).toUpperCase();
+
+      // Crea il div per lo studente
+      const studentDiv = document.createElement('div');
+      studentDiv.className = 'student';
+
+      const randomColor = getRandomColor();
+
+      studentDiv.innerHTML = `
+        <div class="profile_letter" style="background-color: ${randomColor};">${profileLetter}</div>
+        <h1>${id}</h1>
+      `;
+
+      // Aggiungi il div studente alla sezione students-box
+      studentsBox.appendChild(studentDiv);
+
+      // Se non è l'ultimo studente, aggiungi il separatore
+      if (index < studentIds.length - 1) {
+        const separator = document.createElement('div');
+        separator.className = 'student-separator';
+        studentsBox.appendChild(separator);
+      }
+    });
+
+  } catch (err) {
+    console.error('Errore nel caricamento degli studenti:', err);
+  }
 }

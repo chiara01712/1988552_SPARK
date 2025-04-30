@@ -43,9 +43,9 @@
     </div>
 
     <div class="sectionbar">
-        <label onclick="goToCourses()" href="">Home</label>
-        <label onclick="goToQuiz()">Tests</label>
-        <label>Students</label>
+        <label onclick="goToCourses()"  >Home</label>
+        <label onclick="goToQuiz()"     >Tests</label>
+        <label id="stud_annou"  onclick="openStudents()" >Students</label>
     </div>
 
     <div class="contents" id="publicationsContainer">
@@ -72,6 +72,9 @@
             <button id="publish" onclick="publishMaterial()">Publish</button>
             <button id="cancel" onclick="closePopup('popup', 'overlay')">Cancel </button>    
         </div>
+    </div>
+
+    <div class="students-box" id="students-box"> 
     </div>
 
     <div id="overlay" class="overlay" onclick="closePopup('popup', 'overlay')"> </div>

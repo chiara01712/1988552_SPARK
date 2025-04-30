@@ -202,13 +202,26 @@ class CourseService {
           return { status: 500, message: 'Internal server error' };
         }
       }
-      
-      
 
       async getMaterialsByCourseId(courseId) {
         const materials = await this.courseRepo.findMaterialsByCourseId(courseId);
         return materials;
       };
+
+      async getStudentsByCourseID(courseId) {
+        try {
+          const studentIds = await this.courseRepo.findCourseById(courseId);
+          
+          // Aggiungi un log per vedere cosa arriva
+          console.log('Student IDs ricevuti dal repo:', studentIds);
+          
+          return studentIds || [];
+        } catch (error) {
+          console.error('Error in service getStudentsByCourseID:', error);
+          throw error;
+        }
+      }
+      
 }
 
 

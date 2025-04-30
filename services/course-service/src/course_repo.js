@@ -258,6 +258,30 @@ class CourseRepo {
       return materials;
     }
 
+    async findCourseById(courseId) {
+      try {
+        const course = await this.courseModel.findOne({
+          where: { id: courseId },
+          attributes: ['student_ids'] // selezioniamo solo ciò che ci serve
+        });
+        
+        // Aggiungi un log per vedere cosa ricevi
+    console.log('Course found:', course);
+    
+    // Se `course` non esiste o `student_ids` è undefined, ritorna un array vuoto
+    if (!course || !course.student_ids) {
+      console.log('Nessun student_ids trovato per il corso:', courseId);
+      return [];
+    }
+
+    // Restituisci l'array di student_ids
+    return course.student_ids;
+  } catch (error) {
+    console.error('Error in repo findCourseById:', error);
+    throw error;
+  }
+}
+
     
 } 
 

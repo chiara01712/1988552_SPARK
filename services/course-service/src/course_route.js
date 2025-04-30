@@ -210,9 +210,6 @@ router.post('/publishMaterial', upload.single('file'), async (req, res) => {
   }
 });
 
-
-
-
 router.get('/by-course-id/:courseId', async (req, res) => {
   try {
     const { courseId } = req.params;
@@ -221,6 +218,25 @@ router.get('/by-course-id/:courseId', async (req, res) => {
   } catch (err) {
     console.error('Errore nel recupero materiali per ID:', err);
     res.status(500).json({ message: 'Errore interno del server' });
+  }
+});
+
+router.get('/getStudentsByCourseID/:courseId', async (req, res) => {
+  try {
+    const courseId = req.params.courseId;
+    const students = await courseService.getStudentsByCourseID(courseId);
+
+    // Aggiungi un log per vedere cosa ricevi
+    console.log('Studenti per corso:', students);
+
+    if (!students || students.length === 0) {
+      return res.status(404).json({ message: 'Course not found or no students' });
+    }
+
+    res.status(200).json(students);
+  } catch (error) {
+    console.error('Error fetching students:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
 
