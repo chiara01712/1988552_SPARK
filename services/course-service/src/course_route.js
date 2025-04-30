@@ -241,5 +241,28 @@ router.get('/getStudentsByCourseID/:courseId', async (req, res) => {
 });
 
 
+router.post('/subscribeToCourse', async (req, res) => {
+  const { student_id, course_id } = req.body;
+  console.log("Student ID:", student_id, "Course ID:", course_id);
+  try {
+    await courseService.subscribeToCourse(student_id, course_id);
+    res.status(200).send("Iscritto al corso");
+  } catch (err) {
+    console.error("Errore in /subscribeToCourse:", err); // <--- LOG DETTAGLIATO
+    res.status(500).send("Errore iscrizione");
+  }
+});
+
+router.post('/unsubscribeFromCourse', async (req, res) => {
+  const { student_id, course_id } = req.body;
+  try {
+    await courseService.unsubscribeFromCourse(student_id, course_id);
+    res.status(200).send("Disiscritto dal corso");
+  } catch (err) {
+    res.status(500).send("Errore disiscrizione");
+  }
+});
+
+
   
 module.exports = router;

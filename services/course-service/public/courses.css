@@ -334,13 +334,14 @@ button {
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
     transition: 200ms ease-in-out;
-    z-index: 100;
+    z-index: 15;
     width: 700px;
     height: 380px;
     border-radius: 20px;
 }
 
 .popupactive {
+    
     transform: translate(-50%, -50%) scale(1);
 }
 
@@ -483,7 +484,7 @@ button {
     border-radius: 50px;
     top : 210px;
     position: absolute;
-    left: 1080px;
+    left: 130px;
     top: 150px;
 }
 
