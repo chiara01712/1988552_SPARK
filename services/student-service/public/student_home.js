@@ -58,7 +58,8 @@ async function fetchNotes() {
                     const noteHtml = `
                         <div class="box ${isActive}" id="note-${id}">
                             <h2>${note.title}</h2>
-                            <h4 onclick="showFile('${note.file_type}', '${note.file_url}')">Download File</h4>
+                            <h4 onclick="showFile('${note.file_type}', '${note.file_url}')">View File</h4>
+                            <h4 href="${note.file_url}" download>Download File</h4>
                         </div>
                     `;
                     carouselContent.innerHTML += noteHtml;
@@ -173,13 +174,12 @@ async function fetchCourses() {
 
              const carouselContent = document.getElementById('course-box');
              carouselContent.innerHTML = '';
-
              if (courses.length === 0) {
                 console.log("error in the response from courses");
                  carouselContent.innerHTML = '<div class="box">No courses available</div>';
                  return;
              }
-             else if(courses == 'courses not found'){
+             else if(courses == "courses not found"){
                 console.log("courses not found");
                 carouselContent.innerHTML = '<div class="box">No courses available</div>';
                 return;
@@ -201,7 +201,7 @@ async function fetchCourses() {
             console.error("Failed to fetch courses:", response.statusText);
         }
     }catch (error) {
-        console.error('Error fetching student name:', error);
+        console.error('Error fetching courses :', error);
     }
 }
 document.addEventListener("DOMContentLoaded", fetchCourses);

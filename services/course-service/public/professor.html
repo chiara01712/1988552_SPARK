@@ -18,22 +18,27 @@
       </div>
       
       <div id="main">
-        <div class="header">
-            <img id="openNav" src="./images/menu.png" class="menu" onclick="open_Menu()">
-            <div class="wrapper">
-                <img src="./images/Spark-LOGO-removebg-preview.png" id="logo">
-            </div>
-            <img id="profile" src="./images/profilo.png" alt="" onclick="open_Profile()">
-        </div>
+        <table class="header">
+            <tr>
+                <th style="width: 15%;"></th>
+                <th > 
+                    <img src="./images/Spark-LOGO-removebg-preview.png" id="logo">
+                </th>
+                <th><h1 id="welcomeUser"></h1></th>
+                <th style="text-align: right;">
+                    <img id="profile" src="./images/profilo.png" alt="" onclick="open_Profile()">
+                </th>
+            </tr>
+            
+        </table>
+        
 
     <!-- Da aggiungere la funzione che aggiunge i corsi a "courses"-->
     <div class ="container"> 
         <h1>My courses</h1>
         <div class ="container-box" id="coursesContainer">   
-            
-        </div>
-        <div class ="container-box" id="course-box">  
             <!-- Courses will be dynamically loaded here --> 
+             
         </div>
     </div>
 

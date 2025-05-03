@@ -79,7 +79,7 @@ function getCookie(name) {
   const parts = value.split(`; ${name}=`);
   if (parts.length === 2) return parts.pop().split(';').shift();
 }
-
+/* 
 function changeTag(box, tag){
   if ( tag == 'Computer Science'){
     box.classList.add("cs");
@@ -95,7 +95,7 @@ function changeTag(box, tag){
   }
 }
 
-
+ */
 
 function search(prefix) {
   const container = document.getElementById('course-container');
@@ -141,9 +141,10 @@ async function loadCourses() {
 
     if (response.status === 200) {
       const res = await response.json();
-      if (!res || res.length === 0) {
+      if (!res || res.length === 0 || res.response=="courses not found") {
         noResults.style.display = "block";
       }
+
       else {
         noResults.style.display = "none";
         res.forEach(course => {
@@ -160,6 +161,7 @@ async function loadCourses() {
     console.error("Error in LoadCourses", error);
   };
 };
+//document.addEventListener("DOMContentLoaded", loadCourses);
 
 
 function createResultBox(courseName, professorName, courseId, isSubscribed) {
@@ -230,8 +232,8 @@ function createResultBox(courseName, professorName, courseId, isSubscribed) {
 
   return resultBox;
 }
-
-document.getElementById("add").addEventListener("click", searchCourses);
+ 
+//document.getElementById("add").addEventListener("click", searchCourses);
 
 async function searchCourses() {
   const professor = document.getElementById("description").value.trim();
@@ -328,5 +330,32 @@ async function refreshCourseContainer() {
 }
 
 
-document.addEventListener("DOMContentLoaded", loadCourses);
+
+// Request for the name of the student to user-service
+async function fetchUsername() {
+  const studentId = getCookie("user_Id");
+  try{
+      const response = await fetch('/getUsername', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ id: studentId, target: "getUsername" }),
+      });
+
+      if(response.status === 200) {
+          const res = await response.json();
+          const student = res.response
+          
+          console.log("Student name fetched successfully:", student);
+
+      }
+      else{
+          console.error("Failed to fetch student name:", response.statusText);
+      }
+  } catch (error) {
+      console.error('Error fetching student name:', error);
+  }
+}
+document.addEventListener("DOMContentLoaded", fetchUsername);
 

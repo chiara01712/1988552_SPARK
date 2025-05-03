@@ -72,7 +72,7 @@ function closePopup(popup, overlay) {
   document.getElementById(popup).classList.remove("popupactive");
   document.getElementById(overlay).classList.remove("overlayactive");
 }
-
+/* 
 function changeTag(box, tag, title) {
   if (tag === 'Computer Science') box.classList.add("cs");
   if (tag === 'Math') box.classList.add("math");
@@ -81,7 +81,7 @@ function changeTag(box, tag, title) {
     title.style.color = 'black';
   }
   if (tag === 'Tech') box.classList.add("tech");
-}
+} */
 
 function getQueryParams() {
   return {

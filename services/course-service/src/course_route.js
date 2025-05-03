@@ -1,6 +1,8 @@
 const express = require('express');
 const { CourseService } = require('./course_service');
 const { CourseRepo } = require('./course_repo');
+const RabbitMQCourse = require('./rabbitmq/course-s');
+
 
 const {Course, Quiz, QuizAnswer, Material} = require("./course");
 const jwt = require('jsonwebtoken');
@@ -70,6 +72,22 @@ router.post('/addStudentToCourse', async (req, res) => {
   }
 });
   
+
+// 1. When a post request is made to /getUsername, call the produce method of the RabbitMQCourse class
+// go to the producer.js file and see the produce method
+router.post("/getUsername", async (req, res, next) => {
+  console.log("/getUsername",req.body);
+  console.log("Type of req.body:", typeof req.body);
+  try {
+    const { randomUUID } = require("crypto");
+    const correlationId = randomUUID();
+    const replyToQueue = "rpc_queue"; // or fetch it from config if needed
+    const response = await RabbitMQCourse.produce(req.body, correlationId, replyToQueue);
+    res.send({ response });
+  } catch (error) {
+    next(error); 
+  }
+});
   
 router.get("/home", (req, res) => {
     const token = req.cookies.access_token;

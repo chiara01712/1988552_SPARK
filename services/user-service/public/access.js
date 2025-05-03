@@ -79,9 +79,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 } else {
                     const errorText = await response.text();
                     console.error("Login failed:", errorText);
+                    alert(errorText);
                 }
             } catch (error) {
                 console.error("Error during login:", error);
+                alert(errorText);
             }
 
             

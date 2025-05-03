@@ -6,6 +6,7 @@
 
 
 body {
+    overflow-x: hidden;
     background: #293b5c;
 
 }
@@ -483,8 +484,8 @@ button {
     border-radius: 50px;
     top : 210px;
     position: absolute;
-    left: 1080px;
-    top: 150px;
+    right: 20%;
+    top: 10%;
 }
 
 .searchButton {

@@ -9,7 +9,7 @@ class NoteService{
     async addNote(req) {
         console.log("Received Request Body:", req.body); // Debugging log
 
-        const { student_id, course_id, title, description, file_url, file_type } = req.body;
+        const { student_id, course_id, title, description, file_url, file_type, tag } = req.body;
         const id = require('uuid').v4(); // Generate a UUID for the note
 
         if (!student_id  || !title || !file_url || !file_type) {
@@ -17,7 +17,7 @@ class NoteService{
         }
 
         try {
-            const note = await this.noteRepo.addNote(id, student_id, course_id, title, description, file_url, file_type);
+            const note = await this.noteRepo.addNote(id, student_id, course_id, title, description, file_url, file_type, tag);
             if (!note) {
                 return { status: 500, message: 'Internal server error' };
             }

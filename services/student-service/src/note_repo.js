@@ -6,8 +6,8 @@ class NoteRepo{
         this.noteModel = noteModel;
     }
 
-    async addNote(uuidV4, student_id, course_id, title, description, file_url, file_type) {
-        console.log("AAA",student_id, course_id, title, description, file_url, file_type);
+    async addNote(uuidV4, student_id, course_id, title, description, file_url, file_type,tag) {
+        console.log("AAA",student_id, course_id, title, description, file_url, file_type,tag);
         try {
           const newNote = await this.noteModel.create({
             id: uuidV4,       // Set the generated UUID
@@ -16,7 +16,8 @@ class NoteRepo{
             title,              // Insert the title
             description,        // Insert the description
             file_url,           // Insert the file_url
-            file_type           // Insert the file_type
+            file_type,           // Insert the file_type
+            tag,
           });
           return newNote;     // Return the created note object
         } catch (error) {

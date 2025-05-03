@@ -27,7 +27,7 @@ const Note = sequelize.define('note', {
     allowNull: false
   },
   course_id: {
-    type: Sequelize.UUID,
+    type: Sequelize.STRING,
     allowNull: true
   },
   title: {
@@ -46,6 +46,10 @@ const Note = sequelize.define('note', {
     type: Sequelize.ENUM('pdf', 'doc', 'image'),
     allowNull: true
   },
+  tag: {
+      type: Sequelize.ENUM('Arts & Design', 'Business & Management','Communication & Media', 'Engineering & Technology','Health & Life Sciences','Humanities','Law & Legal Studies','Mathematical Sciences','Natural Sciences', 'Social Sciences'),
+      allowNull: true
+    }
 }, {
   timestamps: false
 });
@@ -65,10 +69,11 @@ sequelize.sync({ force: false })
       },
       defaults: {
         title: 'Nota di esempio',
-        course_id: uuidv4(), 
+        course_id: 'mate', 
         description: 'decription.',
         file_url: 'https://example.com/file.pdf',
         file_type: 'pdf',
+        tag: 'Humanities',
         uploaded_at: new Date()  
       }
     });

@@ -3,6 +3,7 @@ const { Channel, Connection,connect } = require("amqplib");
 const config = require("../../config");
 const Consumer = require("./consumer");
 const Producer = require("./producer");
+const { EventEmitter } = require("events");
 
 
 class RabbitMQCourse {
@@ -35,12 +36,18 @@ class RabbitMQCourse {
           config.rabbitMQ.queues.rpcQueueC,
           { exclusive: false }
         );
-
+        // Initialize the EventEmitter to handle the communication between the producer and consumer
+        this.eventEmitter = new EventEmitter();
         // Initialize the producer and consumer
-        this.producer = new Producer(this.producerChannel,);
+        this.producer = new Producer(
+          this.producerChannel,
+          rpcQueueC,
+          this.eventEmitter
+        );
         this.consumer = new Consumer(
           this.consumerChannel,
-          rpcQueueC
+          rpcQueueC,
+          this.eventEmitter
         );
 
         // Start consuming messages

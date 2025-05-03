@@ -82,7 +82,8 @@ async function fetchNotes() {
                     const noteHtml = `
                         <div class="box ${isActive}" id="note-${id}">
                             <h2>${note.title}</h2>
-                            <h4 onclick="showFile('${note.file_type}', '${note.file_url}')">Download File</h4>
+                            <h4 onclick="showFile('${note.file_type}', '${note.file_url}')">View File</h4>
+                            <h4 href="${note.file_url}" download>Download File</h4>
                         </div>
                     `;
                     carouselContent.innerHTML += noteHtml;
@@ -98,21 +99,9 @@ async function fetchNotes() {
 }
 function showFile(file_type,url){
     console.log("entering show function");
-    if(file_type=="image"){
-        document.getElementById('overlay').classList.add("overlayactive");
-        document.getElementById('overlay').innerHTML+= `<embed type="image/png" src="`+url+`" width="500" height="400" >`;
-    }
-    
-    else {
-        document.getElementById('overlay').classList.add("overlayactive");
-        document.getElementById('overlay').innerHTML+= `
-        
-    <embed src="`+url+`" type="application/pdf" width="100%" height="100%">
-        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="`+url+`">Download PDF</a>.</p>
-    </embed> 
-`;
-
-    }
+    sessionStorage.setItem("url",url);
+    sessionStorage.setItem("file_type", file_type);
+    window.location.href = "notes_viewer.html";    
 }
 document.addEventListener('DOMContentLoaded', fetchNotes);
 
@@ -153,7 +142,7 @@ function close_Profile() {
 }
 
 
-const file_type="";
+
 document.addEventListener("DOMContentLoaded", function () {
     // Handle form submission
     const noteForm = document.getElementById("noteForm");
