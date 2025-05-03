@@ -237,7 +237,8 @@ const quizzes = [
 
 const { v4: uuidv4 } = require('uuid');
 // Create the tables if they don't exist (according to the model)
-sequelize.sync({ force: true }) 
+//sequelize.sync({ force: true }) 
+sequelize.sync({ force: false }) 
 
 .then(() => {
   console.log('Material table ready.');
@@ -278,7 +279,7 @@ sequelize.sync({ force: true })
         '423e4567-e89b-12d3-a456-426614174003'
       ],
       professor_name: 'Leonardi',
-      tag: 'Tech'
+      tag: 'Humanities'
       
     }
   }); 
@@ -297,7 +298,7 @@ sequelize.sync({ force: true })
         '123e4567-e89b-12d3-a456-426614174000',
       ],
       professor_name: 'D Amore',
-      tag: 'Computer Science'
+      tag: 'Engineering & Technology'
        
     }
   });

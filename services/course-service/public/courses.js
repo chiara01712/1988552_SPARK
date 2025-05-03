@@ -141,7 +141,7 @@ async function loadCourses() {
 
     if (response.status === 200) {
       const res = await response.json();
-      if (!res || res.length === 0) {
+      if (!res || res.length === 0 || res.response=="courses not found") {
         noResults.style.display = "block";
       }
       else {
@@ -328,4 +328,33 @@ async function refreshCourseContainer() {
 
 
 document.addEventListener("DOMContentLoaded", loadCourses);
+
+// Request for the name of the student to user-service
+async function fetchUsername() {
+  const studentId = getCookie("user_Id");
+  try{
+      const response = await fetch('/getUsername', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ id: studentId, target: "getUsername" }),
+      });
+
+      if(response.status === 200) {
+          const res = await response.json();
+          const student = res.response
+          
+          console.log("Student name fetched successfully:", student);
+
+      }
+      else{
+          console.error("Failed to fetch student name:", response.statusText);
+      }
+  } catch (error) {
+      console.error('Error fetching student name:', error);
+  }
+}
+document.addEventListener("DOMContentLoaded", fetchUsername);
+
 

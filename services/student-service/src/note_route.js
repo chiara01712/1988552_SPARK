@@ -5,8 +5,8 @@ const RabbitMQNote = require('./rabbitmq/note-s');
 const Note = require("./note")
 const jwt = require('jsonwebtoken');
 const path = require('path');
-const multer = require("multer");
-const fs = require('fs');
+
+
 
 const router = express.Router();
 const noteRepo = new NoteRepo(Note);
@@ -108,46 +108,6 @@ router.get("/home", (req, res) => {
       return res.status(401).json({ message: 'Unauthorized' });
     }
 });
-
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const addressLine = "./public/uploads";
-    try {
-      fs.mkdirSync(addressLine, { recursive: true }); // Create directory if it doesn't exist
-      cb(null, addressLine);
-    } catch (err) {
-      cb(err); // Pass the error to multer
-    }
-  },
-  filename: (req, file, cb) => {
-    const name = Date.now() + '-' + file.originalname;
-    cb(null, name);
-  },
-});
-const upload = multer({ 
-  storage: storage,
-  limits: { fileSize: 5000000 }, // 5MB file size limit
-});
-
-router.post('/upload', upload.single('file'), (req, res) => {
-    console.log("Request body:", req.body);
-    console.log("Uploaded file:", req.file);
-
-    if (!req.file) {
-        return res.status(400).json({ error: 'No file uploaded or invalid file type' });
-    }
-    return res.status(200).json({ message: 'File uploaded successfully', filename: req.file.filename });
-});
-/* router.post("/download", function (req, res) {
-
-  // The res.download() talking file path to be downloaded
-  res.download(__dirname + "/notes_files/", function (err) {
-    if (err) {
-      console.log(err);
-    }
-  });
-}); */
 
   
 module.exports = router;

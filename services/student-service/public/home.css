@@ -272,7 +272,6 @@ button {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin: 10px;
-    cursor: default;
 }
 
 .container-box .box h2 {
@@ -282,7 +281,6 @@ button {
     margin: 0 0 10px 0;
     overflow: hidden;
     text-overflow: ellipsis;
-    
 }
 
 .container-box .box::-webkit-scrollbar { 

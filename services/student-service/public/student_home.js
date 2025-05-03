@@ -31,6 +31,7 @@ function getCookie(name) {
 
 // Fetch notes when the page loads
 async function fetchNotes() {
+
     const studentId = getCookie("user_Id");
     try {
         const response = await fetch('/getNotes', {
@@ -45,56 +46,33 @@ async function fetchNotes() {
             const notes = await response.json();
             console.log("Notes fetched successfully:", notes);
             const carouselContent = document.getElementById('note-box');
-            const noResults = document.getElementById("no-results");
-            if (notes.length === 0) {
-                noResults.style.display = "block";
-            }
-            else {
-                noResults.style.display = "none"; 
-                carouselContent.innerHTML = '';
-                let id = 0; 
-                notes.forEach((note, index) => {
-                    const isActive = index === 0 ? 'active' : '';
-                    const noteHtml = `
-                        <div class="box ${isActive}" id="note-${id}">
-                            <h2>${note.title}</h2>
-                            <h4 onclick="showFile('${note.file_type}', '${note.file_url}')">Download File</h4>
-                        </div>
-                    `;
-                    carouselContent.innerHTML += noteHtml;
-                    id++;
-                });
-            }
+            carouselContent.innerHTML = '';
 
+            if (notes.length === 0) {
+                carouselContent.innerHTML = '<div class="box">No notes available</div>';
+                return;
+            }
             
+
+            let id = 0; 
+            notes.forEach((note, index) => {
+                const isActive = index === 0 ? 'active' : '';
+                const noteHtml = `
+                    <div class="box ${isActive}" id="note-${id}">
+                        <h2>${note.title}</h2>
+                        ${note.file_url ? `<a href="${note.file_url}" target="_blank">Download File</a>` : ''}
+                    </div>
+                `;
+                carouselContent.innerHTML += noteHtml;
+                id++;
+            });
         }
     }catch (error) {
         console.error('Error fetching notes:', error);
     }
 }
+
 document.addEventListener('DOMContentLoaded', fetchNotes);
-
-function showFile(file_type,url){
-    console.log("entering show function");
-    if(file_type=="image"){
-        document.getElementById('overlay').classList.add("overlayactive");
-        document.getElementById('overlay').innerHTML+= `<embed type="image/png" src="`+url+`" width="500" height="400" >`;
-    }
-    
-    else {
-        document.getElementById('overlay').classList.add("overlayactive");
-        document.getElementById('overlay').innerHTML+= `
-        
-    <embed src="`+url+`" type="application/pdf" width="100%" height="100%">
-        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="`+url+`">Download PDF</a>.</p>
-    </embed> 
-`;
-
-    }
-}
-function closeOverlay(overlay){
-    document.getElementById(overlay).classList.remove("overlayactive");
-}
 
 function open_Menu() {
     document.getElementById("mySidebar").style.width = "25%";
@@ -167,7 +145,7 @@ async function fetchCourses() {
 
         if(response.status === 200) {
             const res = await response.json();
-            const courses = res.response;
+            const courses = res.response
             
             console.log("Courses fetched successfully:", courses);
 
@@ -175,15 +153,9 @@ async function fetchCourses() {
              carouselContent.innerHTML = '';
 
              if (courses.length === 0) {
-                console.log("error in the response from courses");
-                 carouselContent.innerHTML = '<div class="box">No courses available</div>';
+                 carouselContent.innerHTML = '<div class="box"> No courses available</div>';
                  return;
              }
-             else if(courses == 'courses not found'){
-                console.log("courses not found");
-                carouselContent.innerHTML = '<div class="box">No courses available</div>';
-                return;
-            }
 
              let id = 0; 
              courses.forEach((course, index) => {

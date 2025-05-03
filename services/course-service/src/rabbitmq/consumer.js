@@ -10,9 +10,10 @@ class Consumer {
     // rpcQueueC is the queue to consume messages from
     // eventEmitter is the event emitter to handle the communication between the producer and consumer
 
-  constructor(channel, rpcQueueC) {
+  constructor(channel, rpcQueueC, eventEmitter) {
     this.channel = channel;
     this.rpcQueueC = rpcQueueC;
+    this.eventEmitter = eventEmitter;
     
   }
 
@@ -29,14 +30,26 @@ class Consumer {
     this.channel.consume(
         this.rpcQueueC,
         async (message) => {
+          
           console.log("Course Message received:", message.content.toString());
           const { correlationId, replyTo } = message.properties;
+          console.log("Corr Id"+ correlationId);
   
-          if (!correlationId || !replyTo) {
+          if (!correlationId ) {
             console.log("Missing some properties...");
             return;
           }
-          // To understand which function to call (query) to reterieve the data that the client needs
+          else if( !replyTo){
+            console.log("Emitting correlationId:", message.properties.correlationId);
+            console.log("Emitting type:", typeof message.properties.correlationId);     
+            this.eventEmitter.emit(
+              message.properties.correlationId.toString(),
+              message
+            );
+            
+          }
+          else{
+            // To understand which function to call (query) to reterieve the data that the client needs
           //const operation = message.properties.headers.function;
 
           let response = {};
@@ -54,10 +67,16 @@ class Consumer {
           
           if (!courses) {
             console.log("courses not found");
-            response = "";
+            response = {
+              target: "returnCourses",
+              content: "courses not found",
+            }  ;
           }
           else {
-            response =  courses ;
+            response = {
+              target: "returnCourses",
+              content: courses,
+            }  ;
           }
           
    
@@ -67,6 +86,8 @@ class Consumer {
             await RabbitMQCourse.initPromise;  // Wait for RabbitMQCourse to be initialized
             
             await RabbitMQCourse.produce(response, correlationId, replyTo);    
+          }
+          
         },
         {
         noAck: true, 
