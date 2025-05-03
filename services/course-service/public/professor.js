@@ -46,6 +46,41 @@ function closePopup(popup, overlay){
     document.getElementById(overlay).classList.remove("overlayactive");
 }
 
+function changeTag(tag){
+  if ( tag == 'Arts & Design'){
+    return("art");
+  }
+  if ( tag == 'Business & Management'){
+    return("bam");
+  }
+  if ( tag == 'Communication & Media'){
+    return("cam");
+  }
+  if ( tag == 'Engineering & Technology'){
+    return("engandtech");
+  }
+  if ( tag == 'Health & Life Sciences'){
+    return("handlife");
+  }
+  if ( tag == 'Humanities'){
+    return("human");
+  }
+  if ( tag == 'Law & Legal Studies'){
+    return("law");
+  }
+  if ( tag == 'Mathematical Sciences'){
+    return("math");
+  }
+  if ( tag == 'Natural Sciences'){
+    return("natty");
+  }
+  if ( tag == 'Social Sciences'){
+    return("social");
+  }
+}
+
+
+
 async function loadCourses() {
   const professorId = getCookie("user_Id");
     try {
@@ -69,7 +104,7 @@ async function loadCourses() {
       courses.forEach(course => {
         const box = document.createElement('div');
         box.className = 'box';
-        box.id = course.tag ? course.tag.toLowerCase().replace(/\s+/g, '-') : `course-${course.id}`;
+        box.id = changeTag(course.tag);
 
         box.addEventListener('click', () => {
           // Crea l'URL con i parametri

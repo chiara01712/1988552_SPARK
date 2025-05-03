@@ -79,23 +79,41 @@ function getCookie(name) {
   const parts = value.split(`; ${name}=`);
   if (parts.length === 2) return parts.pop().split(';').shift();
 }
-/* 
+
 function changeTag(box, tag){
-  if ( tag == 'Computer Science'){
-    box.classList.add("cs");
+  if ( tag == 'Arts & Design'){
+    box.classList.add("art");
   }
-  if ( tag == 'Math'){
+  if ( tag == 'Business & Management'){
+    box.classList.add("bam");
+  }
+  if ( tag == 'Communication & Media'){
+    box.classList.add("cam");
+  }
+  if ( tag == 'Engineering & Technology'){
+    box.classList.add("engandtech");
+  }
+  if ( tag == 'Health & Life Sciences'){
+    box.classList.add("handlife");
+  }
+  if ( tag == 'Humanities'){
+    box.classList.add("human");
+  }
+  if ( tag == 'Law & Legal Studies'){
+    box.classList.add("law");
+  }
+  if ( tag == 'Mathematical Sciences'){
     box.classList.add("math");
   }
-  if ( tag == 'Science'){
-    box.classList.add("science");
+  if ( tag == 'Natural Sciences'){
+    box.classList.add("natty");
   }
-  if ( tag == 'Tech'){
-    box.classList.add("tech");
+  if ( tag == 'Social Sciences'){
+    box.classList.add("social");
   }
 }
 
- */
+
 
 function search(prefix) {
   const container = document.getElementById('course-container');

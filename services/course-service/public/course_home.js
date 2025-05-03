@@ -72,16 +72,41 @@ function closePopup(popup, overlay) {
   document.getElementById(popup).classList.remove("popupactive");
   document.getElementById(overlay).classList.remove("overlayactive");
 }
-/* 
-function changeTag(box, tag, title) {
-  if (tag === 'Computer Science') box.classList.add("cs");
-  if (tag === 'Math') box.classList.add("math");
-  if (tag === 'Science') {
-    box.classList.add("science");
-    title.style.color = 'black';
+
+function changeTag(box, tag){
+  if ( tag == 'Arts & Design'){
+    box.classList.add("art");
   }
-  if (tag === 'Tech') box.classList.add("tech");
-} */
+  if ( tag == 'Business & Management'){
+    box.classList.add("bam");
+  }
+  if ( tag == 'Communication & Media'){
+    box.classList.add("cam");
+  }
+  if ( tag == 'Engineering & Technology'){
+    box.classList.add("engandtech");
+  }
+  if ( tag == 'Health & Life Sciences'){
+    box.classList.add("handlife");
+  }
+  if ( tag == 'Humanities'){
+    box.classList.add("human");
+  }
+  if ( tag == 'Law & Legal Studies'){
+    box.classList.add("law");
+  }
+  if ( tag == 'Mathematical Sciences'){
+    box.classList.add("math");
+  }
+  if ( tag == 'Natural Sciences'){
+    box.classList.add("natty");
+  }
+  if ( tag == 'Social Sciences'){
+    box.classList.add("social");
+  }
+}
+
+
 
 function getQueryParams() {
   return {
@@ -98,7 +123,7 @@ function populateCourseDetails() {
   const tagTitle = document.getElementById('titlebox');
   if (courseTitle && tagTitle) {
     courseTitle.textContent = title;
-    changeTag(tagTitle, subject, courseTitle);
+    changeTag(tagTitle, subject);
   }
 }
 

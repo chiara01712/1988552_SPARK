@@ -599,18 +599,41 @@ button:active {
     border: #0aed3f solid 3px;
 }
 
-.cs{
-    background-image: url("images/BGcompscience.png");
+.art{
+    background-image: url("images/Arts.png");
 }
 
-.tech{
-    background-image: url("images/BGTech.png");
+.bam{
+    background-image: url("images/Business.jpg");
+}
+
+.cam{
+    background-image: url("images/Communication.png");
+}
+
+.engandtech{
+    background-image: url("images/Engineering.png");
+}
+
+.handlife{
+    background-image: url("images/HealthLife.jpg");
+}
+.human{
+    background-image: url("images/Humanities.png");
+}
+
+.law{
+    background-image: url("images/Law.jpg");
 }
 
 .math{
-    background-image: url("images/BGMath.png");
+    background-image: url("images/Math.png");
 }
 
-.science{
-    background-image: url("images/BGscience.png");
+.natty{
+    background-image: url("images/NatScience.png");
+}
+
+.social{
+    background-image: url("images/SocialScience.png");
 }

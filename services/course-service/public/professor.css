@@ -380,3 +380,40 @@ button {
     border-radius:30px;
     transition: 200ms;
 }
+
+#art{
+    background-image: url("images/Arts.png");
+}
+
+#bam{
+    background-image: url("images/Business.jpg");
+}
+
+#cam{
+    background-image: url("images/Communication.png");
+}
+
+#engandtech{
+    background-image: url("images/Engineering.png");
+}
+
+#handlife{
+    background-image: url("images/HealthLife.jpg");
+}
+#human{
+    background-image: url("images/Humanities.png");
+}
+#law{
+    background-image: url("images/Law.jpg");
+}
+#math{
+    background-image: url("images/Math.png");
+}
+
+#natty{
+    background-image: url("images/NatScience.png");
+}
+
+#social{
+    background-image: url("images/SocialScience.png");
+}
