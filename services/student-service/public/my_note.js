@@ -1,3 +1,4 @@
+
 async function signOut() {
     console.log("Logout function called");
     
@@ -55,6 +56,7 @@ function search(prefix) {
 
 // Fetch notes when the page loads
 async function fetchNotes() {
+    const noResults = document.getElementById("no-results");
     const studentId = getCookie("user_Id");
     try {
         const response = await fetch('/getNotes', {
@@ -69,12 +71,12 @@ async function fetchNotes() {
             const notes = await response.json();
             console.log("Notes fetched successfully:", notes);
             const carouselContent = document.getElementById('note-box');
-            const noResults = document.getElementById("no-results");
+            
             if (notes.length === 0) {
                 noResults.style.display = "block";
             }
             else {
-                noResults.style.display = "none"; 
+                noResults.style.display = "none";
                 carouselContent.innerHTML = '';
                 let id = 0; 
                 notes.forEach((note, index) => {
@@ -144,6 +146,8 @@ function close_Profile() {
 
 
 document.addEventListener("DOMContentLoaded", function () {
+    
+
     // Handle form submission
     const noteForm = document.getElementById("noteForm");
     if(noteForm){
@@ -154,42 +158,14 @@ document.addEventListener("DOMContentLoaded", function () {
             const courseId = document.getElementById("courseId").value;
             const title = document.getElementById("title").value;
             const description = document.getElementById("description").value;
-            const file = document.getElementById("file");
+            const fileUrl = document.getElementById("fileUrl").value;
             const fileType = document.getElementById("fileType").value;
-            
-            if (!file.files[0]) {
-                console.error("No file selected for upload.");
-                return;
-            }
-            
-            let fileNmae= "";            
-            try {
-                const formData = new FormData();
-                formData.append('file', file.files[0]); // Append the file
-
-                const v = await fetch("/upload", {
-                    method: "POST",
-                    body: formData, // Use FormData as the body
-                });
-
-                if (v.status === 200) {
-                    const ret = await v.json();
-                    console.log("File uploaded successfully:", ret);
-                    fileNmae=ret.filename;
-                } else {
-                    console.error("Failed to add file:", v.statusText);
-                }
-            } catch (error) {
-                console.error("Error adding file:", error);
-            }
-            let baseUrl = "./uploads/"+fileNmae;
-
             const data = {
                 student_id: studentId,
                 course_id: courseId,
                 title: title,
                 description: description,
-                file_url: baseUrl,
+                file_url: fileUrl,
                 file_type: fileType
             };
             console.log("data",data);
@@ -208,8 +184,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 } else {
                     console.error("Failed to add note:", response.statusText);
                 }
-                   
-            }catch (error) {
+            } catch (error) {
                 console.error("Error adding note:", error);
             }
             
@@ -222,7 +197,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("noteForm").addEventListener("submit", function (event) {
         event.preventDefault(); // Prevent page refresh
         fetchNotes(); // Refresh the notes after adding a new one
-        //popup.style.display = "none"; // Hide modal after submission
+        pop.style.display = "none"; // Hide modal after submission
     });
 
 

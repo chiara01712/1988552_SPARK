@@ -170,40 +170,28 @@ button {
 
 .container {
     background-color : white;
-    width: 70%;
-    height: 25rem;
+    width: 60%;
+    height: 40rem;
     border-radius: 30px;
     border: 0;
-    margin: 0 auto;    
+    margin: 0 auto;
+    
 }
   /* Container for all the notes */
   .container-box{
-    height: 50%;
+    height: 80%;
     width: 100%;
-    margin-bottom: 20px;
-    margin-left: 20px;
     overflow-y: scroll;
     overflow-x: hidden; 
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    flex-wrap: wrap;
 }
 /*Box of a single note*/
-.container-box .box {
-    padding: 15px;
-    background-color: #f0f0f0;    
-    width: 200px;
-    min-height: 150px;
-    border-radius: 15px;
-    position: relative;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin: 10px;
-    cursor: default;
+.box {
+    width: 80%;
+    margin: 0 auto;
+    height: 60%;
+    border-radius: 30px;
+    background-size: cover;
 }
-
 .container-box .box h2 {
     width: 100%;
     font-size: 18px;
@@ -211,7 +199,6 @@ button {
     margin: 0 0 10px 0;
     overflow: hidden;
     text-overflow: ellipsis;
-    
 }
 .box h2{
     width: max-content;
@@ -255,10 +242,6 @@ button {
     border-radius: 10px;
   }
   
-  /* Quando si passa sopra con il mouse */
-  .container::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }   
 
 .container h1{
     font-size: 40px;

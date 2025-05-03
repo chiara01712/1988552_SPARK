@@ -1,6 +1,23 @@
-/* const prof_id = "015a5b67-a570-4a7c-8f30-5ce374fac818"; // DA SOSTITUIRE CON QUELLI PASSATI DAL LOGIN
+
+/*const prof_id = "015a5b67-a570-4a7c-8f30-5ce374fac818"; // DA SOSTITUIRE CON QUELLI PASSATI DAL LOGIN
 const prof_name = "Leonardi";
  */
+
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+function open_Profile() {
+  document.getElementById("profileSidebar").style.width = "25%";
+  document.getElementById("profileSidebar").style.display = "block";
+  document.getElementById("overlaysidebar").classList.add("overlayactive");
+}
+function close_Profile() {
+  document.getElementById("profileSidebar").style.display = "none";
+  document.getElementById("overlaysidebar").classList.remove("overlayactive");
+}
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -81,7 +98,7 @@ async function loadCourses() {
   document.addEventListener("DOMContentLoaded", loadCourses);
 
 
-// Request for the name of the student to user-service
+  // Request for the name of the student to user-service
 async function fetchUsername() {
   const studentId = getCookie("user_Id");
   try{
@@ -116,8 +133,6 @@ async function fetchUsername() {
   }
 }
 document.addEventListener("DOMContentLoaded", fetchUsername);
-
-
 
 // Access the value directly when needed
 async function addCourse(popupId, overlayId) {

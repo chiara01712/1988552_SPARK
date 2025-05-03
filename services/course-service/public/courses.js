@@ -18,9 +18,9 @@ function closePopup(popupId, overlayId) {
 }
 
 // Apre il popup di ricerca
-function openSearchPopup(popupId, overlayId) {
-  document.getElementById(popupId).classList.add("popupactive");
-  document.getElementById(overlayId).classList.add("overlayactive");
+function openSearchPopup() {
+  document.getElementById('popup-search').classList.add("popupactive");
+  document.getElementById('overlay-search').classList.add("overlayactive");
 
 }
 // Chiude il popup di ricerca
@@ -253,32 +253,31 @@ async function searchCourses() {
       headers: {
         'Content-Type': 'application/json',
         'professor_name': professor,
-        'course_name': course ,
-        'student_id': studentId 
+        'course_name': course,
+        'student_id': studentId
       }
     });
 
     if (response.status === 200) {
       const res = await response.json();
       console.log("Corsi trovati:", res);
-      
-      if (res.length === 0) {
-        resultsContainer.innerHTML = "<p>Oopss..no course has been found.</p>";
-        return;
-      }
 
-      res.forEach(course => {
-        const box = createResultBox(course.title, course.professor_name, course.id, course.isSubscribed);
-        changeTag(box,course.tag); 
-        resultsContainer.appendChild(box);
-      });
-    
-    
-  } 
-    
-    else {
+      if (res.length === 0) {
+        resultsContainer.innerHTML = "<p>Oopss... no course has been found.</p>";
+      } else {
+        res.forEach(course => {
+          const box = createResultBox(course.title, course.professor_name, course.id, course.isSubscribed);
+          changeTag(box, course.tag);
+          resultsContainer.appendChild(box);
+        });
+      }
+      
+      openSearchPopup();
+
+    } else {
       console.error("Errore nella richiesta:", response.status);
     }
+
   } catch (error) {
     console.error("Errore nella fetch:", error);
   }
@@ -358,4 +357,33 @@ async function fetchUsername() {
   }
 }
 document.addEventListener("DOMContentLoaded", fetchUsername);
+
+// Request for the name of the student to user-service
+async function fetchUsername() {
+  const studentId = getCookie("user_Id");
+  try{
+      const response = await fetch('/getUsername', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ id: studentId, target: "getUsername" }),
+      });
+
+      if(response.status === 200) {
+          const res = await response.json();
+          const student = res.response
+          
+          console.log("Student name fetched successfully:", student);
+
+      }
+      else{
+          console.error("Failed to fetch student name:", response.statusText);
+      }
+  } catch (error) {
+      console.error('Error fetching student name:', error);
+  }
+}
+document.addEventListener("DOMContentLoaded", fetchUsername);
+
 

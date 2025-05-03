@@ -8,7 +8,7 @@
     <title>Studen_home</title>
 </head> 
 <body>
-          
+      
       <div class="sidebar"  id="profileSidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="close_Profile()">&times;</a>
         <div class = "menu-items" >
@@ -21,26 +21,24 @@
         <table class="header">
             <tr>
                 <th style="width: 15%;"></th>
-                <th > 
+                <th>
                     <img src="./images/Spark-LOGO-removebg-preview.png" id="logo">
                 </th>
-                <th><h1 id="welcomeUser"></h1></th>
+                <th>
+                    <h1 id="welcomeUser"></h1>
+                </th>
                 <th style="text-align: right;">
                     <img id="profile" src="./images/profilo.png" alt="" onclick="open_Profile()">
                 </th>
             </tr>
-            
         </table>
-        
 
     <!-- Da aggiungere la funzione che aggiunge i corsi a "courses"-->
     <div class ="container"> 
         <h1>My courses</h1>
         <div class ="container-box" id="coursesContainer">   
-            <!-- Courses will be dynamically loaded here --> 
-             
+            
         </div>
-    </div>
 
     <button class="new_course" onclick="openPopup('popup','overlay')">Add course</button>
 

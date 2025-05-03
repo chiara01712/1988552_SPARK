@@ -3,7 +3,6 @@ const { CourseService } = require('./course_service');
 const { CourseRepo } = require('./course_repo');
 const RabbitMQCourse = require('./rabbitmq/course-s');
 
-
 const {Course, Quiz, QuizAnswer, Material} = require("./course");
 const jwt = require('jsonwebtoken');
 const path = require('path');
@@ -60,8 +59,6 @@ router.post('/addCourse', async (req, res) => {
   }
 });
 
-
-
 router.post('/addStudentToCourse', async (req, res) => {
   try {
     const response = await courseService.addStudentToCourse(courseId, studentId);
@@ -69,6 +66,20 @@ router.post('/addStudentToCourse', async (req, res) => {
   } catch (error) {
     console.error('Error adding student to course:', error);
     res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+router.post("/getUsername", async (req, res, next) => {
+  console.log("/getUsername",req.body);
+  console.log("Type of req.body:", typeof req.body);
+  try {
+    const { randomUUID } = require("crypto");
+    const correlationId = randomUUID();
+    const replyToQueue = "rpc_queue"; // or fetch it from config if needed
+    const response = await RabbitMQCourse.produce(req.body, correlationId, replyToQueue);
+    res.send({ response });
+  } catch (error) {
+    next(error); 
   }
 });
   
@@ -257,6 +268,29 @@ router.get('/getStudentsByCourseID/:courseId', async (req, res) => {
   } catch (error) {
     console.error('Error fetching students:', error);
     res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
+router.post('/subscribeToCourse', async (req, res) => {
+  const { student_id, course_id } = req.body;
+  console.log("Student ID:", student_id, "Course ID:", course_id);
+  try {
+    await courseService.subscribeToCourse(student_id, course_id);
+    res.status(200).send("Iscritto al corso");
+  } catch (err) {
+    console.error("Errore in /subscribeToCourse:", err); // <--- LOG DETTAGLIATO
+    res.status(500).send("Errore iscrizione");
+  }
+});
+
+router.post('/unsubscribeFromCourse', async (req, res) => {
+  const { student_id, course_id } = req.body;
+  try {
+    await courseService.unsubscribeFromCourse(student_id, course_id);
+    res.status(200).send("Disiscritto dal corso");
+  } catch (err) {
+    res.status(500).send("Errore disiscrizione");
   }
 });
 

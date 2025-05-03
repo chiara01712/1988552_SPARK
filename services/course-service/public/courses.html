@@ -51,13 +51,53 @@
                     </p>
                 </div>
         </div>
+
+        <button class="new_course" id="addcourse" onclick="openPopup('popup','overlay')">Add course</button>
+
+        <div class="popup" id="popup">
+            <h1>New Course</h1> 
+            <div class = "input-field" >
+                <div>
+                    <label>Course Name</label>
+                    <input type="text" name="" required="" id="course_name"> 
+                    <span></span>
+                    <label>Professor</label>
+                    <input type="text" name="" required="" id="description"> 
+                    <span></span>
+                </div>
+            </div>
+            <div class = "buttonbox">
+                <button id="add" onclick="">Search</button>
+                <button id="cancel" onclick="closePopup('popup', 'overlay')">Cancel </button>
+            </div>
+        </div>
+
+    <button class="new_course" id="addcourse" onclick="openPopup('popup','overlay')">Add course</button>
+
+    <div class="popup" id="popup">
+        <h1>New Course</h1> 
+        <div class = "input-field" >
+            <div>
+                <label>Course Name</label>
+                <input type="text" name="" required="" id="course_name"> 
+                <span></span>
+                <label>Professor</label>
+                <input type="text" name="" required="" id="description"> 
+                <span></span>
+            </div>
+        </div>
+        <div class = "buttonbox">
+            <button id="add">Search</button>
+            <button id="cancel" onclick="closePopup('popup', 'overlay')">Cancel </button> 
+        </div>
+    </div>
+
     <div id="overlay" class="overlay" onclick="closePopup('popup','overlay')"> </div>
 
 
     <div class="popup-search" id="popup-search">
         <div class="search-results" id="search-results">
-            
-         </div>
+        </div>
         <button id="close-search" onclick="closeSearchPopup('popup-search','overlay-search')">Close</button>
     </div>
 
