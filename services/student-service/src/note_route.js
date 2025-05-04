@@ -5,7 +5,8 @@ const RabbitMQNote = require('./rabbitmq/note-s');
 const Note = require("./note")
 const jwt = require('jsonwebtoken');
 const path = require('path');
-
+const multer = require("multer");
+const fs = require('fs');
 
 
 const router = express.Router();
@@ -53,6 +54,24 @@ router.get('/getNotes', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+router.get('/deleteNote', async (req, res)=> {
+  try {
+      const response = await noteService.deleteNote (req, res);
+      console.log("Response, notes:",response);
+      
+      if (response.status === 200) {
+          res.json(response.data); // Send the notes as JSON response
+      }
+      else {
+          res.status(response.status).json({ message: response.message });
+      }
+  } catch (error) {
+      console.error('Error fetching notes:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 router.post('/addNote', async (req, res) => {
     try {
@@ -107,6 +126,36 @@ router.get("/home", (req, res) => {
       console.error("Error verifying token:", error);
       return res.status(401).json({ message: 'Unauthorized' });
     }
+});
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const addressLine = "./public/uploads";
+    try {
+      fs.mkdirSync(addressLine, { recursive: true }); // Create directory if it doesn't exist
+      cb(null, addressLine);
+    } catch (err) {
+      cb(err); // Pass the error to multer
+    }
+  },
+  filename: (req, file, cb) => {
+    const name = Date.now() + '-' + file.originalname;
+    cb(null, name);
+  },
+});
+const upload = multer({ 
+  storage: storage,
+  limits: { fileSize: 5000000 }, // 5MB file size limit
+});
+
+router.post('/upload', upload.single('file'), (req, res) => {
+    console.log("Request body:", req.body);
+    console.log("Uploaded file:", req.file);
+
+    if (!req.file) {
+        return res.status(400).json({ error: 'No file uploaded or invalid file type' });
+    }
+    return res.status(200).json({ message: 'File uploaded successfully', filename: req.file.filename });
 });
 
   

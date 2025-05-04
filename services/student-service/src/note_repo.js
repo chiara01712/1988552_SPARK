@@ -47,6 +47,17 @@ class NoteRepo{
           return null;
       }
     }
+
+    async deleteNote(noteId){
+      const res = await this.noteModel.destroy({where: { id: noteId }});
+      if(res){
+        console.log(res);
+        return res;  // Return the raw data
+      } else{
+          console.log("No notes found for student");
+          return null;
+      }
+    }
     
 
 

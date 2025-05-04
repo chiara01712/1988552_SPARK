@@ -200,21 +200,6 @@ button {
     cursor: pointer;
 }
 
-#math{
-    background-image: url("./images/BGMath.png");
-}
-
-#science{
-    background-image: url("./images/BGscience.png");
-}
-#compscience{
-    background-image: url("./images/BGcompscience.png");
-    
-} 
-#tech{
-    background-image: url("./images/BGTech.png");
-}
-
 .box h1{
     color: black;
 }

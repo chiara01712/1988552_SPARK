@@ -170,8 +170,8 @@ button {
 
 .container {
     background-color : white;
-    width: 60%;
-    height: 40rem;
+    width: 70%;
+    height: 25rem;
     border-radius: 30px;
     border: 0;
     margin: 0 auto;
@@ -179,18 +179,30 @@ button {
 }
   /* Container for all the notes */
   .container-box{
-    height: 80%;
+    height: 50%;
     width: 100%;
+    margin-bottom: 20px;
+    margin-left: 20px;
     overflow-y: scroll;
     overflow-x: hidden; 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
 }
 /*Box of a single note*/
-.box {
-    width: 80%;
-    margin: 0 auto;
-    height: 60%;
-    border-radius: 30px;
-    background-size: cover;
+.container-box .box {
+    padding: 15px;
+    background-color: #f0f0f0;    
+    width: 200px;
+    min-height: 150px;
+    border-radius: 15px;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    cursor: default;
 }
 .container-box .box h2 {
     width: 100%;
@@ -219,10 +231,26 @@ button {
     margin-top: 10px;
     color: rgb(68, 68, 68);
 }
+.box h4 a{
+    text-decoration: none;
+    font-size: 15px;
+    font-family: Poppins;
+    margin-bottom: 0;
+    margin-top: 10px;
+    color: rgb(68, 68, 68);
+}
 .box h4:hover{
     color: rgb(134, 134, 134);
     text-decoration: underline;
 }
+.box a:hover{
+    color: rgb(134, 134, 134);
+    text-decoration: underline;
+}
+
+.container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }   
 
 /* Contenitore della scrollbar */
 .container-box::-webkit-scrollbar {

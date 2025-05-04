@@ -46,21 +46,20 @@ async function fetchNotes() {
             const notes = await response.json();
             console.log("Notes fetched successfully:", notes);
             const carouselContent = document.getElementById('note-box');
-            const noResults = document.getElementById("no-results");
             if (notes.length === 0) {
-                noResults.style.display = "block";
+                carouselContent.innerHTML='<div class="box"> No notes available</div>';
             }
             else {
-                noResults.style.display = "none"; 
                 carouselContent.innerHTML = '';
                 let id = 0; 
                 notes.forEach((note, index) => {
                     const isActive = index === 0 ? 'active' : '';
                     const noteHtml = `
                         <div class="box ${isActive}" id="note-${id}">
-                            <h2>${note.title}</h2>
+                            <h2>${note.title}</h2> 
+                            <i class="fa-regular fa-rectangle-xmark" id="bin" onClick=deleteNote('${note.id}')></i>
                             <h4 onclick="showFile('${note.file_type}', '${note.file_url}')">View File</h4>
-                            <h4 href="${note.file_url}" download>Download File</h4>
+                            <h4> <a href="${note.file_url}" style="text-decoration=none;">Download File </a></h4>
                         </div>
                     `;
                     carouselContent.innerHTML += noteHtml;
@@ -68,31 +67,40 @@ async function fetchNotes() {
                 });
             }
 
-            if (notes.length === 0) {
-                carouselContent.innerHTML = '<div class="box">No notes available</div>';
-                return;
-            }
             
-
-            let id = 0; 
-            notes.forEach((note, index) => {
-                const isActive = index === 0 ? 'active' : '';
-                const noteHtml = `
-                    <div class="box ${isActive}" id="note-${id}">
-                        <h2>${note.title}</h2>
-                        ${note.file_url ? `<a href="${note.file_url}" target="_blank">Download File</a>` : ''}
-                    </div>
-                `;
-                carouselContent.innerHTML += noteHtml;
-                id++;
-            });
         }
     }catch (error) {
         console.error('Error fetching notes:', error);
     }
 }
-
 document.addEventListener('DOMContentLoaded', fetchNotes);
+function showFile(file_type,url){
+    console.log("entering show function");
+    sessionStorage.setItem("url",url);
+    sessionStorage.setItem("file_type", file_type);
+    window.location.href = "notes_viewer.html";    
+}
+async function deleteNote(noteId){
+    const note_id= noteId;
+    console.log("Note id"+note_id);
+    try {
+        const response = await fetch('/deleteNote', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'note_id': note_id
+            },
+        });
+
+        if(response.status === 200) {
+            const res = await response.json();
+            console.log("Note deleted successfully:", res);
+            fetchNotes();
+        }
+    }catch (error) {
+        console.error('Error fetching notes:', error);
+    }
+}
 
 function open_Menu() {
     document.getElementById("mySidebar").style.width = "25%";
@@ -151,6 +159,40 @@ async function fetchUsername() {
 }
 document.addEventListener("DOMContentLoaded", fetchUsername);
 
+
+function changeTag(tag){
+    if ( tag == 'Arts & Design'){
+      return("art");
+    }
+    if ( tag == 'Business & Management'){
+      return("bam");
+    }
+    if ( tag == 'Communication & Media'){
+      return("cam");
+    }
+    if ( tag == 'Engineering & Technology'){
+      return("engandtech");
+    }
+    if ( tag == 'Health & Life Sciences'){
+      return("handlife");
+    }
+    if ( tag == 'Humanities'){
+      return("human");
+    }
+    if ( tag == 'Law & Legal Studies'){
+      return("law");
+    }
+    if ( tag == 'Mathematical Sciences'){
+      return("math");
+    }
+    if ( tag == 'Natural Sciences'){
+      return("natty");
+    }
+    if ( tag == 'Social Sciences'){
+      return("social");
+    }
+  }
+  
 async function fetchCourses() {
     const studentId = getCookie("user_Id");
     try{
@@ -165,7 +207,7 @@ async function fetchCourses() {
 
         if(response.status === 200) {
             const res = await response.json();
-            const courses = res.response
+            const courses = res.response;
             
             console.log("Courses fetched successfully:", courses);
 
@@ -177,20 +219,20 @@ async function fetchCourses() {
              }
              else if(courses == "courses not found"){
                 console.log("courses not found");
-                carouselContent.innerHTML = '<div class="box">No courses available</div>';
+                carouselContent.innerHTML = '<div class="box"> No courses available</div>';
                 return;
             }
-
-             let id = 0; 
+ 
              courses.forEach((course, index) => {
                  const isActive = index === 0 ? 'active' : '';
+                 const tag= changeTag(course.tag);
                  const courseHtml = `
-                     <div class="box ${isActive}" id="courses-${id}">
+                     <div class="box ${isActive}" id="${tag}">
                          <h2>${course.title}</h2>
                      </div>
                  `;
                  carouselContent.innerHTML += courseHtml;
-                 id++;
+                 
              });
         }
         else{

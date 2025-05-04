@@ -29,7 +29,7 @@ function search(prefix) {
     const noResults = document.getElementById("no-results");
 
     const container = document.getElementById('course-container');
-    const boxes = container.querySelectorAll('.box');
+    const boxes = document.querySelectorAll('.box');
     let found = 0;
   
     boxes.forEach(box => {
@@ -85,7 +85,7 @@ async function fetchNotes() {
                         <div class="box ${isActive}" id="note-${id}">
                             <h2>${note.title}</h2>
                             <h4 onclick="showFile('${note.file_type}', '${note.file_url}')">View File</h4>
-                            <h4 href="${note.file_url}" download>Download File</h4>
+                            <h4> <a href="${note.file_url}" style="text-decoration=none;">Download File </a></h4>
                         </div>
                     `;
                     carouselContent.innerHTML += noteHtml;
@@ -158,14 +158,40 @@ document.addEventListener("DOMContentLoaded", function () {
             const courseId = document.getElementById("courseId").value;
             const title = document.getElementById("title").value;
             const description = document.getElementById("description").value;
-            const fileUrl = document.getElementById("fileUrl").value;
+            const file = document.getElementById("file");
             const fileType = document.getElementById("fileType").value;
+            if (!file.files[0]) {
+                console.error("No file selected for upload.");
+                return;
+            }
+            
+            let fileNmae= "";            
+            try {
+                const formData = new FormData();
+                formData.append('file', file.files[0]); // Append the file
+
+                const v = await fetch("/upload", {
+                    method: "POST",
+                    body: formData, // Use FormData as the body
+                });
+
+                if (v.status === 200) {
+                    const ret = await v.json();
+                    console.log("File uploaded successfully:", ret);
+                    fileNmae=ret.filename;
+                } else {
+                    console.error("Failed to add file:", v.statusText);
+                }
+            } catch (error) {
+                console.error("Error adding file:", error);
+            }
+            let baseUrl = "./uploads/"+fileNmae;
             const data = {
                 student_id: studentId,
                 course_id: courseId,
                 title: title,
                 description: description,
-                file_url: fileUrl,
+                file_url: baseUrl,
                 file_type: fileType
             };
             console.log("data",data);
