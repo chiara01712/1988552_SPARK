@@ -179,7 +179,7 @@ async function loadCourses() {
     console.error("Error in LoadCourses", error);
   };
 };
-//document.addEventListener("DOMContentLoaded", loadCourses);
+document.addEventListener("DOMContentLoaded", loadCourses);
 
 
 function createResultBox(courseName, professorName, courseId, isSubscribed) {
@@ -251,7 +251,7 @@ function createResultBox(courseName, professorName, courseId, isSubscribed) {
   return resultBox;
 }
  
-//document.getElementById("add").addEventListener("click", searchCourses);
+document.getElementById("add").addEventListener("click", searchCourses);
 
 async function searchCourses() {
   const professor = document.getElementById("description").value.trim();

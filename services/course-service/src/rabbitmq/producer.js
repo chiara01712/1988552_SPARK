@@ -62,9 +62,9 @@ class Producer {
         }
       });
     
-      setTimeout(() => {
+      /* setTimeout(() => {
         reject(new Error("Response timeout exceeded"));
-      }, 5000);
+      }, 5000); */
     
     });
   }

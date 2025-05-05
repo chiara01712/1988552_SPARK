@@ -209,6 +209,7 @@ button {
     font-size: 18px;
     color: #333;
     margin: 0 0 10px 0;
+    margin-bottom: -10px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -246,6 +247,15 @@ button {
 .box a:hover{
     color: rgb(134, 134, 134);
     text-decoration: underline;
+}
+
+#bin{
+    position:relative;
+    left: 90%;
+    bottom: 11%;
+}
+#bin:hover{
+    opacity: 1;
 }
 
 .container::-webkit-scrollbar-thumb:hover {
@@ -325,11 +335,26 @@ button {
   
   /* Colore della track (sfondo della scrollbar) */
   
-.popupactive{
-    transform: translate(-50%,-50%) scale(1) ;
+  .popup-search {
+    background-color: white;
+    position: fixed;
+    padding: 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: 200ms ease-in-out;
+    z-index: 15;
+    width: 700px;
+    height: 380px;
+    border-radius: 20px;
 }
 
-.popup h1{
+.popupactive {
+    
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.popup h1 {
     font-family: Poppins;
     font-weight: 600;
     margin-left: 10px;
@@ -338,7 +363,7 @@ button {
     margin-bottom: 20px;
 }
 
-.popup h2{
+.popup h2 {
     font-family: Poppins;
     margin-left: 10px;
     font-weight: 450;
@@ -346,7 +371,7 @@ button {
     margin-bottom: 5px;
 }
 
-.popup h3{
+.popup h3 {
     font-family: Poppins;
     margin-left: 10px;
     font-weight: 400;
@@ -355,8 +380,16 @@ button {
     color: #293b5c;
 }
 
+.description {
+    font-family: Poppins;
+    margin-left: 10px;
+    overflow: auto;
+    color: black;
+    padding-right: 10px;
+    height: 40%;
+}
 
-.overlay{
+.overlay {
     position: fixed;
     opacity: 0;
     top: 0;
@@ -368,11 +401,22 @@ button {
     pointer-events: none;
 }
 
-.overlayactive{
-    opacity: 1 ; 
-    pointer-events: all;
+.overlay-search {
+    position: fixed;
+    opacity: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.01);
+    transition: 200ms ease-in-out;
+    pointer-events: none;
 }
 
+.overlayactive {
+    opacity: 1;
+    pointer-events: all;
+}
 
 /* Carousel styles */
 .carousel-inner {
@@ -496,3 +540,39 @@ button {
   }
 
 
+  #art{
+    background-image: url("images/Arts.png");
+}
+
+#bam{
+    background-image: url("images/Business.jpg");
+}
+
+#cam{
+    background-image: url("images/Communication.png");
+}
+
+#engandtech{
+    background-image: url("images/Engineering.png");
+}
+
+#handlife{
+    background-image: url("images/HealthLife.jpg");
+}
+#human{
+    background-image: url("images/Humanities.png");
+}
+#law{
+    background-image: url("images/Law.jpg");
+}
+#math{
+    background-image: url("images/Math.png");
+}
+
+#natty{
+    background-image: url("images/NatScience.png");
+}
+
+#social{
+    background-image: url("images/SocialScience.png");
+}

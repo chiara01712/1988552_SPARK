@@ -279,6 +279,7 @@ button {
     font-size: 18px;
     color: #333;
     margin: 0 0 10px 0;
+    margin-bottom: -10px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -584,7 +585,11 @@ box h4{
 #social{
     background-image: url("images/SocialScience.png");
 }
-
+#bin{
+    position:relative;
+    left: 90%;
+    bottom: 11%;
+}
 #bin:hover{
     opacity: 1;
 }

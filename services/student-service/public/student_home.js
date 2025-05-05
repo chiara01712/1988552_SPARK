@@ -51,11 +51,12 @@ async function fetchNotes() {
             }
             else {
                 carouselContent.innerHTML = '';
-                let id = 0; 
+                 
                 notes.forEach((note, index) => {
                     const isActive = index === 0 ? 'active' : '';
+                    const id=changeTag(note.tag);
                     const noteHtml = `
-                        <div class="box ${isActive}" id="note-${id}">
+                        <div class="box ${isActive}" id="${id}">
                             <h2>${note.title}</h2> 
                             <i class="fa-regular fa-rectangle-xmark" id="bin" onClick=deleteNote('${note.id}')></i>
                             <h4 onclick="showFile('${note.file_type}', '${note.file_url}')">View File</h4>
@@ -63,7 +64,7 @@ async function fetchNotes() {
                         </div>
                     `;
                     carouselContent.innerHTML += noteHtml;
-                    id++;
+                    
                 });
             }
 
@@ -222,7 +223,8 @@ async function fetchCourses() {
                 carouselContent.innerHTML = '<div class="box"> No courses available</div>';
                 return;
             }
- 
+             let count=0;
+             const message=[];
              courses.forEach((course, index) => {
                  const isActive = index === 0 ? 'active' : '';
                  const tag= changeTag(course.tag);
@@ -232,8 +234,15 @@ async function fetchCourses() {
                      </div>
                  `;
                  carouselContent.innerHTML += courseHtml;
-                 
+                 count+=1;
+                 const data={
+                    title: course.title,
+                    tag: course.tag
+                 }
+                 message.push(data);
              });
+             
+             sessionStorage.setItem("courses", JSON.stringify(message));
         }
         else{
             console.error("Failed to fetch courses:", response.statusText);
