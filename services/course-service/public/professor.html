@@ -12,11 +12,14 @@
       <div class="sidebar"  id="profileSidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="close_Profile()">&times;</a>
         <div class = "menu-items" >
-            <a href="#" >Personal Data</a>
-            <a href="#" >Logout</a>
+            <a onclick="personalData()" >Personal Data</a>
+            <a onclick="signOut()" >Logout</a>
         </div>
       </div>
       
+      <div id="overlaysidebar" class="overlaybar" onclick="close_Profile()"></div>
+
+
       <div id="main">
         <table class="header">
             <tr>

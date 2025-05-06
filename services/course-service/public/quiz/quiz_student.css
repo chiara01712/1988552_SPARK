@@ -22,11 +22,6 @@ body {
     margin-top: -60px;
     margin-bottom: -470px; */
 }
-.wrapper img {
-    width: 30vw;
-    height: auto;
-    margin-top: -10px;
-}
 
 #logo {
     width: 200px;
@@ -48,16 +43,11 @@ body {
     cursor: pointer;
 }
 
-.closebtn{
-    text-align: left;
-}
-
 #profile {
     padding-right: 2%;
     padding-top: 2%;
     width: 40px;
     height: 40px;
-    cursor: pointer;
 }
 
 .sidebar {
@@ -89,10 +79,6 @@ body {
     text-decoration: none;
     display: block;
     z-index: 100;
-}
-.sidebar p{
-    font-size: 20px;
-    cursor: pointer;
 }
 
 .overlaybar {
@@ -137,7 +123,7 @@ body {
 .main-container {
     width: 80%;
     margin: 50px auto;
-    padding-bottom: 100px; /* Space for the add button */
+    padding-bottom: 50px;
     position: relative;
 }
 
@@ -184,7 +170,60 @@ body {
     line-height: 1.5;
 }
 
-.question-card {
+.take-quiz-btn {
+    background-color: #293b5c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    display: inline-block;
+}
+
+.take-quiz-btn:hover {
+    background-color: #067dfd;
+    transform: scale(1.05);
+}
+
+/* Quiz Result styles */
+.result-container {
+    margin-top: 20px;
+    display: none;
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.result-score {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #293b5c;
+}
+
+.score-percentage {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.high-score {
+    color: #4CAF50;
+}
+
+.medium-score {
+    color: #FFC107;
+}
+
+.low-score {
+    color: #f44336;
+}
+
+.question-result {
     background-color: white;
     border-radius: 15px;
     padding: 15px;
@@ -199,83 +238,49 @@ body {
     margin-bottom: 15px;
 }
 
-.options-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.option {
-    display: flex;
-    align-items: center;
+.answer-option {
     padding: 8px 15px;
-    background-color: #f0f0f0;
     border-radius: 8px;
-    transition: background-color 0.2s;
+    margin-bottom: 10px;
+    position: relative;
 }
 
-.option.correct {
-    background-color: rgba(76, 175, 80, 0.2);
+.your-answer {
+    background-color: rgba(25, 118, 210, 0.1);
+    border: 1px solid #1976D2;
+}
+
+.correct-answer {
+    background-color: rgba(76, 175, 80, 0.1);
     border: 1px solid #4CAF50;
 }
 
-/* .option:hover {
-    background-color: #e0e0e0;
-} */
-
-.option input[type="radio"] {
-    margin-right: 10px;
+.wrong-answer {
+    background-color: rgba(244, 67, 54, 0.1);
+    border: 1px solid #f44336;
 }
 
-.option-text {
-    flex: 1;
+.answer-label {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
 }
 
-.quiz-actions {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 15px;
-    gap: 10px;
-}
-
-.quiz-btn {
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background-color 0.2s;
-}
-
-.edit-btn {
-    background-color: #293b5c;
+.your-answer-label {
+    background-color: #1976D2;
     color: white;
 }
 
-.edit-btn:hover {
-    background-color: #1e2e4a;
+.correct-answer-label {
+    background-color: #4CAF50;
+    color: white;
 }
 
-
-.new-quiz {
-    position: fixed;
-    bottom: 30px;  
-    right: 30px;   
-    background-color: #293b5c;  
-    color: rgb(227, 197, 2);
-    border: 4px solid rgb(227, 197, 2);
-    border-radius: 20px;
-    font-size: 30px;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
-    padding: 15px 25px;
-}
-
-.new-quiz:hover {
-    background-color: #067dfd;
-    transform: scale(1.1);
-}
-
+/* Quiz taking popup styles */
 .overlay {
     position: fixed;
     opacity: 0;
@@ -321,103 +326,45 @@ body {
     margin-bottom: 20px;
 }
 
-.form-group {
-    margin-bottom: 20px;
+.popup-description {
+    margin-bottom: 30px;
+    color: #555;
 }
 
-.form-group label {
-    display: block;
-    font-weight: 500;
-    margin-bottom: 8px;
+.quiz-question {
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.quiz-question h3 {
+    font-size: 1.2rem;
     color: #293b5c;
+    margin-bottom: 15px;
 }
 
-.form-group input[type="text"], 
-.form-group textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    font-size: 1rem;
-}
-
-.form-group textarea {
-    min-height: 100px;
-    resize: vertical;
-}
-
-.question-form {
-    background-color: #f5f5f5;
-    border-radius: 15px;
-    padding: 15px;
-    margin-bottom: 20px;
-}
-
-.option-form {
+.option-item {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
-.option-form input[type="text"] {
-    flex: 1;
+.option-item:hover {
+    background-color: #f0f0f0;
+}
+
+.option-item input[type="radio"] {
     margin-right: 10px;
-    
-    width: 100%;
-    padding: 6px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    font-size: 1rem;
 }
 
 .btn-container {
     display: flex;
     justify-content: space-between;
     margin-top: 30px;
-}
-
-.add-question-btn {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.add-option-btn {
-    background-color: #2196F3;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    margin-top: 10px;
-}
-
-.remove-btn {
-    background-color: #f44336;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.8rem;
-}
-.remove-question-btn{
-    background-color: #f44336;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.8rem;
-    margin: 10px 0 0;
 }
 
 .action-btn {
@@ -438,12 +385,12 @@ body {
     background-color: #616161;
 }
 
-.save-btn {
+.submit-btn {
     background-color: #293b5c;
     color: white;
 }
 
-.save-btn:hover {
+.submit-btn:hover {
     background-color: #067dfd;
     transform: scale(1.05);
 }
@@ -455,6 +402,50 @@ body {
     font-size: 25px;
     cursor: pointer;
     color: #293b5c;
+}
+
+.progress-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 10px;
+    background-color: #293b5c;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.completed-badge {
+    display: inline-block;
+    padding: 5px 12px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-left: 10px;
+}
+
+.view-results-btn {
+    background-color: #FFC107;
+    color: black;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.view-results-btn:hover {
+    background-color: #FFB300;
+    transform: scale(1.05);
 }
 
 /* Style for the tab */

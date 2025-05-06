@@ -49,7 +49,8 @@ router.post('/addCourse', async (req, res) => {
   try {
       const response = await courseService.addCourse(req);
       if (response.status === 200) {
-          res.status(200).json({ message: 'Course added successfully', course: response.course });
+        console.log("Messageee:", response.message);
+          res.status(200).json({ message: response.message, course: response.course });
       } else {
           res.status(response.status).json({ error: response.message });
       }
@@ -68,26 +69,12 @@ router.post('/addStudentToCourse', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-
-router.post("/getUsername", async (req, res, next) => {
-  console.log("/getUsername",req.body);
-  console.log("Type of req.body:", typeof req.body);
-  try {
-    const { randomUUID } = require("crypto");
-    const correlationId = randomUUID();
-    const replyToQueue = "rpc_queue"; // or fetch it from config if needed
-    const response = await RabbitMQCourse.produce(req.body, correlationId, replyToQueue);
-    res.send({ response });
-  } catch (error) {
-    next(error); 
-  }
-});
   
 
 // 1. When a post request is made to /getUsername, call the produce method of the RabbitMQCourse class
 // go to the producer.js file and see the produce method
-router.post("/getUsername", async (req, res, next) => {
-  console.log("/getUsername",req.body);
+router.post('/getUsername', async (req, res, next) => {
+  console.log("getUsername",req.body);
   console.log("Type of req.body:", typeof req.body);
   try {
     const { randomUUID } = require("crypto");
@@ -100,7 +87,7 @@ router.post("/getUsername", async (req, res, next) => {
   }
 });
   
-router.get("/home", (req, res) => {
+router.get('/home', (req, res) => {
     const token = req.cookies.access_token;
     if (!token) {
       return res.status(401).json({ message: 'Unauthorized' });
@@ -144,7 +131,24 @@ router.get('/getCoursesBySearch', async (req, res) => {
   }
 });
 
-router.get("/getCoursesPage", (req, res) => {
+router.get('/CoursePage', (req, res) => {
+  const token = req.cookies.access_token;
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+  try{
+    // Verify the token using the same secret key used for signing
+    const decoded = jwt.verify(token, '220fcf11de0e3f9307932fb2ff69258d190ecf08ef01d0d9c5d8d1c7c97d9149be27299a3ce8dfa0cbbfb6dc1328291786803344cdbf7f3916933a78ac47553e');
+    console.log("Authenticated user: ",decoded);
+    
+    res.sendFile(path.join(__dirname, '..', 'public', 'course_home.html'));
+  } catch (error) {
+    console.error("Error verifying token:", error);
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+});
+
+router.get('/CoursesPage', (req, res) => {
   const token = req.cookies.access_token;
   if (!token) {
     return res.status(401).json({ message: 'Unauthorized' });
@@ -155,6 +159,27 @@ router.get("/getCoursesPage", (req, res) => {
     console.log("Authenticated user: ",decoded);
     
     res.sendFile(path.join(__dirname, '..', 'public', 'courses.html'));
+  } catch (error) {
+    console.error("Error verifying token:", error);
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+});
+
+router.get("/QuizPage", (req, res) => {
+  const token = req.cookies.access_token;
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+  try{
+    // Verify the token using the same secret key used for signing
+    const decoded = jwt.verify(token, '220fcf11de0e3f9307932fb2ff69258d190ecf08ef01d0d9c5d8d1c7c97d9149be27299a3ce8dfa0cbbfb6dc1328291786803344cdbf7f3916933a78ac47553e');
+    console.log("Authenticated user: ",decoded);
+    if (decoded.role === 'student') {
+      res.sendFile(path.join(__dirname, '..', 'public', '/quiz/quiz_student.html'));
+    }
+    else if (decoded.role === 'professor') {
+      res.sendFile(path.join(__dirname, '..', 'public', '/quiz/quiz_teacher.html'));
+    }    
   } catch (error) {
     console.error("Error verifying token:", error);
     return res.status(401).json({ message: 'Unauthorized' });

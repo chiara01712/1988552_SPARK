@@ -25,6 +25,67 @@ async function getQuizzes() {
         console.error('Error fetching quizzes:', error);
     }
 }
+
+
+// Function for tab 
+function changeTag(box, tag){
+    if ( tag == 'Arts & Design'){
+      box.classList.add("art");
+    }
+    if ( tag == 'Business & Management'){
+      box.classList.add("bam");
+    }
+    if ( tag == 'Communication & Media'){
+      box.classList.add("cam");
+    }
+    if ( tag == 'Engineering & Technology'){
+      box.classList.add("engandtech");
+    }
+    if ( tag == 'Health & Life Sciences'){
+      box.classList.add("handlife");
+    }
+    if ( tag == 'Humanities'){
+      box.classList.add("human");
+    }
+    if ( tag == 'Law & Legal Studies'){
+      box.classList.add("law");
+    }
+    if ( tag == 'Mathematical Sciences'){
+      box.classList.add("math");
+    }
+    if ( tag == 'Natural Sciences'){
+      box.classList.add("natty");
+    }
+    if ( tag == 'Social Sciences'){
+      box.classList.add("social");
+    }
+  }
+
+function getQueryParams() {
+    return {
+      courseId: localStorage.getItem("courseId"),
+      title: localStorage.getItem("title"),
+      professor: localStorage.getItem("professor"),
+      subject: localStorage.getItem("subject")
+    };
+  }
+  
+  function populateCourseDetails() {
+    const { title, subject } = getQueryParams();
+    const courseTitle = document.getElementById('courseTitle');
+    const tagTitle = document.getElementById('titlebox');
+    if (courseTitle && tagTitle) {
+      courseTitle.textContent = title;
+      changeTag(tagTitle, subject);
+    }
+  }
+  async function viewAllCourses(){
+    window.location.href = 'http://localhost:6060/CoursePage';
+ }
+ //TODO: Function to see all the students enrolled in the course
+
+
+
 // Menu functionality
 function open_Menu() {
     document.getElementById("mySidebar").style.width = "25%";
@@ -324,6 +385,8 @@ document.addEventListener('DOMContentLoaded', getQuizzes);
 // Add event listeners
 document.addEventListener('DOMContentLoaded', function() {
 
+    // To add the course details to the page
+    populateCourseDetails();
     
     // Quiz popup listeners
     document.getElementById("new-quiz-btn").addEventListener("click", function() {

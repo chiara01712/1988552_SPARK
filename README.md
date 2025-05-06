@@ -22,7 +22,7 @@ Per eseguire un container a partire dall'immagine user-service e mappare la port
 
 ### Pacchetti necessari per il progetto fino ad ora:   
 
-`npm i bcryptjs body-parser cookie-parser cors dotenv express jsonwebtoken nodemon path pg sequelize amqplib`   
+`npm i bcryptjs body-parser cookie-parser cors dotenv express jsonwebtoken nodemon path pg sequelize amqplib multer`   
 
 ## Connessione con pgAdmin:  
 *userdb*:
