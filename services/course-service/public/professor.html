@@ -3,19 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="professor.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="professor.js"></script> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Studen_home</title>
 </head> 
 <body>
+     
       
-      <div class="sidebar"  id="profileSidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="close_Profile()">&times;</a>
+
+    <div class="sidebar"  id="profileSidebar">
         <div class = "menu-items" >
-            <a onclick="personalData()" >Personal Data</a>
-            <a onclick="signOut()" >Logout</a>
+            <p><a href="#"> <i class="fa-solid fa-user"></i> Personal Data</a></p>
+            <p><a onclick="signOut()"> <i class="fa-solid fa-right-from-bracket"></i> Logout</a></p>
         </div>
-      </div>
+    </div>
+
+    <div id="overlaysidebar" class="overlaybar" onclick="close_Profile()"></div>
       
       <div id="overlaysidebar" class="overlaybar" onclick="close_Profile()"></div>
 

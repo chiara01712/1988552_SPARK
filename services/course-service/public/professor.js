@@ -41,6 +41,8 @@ function open_Profile() {
 function close_Profile() {
   document.getElementById("profileSidebar").style.display = "none";
   document.getElementById("overlaysidebar").classList.remove("overlayactive");
+  document.getElementById("overlaysidebar").classList.remove("overlayactive");
+
 }
 
 function getCookie(name) {
