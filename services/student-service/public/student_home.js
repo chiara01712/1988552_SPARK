@@ -17,6 +17,7 @@ async function signOut() {
 
 }
 
+
 async function personalData() {
     console.log("Personal data function called");
     window.location.href = 'http://localhost:8080/personalData';
@@ -53,7 +54,7 @@ async function fetchNotes() {
                 carouselContent.innerHTML = '';
                  
                 notes.forEach((note, index) => {
-                    const isActive = index === 0 ? 'active' : '';
+                    const isActive =  'active' ;
                     const id=changeTag(note.tag);
                     const noteHtml = `
                         <div class="box ${isActive}" id="${id}">

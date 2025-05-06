@@ -23,7 +23,7 @@ class CourseService {
             if (!course) {
                 return { status: 500, message: 'Internal server error' };
             }
-            return { status: 200, message: 'Course added successfully' };
+            return { status: 200, message: course };
         } catch (error) {
             console.error('Error adding course:', error);
             return { status: 500, message: 'Internal server error' };

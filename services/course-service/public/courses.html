@@ -12,7 +12,7 @@
     <div class="sidebar"  id="mySidebar">
         <div class = "menu-items">
             <p><a onclick="goHome()"><i class="fa-solid fa-house-user"></i> Home</a></p>
-            <p><a href="#"><i class="fa-solid fa-file-pen"></i> Notes</a></p>
+            <p><a onClick="goNotes()"><i class="fa-solid fa-file-pen"></i> Notes</a></p>
         </div>
     </div>
 
@@ -20,7 +20,7 @@
       
     <div class="sidebar"  id="profileSidebar">
         <div class = "menu-items" >
-            <p><a href="#"> <i class="fa-solid fa-user"></i> Personal Data</a></p>
+            <p><a onclick="personalData()"> <i class="fa-solid fa-user"></i> Personal Data</a></p>
             <p><a onclick="signOut()"> <i class="fa-solid fa-right-from-bracket"></i> Logout</a></p>
         </div>
     </div>
@@ -72,9 +72,9 @@
             </div>
         </div>
 
-    <button class="new_course" id="addcourse" onclick="openPopup('popup','overlay')">Add course</button>
+    <!-- <button class="new_course" id="addcourse" onclick="openPopup('popup','overlay')">Add course</button> -->
 
-    <div class="popup" id="popup">
+    <!-- <div class="popup" id="popup">
         <h1>New Course</h1> 
         <div class = "input-field" >
             <div>
@@ -90,7 +90,7 @@
             <button id="add">Search</button>
             <button id="cancel" onclick="closePopup('popup', 'overlay')">Cancel </button> 
         </div>
-    </div>
+    </div>  Ehmmmm non so perchè è doppio -->
 
     <div id="overlay" class="overlay" onclick="closePopup('popup','overlay')"> </div>
 
