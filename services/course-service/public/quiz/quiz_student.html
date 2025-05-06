@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professor Quizzes</title>
-    <link rel="stylesheet" type="text/css" href="/quiz/quiz.css">
+    <title>Student Quizzes</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+    <link rel="stylesheet" type="text/css" href="/quiz/quiz_student.css">
+   
 </head>
 <body>
     <div class="sidebar" id="mySidebar">
         <div class="menu-items">
             <p><a href="#"><i class="fa-solid fa-chalkboard"></i> Courses</a></p>
             <p><a href="#"><i class="fa-solid fa-file-pen"></i> Notes</a></p>
-            
+            <p><a href="#"><i class="fa-solid fa-question-circle"></i> Quizzes</a></p>
         </div>
     </div>
     
-    <div id="overlaybar" class="overlaybar" onclick="close_Menu()"></div>
+    <div id="overlaybar" class="overlaybar"></div>
     
     <div class="sidebar" id="profileSidebar">
         <div class="menu-items">
@@ -26,7 +26,7 @@
         </div>
     </div>
 
-    <div id="overlaysidebar" class="overlaybar" onclick="close_Profile()"></div>
+    <div id="overlaysidebar" class="overlaybar"></div>
     
     <div id="main">
         <div class="header">
@@ -50,53 +50,39 @@
         </div>
          
         <!-- Quizzes -->
-         
         <div class="main-container">
-            <h1 class="page-title"> Quizzes</h1>
             
             <div class="quiz-container" id="quizzes-list">
                 <!-- Quiz cards will be inserted here by JavaScript -->
             </div>
-            
-            <button class="new-quiz" id="new-quiz-btn">
-                <i class="fa-solid fa-plus"></i> New Quiz
-            </button>
         </div>
     </div>
     
-    <!-- Create Quiz Popup -->
+    <!-- Take Quiz Popup -->
     <div class="overlay" id="quiz-overlay">
         <div class="popup" id="quiz-popup">
             <span class="close-btn" id="close-popup">&times;</span>
-            <h1>Create New Quiz</h1>
+            <h1 id="popup-quiz-title">Quiz Title</h1>
+            <p class="popup-description" id="popup-quiz-description">Quiz description will appear here</p>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="quiz-progress"></div>
+            </div>
             
             <form id="quiz-form">
-                <div class="form-group">
-                    <label for="quiz-title">Quiz Title</label>
-                    <input type="text" id="quiz-title" placeholder="Enter quiz title" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="quiz-description">Quiz Description</label>
-                    <textarea id="quiz-description" placeholder="Enter quiz description" required></textarea>
-                </div>
-                
                 <div id="questions-container">
-                    <!-- Question forms will be inserted here -->
+                    <!-- Questions will be inserted here -->
                 </div>
-                
-                <button type="button" class="add-question-btn" id="add-question-btn">
-                    <i class="fa-solid fa-plus"></i> Add Question
-                </button>
                 
                 <div class="btn-container">
                     <button type="button" class="action-btn cancel-btn" id="cancel-btn">Cancel</button>
-                    <button type="submit" class="action-btn save-btn">Save Quiz</button>
+                    <button type="submit" class="action-btn submit-btn">Submit Quiz</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <script src="/quiz/quiz.js"></script> 
+    <script src="/quiz/quiz_student.js"></script> 
+
 </body>
 </html>

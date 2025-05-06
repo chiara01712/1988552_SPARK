@@ -73,6 +73,7 @@ class UserService{
                     id: user.id,
                     username: user.username,
                     email: user.email,
+                    role: user.role,
                 };
                 console.log("Payload",payload);
                 console.log("ACCESS_TOKEN_SECRET:", '220fcf11de0e3f9307932fb2ff69258d190ecf08ef01d0d9c5d8d1c7c97d9149be27299a3ce8dfa0cbbfb6dc1328291786803344cdbf7f3916933a78ac47553e');
