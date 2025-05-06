@@ -1,5 +1,4 @@
-
-
+require('dotenv').config();  
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -8,6 +7,10 @@ const cookieParser = require("cookie-parser");
 const cors = require('cors');
 const RabbitMQUser = require('./src/rabbitmq/user-s');
 const app = express();
+
+
+console.log("ACCESS_TOKEN_SECRET index:", process.env.ACCESS_TOKEN_SECRET);
+
 
 app.use(cookieParser());
 app.use(bodyParser.json());
