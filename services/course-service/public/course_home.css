@@ -76,9 +76,13 @@ body {
 
 #mySidebar
 {
+    position: fixed; /* così resta visibile sopra l'overlay */
     top: 0;
     left: 0;
-    width: 250px; /* Adjust the width as needed */  
+    width: 250px;
+    height: 100%;
+    background-color: white; /* o il colore che preferisci */
+    z-index: 2; /* maggiore di .overlaybar */
 }
 
 /* Stile dei link nel menu */
@@ -102,7 +106,7 @@ body {
     transition: 200ms ease-in-out;
     pointer-events: none;
     opacity: 0;
-    z-index: 30;
+    z-index: 1;
 
 }
 

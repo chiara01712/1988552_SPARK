@@ -2,7 +2,7 @@ const bcryptjs = require('bcryptjs');
 const uuid = require('uuid');
 const jwt = require('jsonwebtoken');
 
-require ('dotenv').config();
+
 
 
 class UserService{
@@ -76,11 +76,11 @@ class UserService{
                     role: user.role,
                 };
                 console.log("Payload",payload);
-                console.log("ACCESS_TOKEN_SECRET:", '220fcf11de0e3f9307932fb2ff69258d190ecf08ef01d0d9c5d8d1c7c97d9149be27299a3ce8dfa0cbbfb6dc1328291786803344cdbf7f3916933a78ac47553e');
+                console.log("ACCESS_TOKEN_SECRET:", process.env.ACCESS_TOKEN_SECRET);
 
 
                 // Generate a JWT token with a secret key stored in .env
-                const token = jwt.sign(payload, "220fcf11de0e3f9307932fb2ff69258d190ecf08ef01d0d9c5d8d1c7c97d9149be27299a3ce8dfa0cbbfb6dc1328291786803344cdbf7f3916933a78ac47553e", { 
+                const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { 
                     expiresIn: '365d',
                 });
 

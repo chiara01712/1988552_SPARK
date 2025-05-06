@@ -65,10 +65,15 @@ body {
     /* transform: translateX(-50%); centro il menu rispetto al pulsante*/ 
 }
 #profileSidebar {
+    position: fixed;
     top: 0;
-    right: 0;
-    width: 250px; /* Adjust the width as needed */
-   
+    right: 0; /* <-- invece di left: 0 */
+    width: 250px;
+    height: 100%;
+    background-color: white;
+    z-index: 2;
+    display: none; /* inizialmente nascosto */
+    box-shadow: -2px 0 8px rgba(0,0,0,0.3); 
 }
 
 /* Stile dei link nel menu */
@@ -307,6 +312,21 @@ button {
     background-color: rgba(0, 0, 0, .5);
     transition: 200ms ease-in-out;
     pointer-events: none;
+}
+.overlaybar{
+    position: fixed;
+    top:0;
+    bottom:0;
+    left:0; 
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    transition: 200ms ease-in-out;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 1;
+
 }
 
 .overlayactive{

@@ -4,6 +4,7 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
+let quizzes = [];
 async function getQuizzes() {
 
     // TODO: Retrive the courseId from the session storage 
@@ -16,7 +17,7 @@ async function getQuizzes() {
             },
         });
         if (response.status === 200) {
-            const quizzes = await response.json();
+            quizzes = await response.json();
             console.log("Quizzes fetched successfully:", quizzes);
             renderQuizzes(quizzes); // Call the function to render quizzes
         }
@@ -109,6 +110,8 @@ function open_Menu() {
 
 // Function to render quizzes
 function renderQuizzes(quizzes) {
+    console.log("Rendering quizzes:", quizzes);
+    console.log("Quizzes is of type:", typeof quizzes);
     const quizzesContainer = document.getElementById('quizzes-list');
     quizzesContainer.innerHTML = '';
     
@@ -127,7 +130,7 @@ function renderQuizzes(quizzes) {
         // Add button or results based on completion status
         if (!quiz.completed) {
             quizContent += `
-                <button class="take-quiz-btn" onclick="openQuizPopup(${quiz.id})">
+                <button class="take-quiz-btn" onclick="openQuizPopup('${quiz.id}')">
                     <i class="fa-solid fa-play"></i> Take Quiz
                 </button>
             `;
@@ -155,6 +158,60 @@ function renderQuizzes(quizzes) {
 }
 
 
+//TODO
+// Popup functionality
+function openQuizPopup(quizId) {
+    currentQuizId = quizId;
+    const quiz = quizzes.find(q => q.id === quizId);
+    console.log("Quiz ID:", quizId);
+    if (!quiz) return;
+    
+    document.getElementById("popup-quiz-title").textContent = quiz.title;
+    document.getElementById("popup-quiz-description").textContent = quiz.description;
+    
+    // Update progress bar
+    document.getElementById("quiz-progress").style.width = "0%";
+    
+    // Clear previous questions
+    document.getElementById("questions-container").innerHTML = '';
+    
+    // Add questions
+    quiz.questions.forEach((question, qIndex) => {
+        const questionDiv = document.createElement('div');
+        questionDiv.classList.add('quiz-question');
+        
+        let optionsHTML = '';
+        question.options.forEach((option, oIndex) => {
+            optionsHTML += `
+                <div class="option-item">
+                    <input type="radio" id="q${qIndex}-${oIndex}" name="q${qIndex}" value="${oIndex}">
+                    <label for="q${qIndex}-${oIndex}">${option.text}</label>
+                </div>
+            `;
+        });
+        
+        questionDiv.innerHTML = `
+            <h3>${qIndex + 1}. ${question.text}</h3>
+            <div class="options-list">
+                ${optionsHTML}
+            </div>
+        `;
+        
+        document.getElementById('questions-container').appendChild(questionDiv);
+    });
+    
+    // Display popup
+    document.getElementById("quiz-overlay").classList.add("active");
+    document.getElementById("quiz-popup").classList.add("active");
+}
+
+function closeQuizPopup() {
+    document.getElementById("quiz-overlay").classList.remove("active");
+    document.getElementById("quiz-popup").classList.remove("active");
+    currentQuizId = null;
+}
+
+
 
 document.addEventListener('DOMContentLoaded', getQuizzes);
 
@@ -163,5 +220,48 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // To add the course details to the page
     populateCourseDetails();
+
+    
+    // Quiz popup listeners
+    document.getElementById("close-popup").addEventListener("click", closeQuizPopup);
+    document.getElementById("cancel-btn").addEventListener("click", closeQuizPopup);
+    document.getElementById("quiz-overlay").addEventListener("click", function(e) {
+        if (e.target === this) {
+            closeQuizPopup();
+        }
+    });
+    
+    // Quiz form submission
+    document.getElementById("quiz-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+        submitQuiz(event);
+    });
+   
+    
+    // Add progress tracking for quiz questions
+    document.addEventListener('change', function(e) {
+        if (e.target && e.target.type === 'radio' && e.target.name.startsWith('q')) {
+            updateQuizProgress();
+        }
+    });
     
 });
+
+// Function to update quiz progress bar
+function updateQuizProgress() {
+    if (!currentQuizId) return;
+    
+    const quiz = quizzes.find(q => q.id === currentQuizId);
+    if (!quiz) return;
+    
+    let answeredCount = 0;
+    quiz.questions.forEach((_, qIndex) => {
+        const selectedOption = document.querySelector(`input[name="q${qIndex}"]:checked`);
+        if (selectedOption) {
+            answeredCount++;
+        }
+    });
+    
+    const progressPercentage = (answeredCount / quiz.questions.length) * 100;
+    document.getElementById("quiz-progress").style.width = `${progressPercentage}%`;
+}
