@@ -259,6 +259,6 @@ async function viewAllNotes(){
 }
 
 async function viewAllCourses(){
-    window.location.href = 'http://localhost:6060/getCoursesPage';
+    window.location.href = 'http://localhost:6060/CoursesPage';
 }
 

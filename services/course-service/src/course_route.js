@@ -144,7 +144,7 @@ router.get('/getCoursesBySearch', async (req, res) => {
   }
 });
 
-router.get("/getCoursesPage", (req, res) => {
+router.get("/CoursesPage", (req, res) => {
   const token = req.cookies.access_token;
   if (!token) {
     return res.status(401).json({ message: 'Unauthorized' });
@@ -155,6 +155,23 @@ router.get("/getCoursesPage", (req, res) => {
     console.log("Authenticated user: ",decoded);
     
     res.sendFile(path.join(__dirname, '..', 'public', 'courses.html'));
+  } catch (error) {
+    console.error("Error verifying token:", error);
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+});
+
+router.get("/CoursePage", (req, res) => {
+  const token = req.cookies.access_token;
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+  try{
+    // Verify the token using the same secret key used for signing
+    const decoded = jwt.verify(token, '220fcf11de0e3f9307932fb2ff69258d190ecf08ef01d0d9c5d8d1c7c97d9149be27299a3ce8dfa0cbbfb6dc1328291786803344cdbf7f3916933a78ac47553e');
+    console.log("Authenticated user: ",decoded);
+    
+    res.sendFile(path.join(__dirname, '..', 'public', 'course_home.html'));
   } catch (error) {
     console.error("Error verifying token:", error);
     return res.status(401).json({ message: 'Unauthorized' });
