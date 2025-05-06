@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Quizzes</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="quiz_student.css">
+    <link rel="stylesheet" type="text/css" href="/quiz/quiz_student.css">
+   
 </head>
 <body>
     <div class="sidebar" id="mySidebar">
@@ -36,9 +37,20 @@
            
             <img id="profile" src="../images/profilo.png" onclick="open_Profile()">
         </div>
+
+        <!-- Tab -->
+        <div class="box" id="titlebox">
+            <h1 id="courseTitle"></h1>
+        </div>
+    
+        <div class="sectionbar">
+            <a href="http://localhost:6060/CoursePage">Home</a>
+            <a href="http://localhost:6060/QuizPage">Tests</a>
+            <label id="stud_annou" >Students</label>
+        </div>
          
+        <!-- Quizzes -->
         <div class="main-container">
-            <h1 class="page-title">My Quizzes</h1>
             
             <div class="quiz-container" id="quizzes-list">
                 <!-- Quiz cards will be inserted here by JavaScript -->
@@ -69,6 +81,8 @@
             </form>
         </div>
     </div>
+
+    <script src="/quiz/quiz_student.js"></script> 
 
 </body>
 </html>
