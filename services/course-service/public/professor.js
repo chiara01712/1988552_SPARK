@@ -103,6 +103,49 @@ function changeTag(tag){
   }
 }
 
+function changeColor(courseTitle, tag){
+  if ( tag == 'Arts & Design'){
+    courseTitle.style.color = "#000000";
+    courseTitle.style.textShadow= "2px 2px 5px grey";
+  }
+  if ( tag == 'Business & Management'){
+    courseTitle.style.color = "#ffffff";
+    courseTitle.style.textShadow= "2px 2px 7px black";
+  }
+  if ( tag == 'Communication & Media'){
+    courseTitle.style.color = "#000000";
+    courseTitle.style.textShadow= "2px 2px 7px grey";
+  }
+  if ( tag == 'Engineering & Technology'){
+    courseTitle.style.color = "#ffffff";
+    courseTitle.style.textShadow= "2px 2px 7px black";
+  }
+  if ( tag == 'Health & Life Sciences'){
+    courseTitle.style.color = "#000000";
+    courseTitle.style.textShadow= "2px 2px 5px grey";
+  }
+  if ( tag == 'Humanities'){
+    courseTitle.style.color = "#ffffff";
+    courseTitle.style.textShadow= "2px 2px 7px grey";
+  }
+  if ( tag == 'Law & Legal Studies'){
+    courseTitle.style.color = "#000000";
+    courseTitle.style.textShadow= "2px 2px 7px grey";
+  }
+  if ( tag == 'Mathematical Sciences'){
+    courseTitle.style.color = "#ffffff";
+    courseTitle.style.textShadow= "2px 2px 7px black";
+  }
+  if ( tag == 'Natural Sciences'){
+    courseTitle.style.color = "darkgreen";
+    courseTitle.style.textShadow= "2px 2px 7px grey";
+  }
+  if ( tag == 'Social Sciences'){
+    courseTitle.style.color = "#ffffff";
+    courseTitle.style.textShadow= "2px 2px 7px black";
+  }
+}
+
 
 
 async function loadCourses() {
@@ -140,8 +183,10 @@ async function loadCourses() {
           // Reindirizza alla pagina (senza passare parametri in URL)
           window.location.href = "course_home.html";
         });
-
-        box.innerHTML = `<h1>${course.title}</h1>`;
+        const h1 = document.createElement("h1");
+        changeColor(h1, course.tag);
+        h1.textContent = course.title;
+        box.appendChild(h1);
         container.appendChild(box);
 
       });
@@ -230,7 +275,7 @@ async function addCourse(popupId, overlayId) {
 
         console.log('Response Status:', response.status);
         const responseData = await response.json();
-        if(responseData.length!=0) alert(responseData.message);
+        if(responseData.message.length>0) alert(responseData.message);
 
         // Reload courses to include the new course
         console.log('Reloading courses...');

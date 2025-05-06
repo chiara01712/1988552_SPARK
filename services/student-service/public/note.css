@@ -207,7 +207,6 @@ button {
 .container-box .box h2 {
     width: 100%;
     font-size: 18px;
-    color: #333;
     margin: 0 0 10px 0;
     margin-bottom: -10px;
     overflow: hidden;
@@ -221,7 +220,6 @@ button {
     margin-top: 0px;
     margin-bottom: 40px;
     padding-bottom: 20px;
-    color: black;
     position: relative;
     overflow-x: hidden;
 }
@@ -230,7 +228,6 @@ button {
     font-family: Poppins;
     margin-bottom: 0;
     margin-top: 10px;
-    color: rgb(68, 68, 68);
 }
 .box h4 a{
     text-decoration: none;
@@ -238,7 +235,6 @@ button {
     font-family: Poppins;
     margin-bottom: 0;
     margin-top: 10px;
-    color: rgb(68, 68, 68);
 }
 .box h4:hover{
     color: rgb(134, 134, 134);
@@ -249,14 +245,6 @@ button {
     text-decoration: underline;
 }
 
-#bin{
-    position:relative;
-    left: 90%;
-    bottom: 11%;
-}
-#bin:hover{
-    opacity: 1;
-}
 
 .container::-webkit-scrollbar-thumb:hover {
     background: #555;
@@ -539,40 +527,57 @@ button {
     padding: 24px 46px 24px 26px;
   }
 
-
   #art{
-    background-image: url("images/Arts.png");
+    background-size: contain;
+    background-image: url("images/Arts.jpg");
 }
 
 #bam{
+    background-size: cover;
     background-image: url("images/Business.jpg");
 }
 
 #cam{
-    background-image: url("images/Communication.png");
+    background-size: contain;
+    background-image: url("images/Comunication.jpg");
 }
 
 #engandtech{
+    background-size: cover;
     background-image: url("images/Engineering.png");
 }
 
 #handlife{
+    background-size: cover;
     background-image: url("images/HealthLife.jpg");
 }
 #human{
-    background-image: url("images/Humanities.png");
+    background-size: contain;
+    background-image: url("images/Humanities.avif");
 }
 #law{
-    background-image: url("images/Law.jpg");
+    background-size: contain;
+    background-image: url("images/Law.jfif");
 }
 #math{
-    background-image: url("images/Math.png");
+    background-size: contain;
+    background-image: url("images/Math.jfif");
 }
 
 #natty{
-    background-image: url("images/NatScience.png");
+    background-size: contain;
+    background-image: url("images/Natural.jfif");
 }
 
 #social{
-    background-image: url("images/SocialScience.png");
+    background-size: cover;
+    background-image: url("images/Social.jfif");
+}
+#bin{
+    position:relative;
+    left: 90%;
+    bottom: 11%;
+}
+#bin:hover{
+    opacity: 1;
 }

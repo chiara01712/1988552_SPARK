@@ -87,6 +87,48 @@ function close_Profile() {
   document.getElementById("profileSidebar").style.display = "none";
   document.getElementById("overlaysidebar").classList.remove("overlayactive");
 }
+function changeColor(courseTitle, tag){
+  if ( tag == 'Arts & Design'){
+    courseTitle.style.color = "#000000";
+    courseTitle.style.textShadow= "2px 2px 5px grey";
+  }
+  if ( tag == 'Business & Management'){
+    courseTitle.style.color = "#ffffff";
+    courseTitle.style.textShadow= "2px 2px 7px black";
+  }
+  if ( tag == 'Communication & Media'){
+    courseTitle.style.color = "#000000";
+    courseTitle.style.textShadow= "2px 2px 7px grey";
+  }
+  if ( tag == 'Engineering & Technology'){
+    courseTitle.style.color = "#ffffff";
+    courseTitle.style.textShadow= "2px 2px 7px black";
+  }
+  if ( tag == 'Health & Life Sciences'){
+    courseTitle.style.color = "#000000";
+    courseTitle.style.textShadow= "2px 2px 5px grey";
+  }
+  if ( tag == 'Humanities'){
+    courseTitle.style.color = "#ffffff";
+    courseTitle.style.textShadow= "2px 2px 7px grey";
+  }
+  if ( tag == 'Law & Legal Studies'){
+    courseTitle.style.color = "#000000";
+    courseTitle.style.textShadow= "2px 2px 7px grey";
+  }
+  if ( tag == 'Mathematical Sciences'){
+    courseTitle.style.color = "#ffffff";
+    courseTitle.style.textShadow= "2px 2px 7px black";
+  }
+  if ( tag == 'Natural Sciences'){
+    courseTitle.style.color = "darkgreen";
+    courseTitle.style.textShadow= "2px 2px 7px grey";
+  }
+  if ( tag == 'Social Sciences'){
+    courseTitle.style.color = "#ffffff";
+    courseTitle.style.textShadow= "2px 2px 7px black";
+  }
+}
 
 
 // Funzione per creare un box corso
@@ -95,11 +137,13 @@ function createCourseBox(title, category, prof_name) {
   box.className = "box";
 
   const h1 = document.createElement("h1");
-  h1.textContent = title;-
+  changeColor(h1, category);
+  h1.textContent = title;
   box.appendChild(h1);
 
   const h2 = document.createElement("h2");
   h2.textContent = "Prof. "+prof_name; 
+  changeColor(h2, category);
   box.appendChild(h2);
   return box;
 }
@@ -201,7 +245,19 @@ async function loadCourses() {
           console.log(course);
           const box = createCourseBox(course.title, course.tag, course.professor_name|| "uncategorized");
           changeTag(box,course.tag);
+
           container.appendChild(box);
+
+          box.addEventListener('click', () => {
+            // Crea l'URL con i parametri
+            localStorage.setItem("courseId", course.id);
+            localStorage.setItem("title", course.title);
+            localStorage.setItem("professor", course.professor_name);
+            localStorage.setItem("subject", course.tag);
+            
+            // Reindirizza alla pagina (senza passare parametri in URL)
+            window.location.href = "course_home.html";
+          });
         });
         
       }
@@ -409,33 +465,3 @@ async function fetchUsername() {
   }
 }
 document.addEventListener("DOMContentLoaded", fetchUsername);
-
-// Request for the name of the student to user-service
-async function fetchUsername() {
-  const studentId = getCookie("user_Id");
-  try{
-      const response = await fetch('/getUsername', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ id: studentId, target: "getUsername" }),
-      });
-
-      if(response.status === 200) {
-          const res = await response.json();
-          const student = res.response
-          
-          console.log("Student name fetched successfully:", student);
-
-      }
-      else{
-          console.error("Failed to fetch student name:", response.statusText);
-      }
-  } catch (error) {
-      console.error('Error fetching student name:', error);
-  }
-}
-document.addEventListener("DOMContentLoaded", fetchUsername);
-
-

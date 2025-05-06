@@ -55,16 +55,28 @@ async function fetchNotes() {
                  
                 notes.forEach((note, index) => {
                     const isActive =  'active' ;
-                    const id=changeTag(note.tag);
-                    const noteHtml = `
-                        <div class="box ${isActive}" id="${id}">
-                            <h2>${note.title}</h2> 
-                            <i class="fa-regular fa-rectangle-xmark" id="bin" onClick=deleteNote('${note.id}')></i>
-                            <h4 onclick="showFile('${note.file_type}', '${note.file_url}')">View File</h4>
-                            <h4> <a href="${note.file_url}" style="text-decoration=none;">Download File </a></h4>
-                        </div>
-                    `;
-                    carouselContent.innerHTML += noteHtml;
+                    
+                    const box = document.createElement("div");
+                    box.className = "box";
+                    box.classList.add(isActive);
+                    box.id=changeTag(note.tag);
+
+                    const h2 = document.createElement("h2");
+                    changeColor(h2, note.tag);
+                    h2.textContent = note.title;
+                    box.appendChild(h2);
+                    
+                    box.innerHTML+= `<i class="fa-regular fa-rectangle-xmark" id="bin" onClick=deleteNote('${note.id}')></i>`;
+                    box.innerHTML+= `<h4  onclick="showFile('${note.file_type}', '${note.file_url}')">View File</h4>`;
+                    changeColor(box.querySelectorAll('h4')[0], note.tag);
+                    changeColor(box.querySelectorAll('i')[0], note.tag);
+
+                    const dwnd = document.createElement("h4");
+                    dwnd.innerHTML= `<a href="${note.file_url}" style="text-decoration=none;">Download File </a>`;
+                    box.appendChild(dwnd);
+                    changeColor(dwnd.querySelectorAll('a')[0], note.tag);
+                    
+                    carouselContent.appendChild(box);
                     
                 });
             }
@@ -194,6 +206,48 @@ function changeTag(tag){
       return("social");
     }
   }
+  function changeColor(courseTitle, tag){
+    if ( tag == 'Arts & Design'){
+      courseTitle.style.color = "#000000";
+      courseTitle.style.textShadow= "2px 2px 5px grey";
+    }
+    if ( tag == 'Business & Management'){
+      courseTitle.style.color = "#ffffff";
+      courseTitle.style.textShadow= "2px 2px 7px black";
+    }
+    if ( tag == 'Communication & Media'){
+      courseTitle.style.color = "#000000";
+      courseTitle.style.textShadow= "2px 2px 7px grey";
+    }
+    if ( tag == 'Engineering & Technology'){
+      courseTitle.style.color = "#ffffff";
+      courseTitle.style.textShadow= "2px 2px 7px black";
+    }
+    if ( tag == 'Health & Life Sciences'){
+      courseTitle.style.color = "#000000";
+      courseTitle.style.textShadow= "2px 2px 5px grey";
+    }
+    if ( tag == 'Humanities'){
+      courseTitle.style.color = "#ffffff";
+      courseTitle.style.textShadow= "2px 2px 7px grey";
+    }
+    if ( tag == 'Law & Legal Studies'){
+      courseTitle.style.color = "#000000";
+      courseTitle.style.textShadow= "2px 2px 7px grey";
+    }
+    if ( tag == 'Mathematical Sciences'){
+      courseTitle.style.color = "#ffffff";
+      courseTitle.style.textShadow= "2px 2px 7px black";
+    }
+    if ( tag == 'Natural Sciences'){
+      courseTitle.style.color = "darkgreen";
+      courseTitle.style.textShadow= "2px 2px 7px grey";
+    }
+    if ( tag == 'Social Sciences'){
+      courseTitle.style.color = "#ffffff";
+      courseTitle.style.textShadow= "2px 2px 7px black";
+    }
+  }
   
 async function fetchCourses() {
     const studentId = getCookie("user_Id");
@@ -227,14 +281,18 @@ async function fetchCourses() {
              let count=0;
              const message=[];
              courses.forEach((course, index) => {
-                 const isActive = index === 0 ? 'active' : '';
                  const tag= changeTag(course.tag);
-                 const courseHtml = `
-                     <div class="box ${isActive}" id="${tag}">
-                         <h2>${course.title}</h2>
-                     </div>
-                 `;
-                 carouselContent.innerHTML += courseHtml;
+                 const box = document.createElement("div");
+                box.className = "box";
+                box.id=tag;
+                if(index==0) box.classList.add('active');
+
+                const h2 = document.createElement("h2");
+                changeColor(h2, course.tag);
+                h2.textContent = course.title;
+                box.appendChild(h2);
+
+                 carouselContent.appendChild(box);
                  count+=1;
                  const data={
                     title: course.title,

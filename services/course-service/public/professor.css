@@ -200,9 +200,7 @@ button {
     cursor: pointer;
 }
 
-.box h1{
-    color: black;
-}
+
 
 /* Contenitore della scrollbar */
 .container-box::-webkit-scrollbar {

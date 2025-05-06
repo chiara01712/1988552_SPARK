@@ -277,7 +277,6 @@ button {
 .container-box .box h2 {
     width: 100%;
     font-size: 18px;
-    color: #333;
     margin: 0 0 10px 0;
     margin-bottom: -10px;
     overflow: hidden;
@@ -301,7 +300,6 @@ button {
     margin-right: 20px;
     font-size: 30px;
     margin-top: 0px;
-    color: black;
     position: relative;
     overflow-x: hidden;
 }
@@ -311,7 +309,6 @@ box h4{
     font-family: Poppins;
     margin-bottom: 0;
     margin-top: 10px;
-    color: rgb(68, 68, 68);
 }
 .box h4 a{
     text-decoration: none;
@@ -319,7 +316,6 @@ box h4{
     font-family: Poppins;
     margin-bottom: 0;
     margin-top: 10px;
-    color: rgb(68, 68, 68);
 }
 .box h4:hover{
     color: rgb(134, 134, 134);
