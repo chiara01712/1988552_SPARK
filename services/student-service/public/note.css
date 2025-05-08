@@ -170,8 +170,8 @@ button {
 
 .container {
     background-color : white;
-    width: 60%;
-    height: 40rem;
+    width: 70%;
+    height: 25rem;
     border-radius: 30px;
     border: 0;
     margin: 0 auto;
@@ -179,24 +179,36 @@ button {
 }
   /* Container for all the notes */
   .container-box{
-    height: 80%;
+    height: 50%;
     width: 100%;
+    margin-bottom: 20px;
+    margin-left: 20px;
     overflow-y: scroll;
     overflow-x: hidden; 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
 }
 /*Box of a single note*/
-.box {
-    width: 80%;
-    margin: 0 auto;
-    height: 60%;
-    border-radius: 30px;
-    background-size: cover;
+.container-box .box {
+    padding: 15px;
+    background-color: #f0f0f0;    
+    width: 200px;
+    min-height: 150px;
+    border-radius: 15px;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    cursor: default;
 }
 .container-box .box h2 {
     width: 100%;
     font-size: 18px;
-    color: #333;
     margin: 0 0 10px 0;
+    margin-bottom: -10px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -208,7 +220,6 @@ button {
     margin-top: 0px;
     margin-bottom: 40px;
     padding-bottom: 20px;
-    color: black;
     position: relative;
     overflow-x: hidden;
 }
@@ -217,12 +228,27 @@ button {
     font-family: Poppins;
     margin-bottom: 0;
     margin-top: 10px;
-    color: rgb(68, 68, 68);
+}
+.box h4 a{
+    text-decoration: none;
+    font-size: 15px;
+    font-family: Poppins;
+    margin-bottom: 0;
+    margin-top: 10px;
 }
 .box h4:hover{
     color: rgb(134, 134, 134);
     text-decoration: underline;
 }
+.box a:hover{
+    color: rgb(134, 134, 134);
+    text-decoration: underline;
+}
+
+
+.container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }   
 
 /* Contenitore della scrollbar */
 .container-box::-webkit-scrollbar {
@@ -297,11 +323,26 @@ button {
   
   /* Colore della track (sfondo della scrollbar) */
   
-.popupactive{
-    transform: translate(-50%,-50%) scale(1) ;
+  .popup-search {
+    background-color: white;
+    position: fixed;
+    padding: 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: 200ms ease-in-out;
+    z-index: 15;
+    width: 700px;
+    height: 380px;
+    border-radius: 20px;
 }
 
-.popup h1{
+.popupactive {
+    
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.popup h1 {
     font-family: Poppins;
     font-weight: 600;
     margin-left: 10px;
@@ -310,7 +351,7 @@ button {
     margin-bottom: 20px;
 }
 
-.popup h2{
+.popup h2 {
     font-family: Poppins;
     margin-left: 10px;
     font-weight: 450;
@@ -318,7 +359,7 @@ button {
     margin-bottom: 5px;
 }
 
-.popup h3{
+.popup h3 {
     font-family: Poppins;
     margin-left: 10px;
     font-weight: 400;
@@ -327,8 +368,16 @@ button {
     color: #293b5c;
 }
 
+.description {
+    font-family: Poppins;
+    margin-left: 10px;
+    overflow: auto;
+    color: black;
+    padding-right: 10px;
+    height: 40%;
+}
 
-.overlay{
+.overlay {
     position: fixed;
     opacity: 0;
     top: 0;
@@ -340,11 +389,22 @@ button {
     pointer-events: none;
 }
 
-.overlayactive{
-    opacity: 1 ; 
-    pointer-events: all;
+.overlay-search {
+    position: fixed;
+    opacity: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.01);
+    transition: 200ms ease-in-out;
+    pointer-events: none;
 }
 
+.overlayactive {
+    opacity: 1;
+    pointer-events: all;
+}
 
 /* Carousel styles */
 .carousel-inner {
@@ -467,4 +527,57 @@ button {
     padding: 24px 46px 24px 26px;
   }
 
+  #art{
+    background-size: contain;
+    background-image: url("images/Arts.jpg");
+}
 
+#bam{
+    background-size: cover;
+    background-image: url("images/Business.jpg");
+}
+
+#cam{
+    background-size: contain;
+    background-image: url("images/Comunication.jpg");
+}
+
+#engandtech{
+    background-size: cover;
+    background-image: url("images/Engineering.png");
+}
+
+#handlife{
+    background-size: cover;
+    background-image: url("images/HealthLife.jpg");
+}
+#human{
+    background-size: contain;
+    background-image: url("images/Humanities.avif");
+}
+#law{
+    background-size: contain;
+    background-image: url("images/Law.jfif");
+}
+#math{
+    background-size: contain;
+    background-image: url("images/Math.jfif");
+}
+
+#natty{
+    background-size: contain;
+    background-image: url("images/Natural.jfif");
+}
+
+#social{
+    background-size: cover;
+    background-image: url("images/Social.jfif");
+}
+#bin{
+    position:relative;
+    left: 90%;
+    bottom: 11%;
+}
+#bin:hover{
+    opacity: 1;
+}

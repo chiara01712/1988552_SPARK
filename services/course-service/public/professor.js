@@ -3,6 +3,30 @@
 const prof_name = "Leonardi";
  */
 
+async function signOut() {
+  console.log("Logout function called");
+  try {
+      // Send a request to localhost:8080 to clear the cookies
+      const response = await fetch('http://localhost:8080/logout', {       
+          method: 'POST',
+          credentials: 'include' // Include credentials (cookies) in the request
+      });
+      if (response.status === 200) {
+          console.log("Logout successful");
+          window.location.href = 'http://localhost:8080/';
+      }
+  }
+  catch (error) {
+      console.error('Error during sign-out:', error);
+  }
+
+}
+
+async function personalData() {
+  console.log("Personal data function called");
+  window.location.href = 'http://localhost:8080/personalData';
+}
+
 function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
@@ -79,6 +103,49 @@ function changeTag(tag){
   }
 }
 
+function changeColor(courseTitle, tag){
+  if ( tag == 'Arts & Design'){
+    courseTitle.style.color = "#000000";
+    courseTitle.style.textShadow= "2px 2px 5px grey";
+  }
+  if ( tag == 'Business & Management'){
+    courseTitle.style.color = "#ffffff";
+    courseTitle.style.textShadow= "2px 2px 7px black";
+  }
+  if ( tag == 'Communication & Media'){
+    courseTitle.style.color = "#000000";
+    courseTitle.style.textShadow= "2px 2px 7px grey";
+  }
+  if ( tag == 'Engineering & Technology'){
+    courseTitle.style.color = "#ffffff";
+    courseTitle.style.textShadow= "2px 2px 7px black";
+  }
+  if ( tag == 'Health & Life Sciences'){
+    courseTitle.style.color = "#000000";
+    courseTitle.style.textShadow= "2px 2px 5px grey";
+  }
+  if ( tag == 'Humanities'){
+    courseTitle.style.color = "#ffffff";
+    courseTitle.style.textShadow= "2px 2px 7px grey";
+  }
+  if ( tag == 'Law & Legal Studies'){
+    courseTitle.style.color = "#000000";
+    courseTitle.style.textShadow= "2px 2px 7px grey";
+  }
+  if ( tag == 'Mathematical Sciences'){
+    courseTitle.style.color = "#ffffff";
+    courseTitle.style.textShadow= "2px 2px 7px black";
+  }
+  if ( tag == 'Natural Sciences'){
+    courseTitle.style.color = "darkgreen";
+    courseTitle.style.textShadow= "2px 2px 7px grey";
+  }
+  if ( tag == 'Social Sciences'){
+    courseTitle.style.color = "#ffffff";
+    courseTitle.style.textShadow= "2px 2px 7px black";
+  }
+}
+
 
 
 async function loadCourses() {
@@ -116,8 +183,10 @@ async function loadCourses() {
           // Reindirizza alla pagina (senza passare parametri in URL)
           window.location.href = "course_home.html";
         });
-
-        box.innerHTML = `<h1>${course.title}</h1>`;
+        const h1 = document.createElement("h1");
+        changeColor(h1, course.tag);
+        h1.textContent = course.title;
+        box.appendChild(h1);
         container.appendChild(box);
 
       });
@@ -176,9 +245,7 @@ async function addCourse(popupId, overlayId) {
   const titleInput = document.getElementById('course_name');
   const descriptionInput = document.getElementById('description');
   const subjectInput = document.querySelector('#subject');
-
-  const welcomeMessage = document.getElementById('welcomeUser');
-  const professorUsername= welcomeMessage.innerHTML;
+  const professorUsername= fetchUsername();
   console.log("the Username for prof is: "+professorUsername+ "and Id:"+professorId);
   const title = titleInput.value.trim();
   const description = descriptionInput.value.trim();
@@ -206,7 +273,7 @@ async function addCourse(popupId, overlayId) {
 
         console.log('Response Status:', response.status);
         const responseData = await response.json();
-        console.log('Response Body:', responseData);
+        if(responseData.message.length>0) alert(responseData.message);
 
         // Reload courses to include the new course
         console.log('Reloading courses...');

@@ -277,8 +277,8 @@ button {
 .container-box .box h2 {
     width: 100%;
     font-size: 18px;
-    color: #333;
     margin: 0 0 10px 0;
+    margin-bottom: -10px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -300,11 +300,31 @@ button {
     margin-right: 20px;
     font-size: 30px;
     margin-top: 0px;
-    color: black;
     position: relative;
     overflow-x: hidden;
 }
 
+box h4{
+    font-size: 15px;
+    font-family: Poppins;
+    margin-bottom: 0;
+    margin-top: 10px;
+}
+.box h4 a{
+    text-decoration: none;
+    font-size: 15px;
+    font-family: Poppins;
+    margin-bottom: 0;
+    margin-top: 10px;
+}
+.box h4:hover{
+    color: rgb(134, 134, 134);
+    text-decoration: underline;
+}
+.box a:hover{
+    color: rgb(134, 134, 134);
+    text-decoration: underline;
+}
 
 
   .new_course {
@@ -522,4 +542,60 @@ button {
         font-size: 14px;
         padding: 6px 12px;
     }
+}
+
+
+#art{
+    background-size: contain;
+    background-image: url("images/Arts.jpg");
+}
+
+#bam{
+    background-size: cover;
+    background-image: url("images/Business.jpg");
+}
+
+#cam{
+    background-size: contain;
+    background-image: url("images/Comunication.jpg");
+}
+
+#engandtech{
+    background-size: cover;
+    background-image: url("images/Engineering.png");
+}
+
+#handlife{
+    background-size: cover;
+    background-image: url("images/HealthLife.jpg");
+}
+#human{
+    background-size: contain;
+    background-image: url("images/Humanities.avif");
+}
+#law{
+    background-size: contain;
+    background-image: url("images/Law.jfif");
+}
+#math{
+    background-size: contain;
+    background-image: url("images/Math.jfif");
+}
+
+#natty{
+    background-size: contain;
+    background-image: url("images/Natural.jfif");
+}
+
+#social{
+    background-size: cover;
+    background-image: url("images/Social.jfif");
+}
+#bin{
+    position:relative;
+    left: 90%;
+    bottom: 11%;
+}
+#bin:hover{
+    opacity: 1;
 }

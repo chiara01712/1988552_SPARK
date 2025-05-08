@@ -76,9 +76,13 @@ body {
 
 #mySidebar
 {
+    position: fixed; /* così resta visibile sopra l'overlay */
     top: 0;
     left: 0;
-    width: 250px; /* Adjust the width as needed */  
+    width: 250px;
+    height: 100%;
+    background-color: white; /* o il colore che preferisci */
+    z-index: 2; /* maggiore di .overlaybar */
 }
 
 /* Stile dei link nel menu */
@@ -102,7 +106,7 @@ body {
     transition: 200ms ease-in-out;
     pointer-events: none;
     opacity: 0;
-    z-index: 30;
+    z-index: 1;
 
 }
 
@@ -164,9 +168,9 @@ body {
 }
 
 .box h1{
-    padding-left: 30px ;
+    font-size: 40px;;
+    padding-left: 40px ;
     padding-top: 30px ;
-    color: rgb(255, 255, 255);
 }
 
 .sectionbar{
@@ -556,40 +560,50 @@ body {
 }
 
 .art{
-    background-image: url("images/Arts.png");
+    background-size: contain;
+    background-image: url("images/Arts.jpg");
 }
 
 .bam{
+    background-size: 99.%;
     background-image: url("images/Business.jpg");
 }
 
 .cam{
-    background-image: url("images/Communication.png");
+    background-size: contain;
+    background-image: url("images/Comunication.jpg");
 }
 
 .engandtech{
+    background-size: cover;
     background-image: url("images/Engineering.png");
 }
 
 .handlife{
+    background-size: contain;
     background-image: url("images/HealthLife.jpg");
 }
 .human{
-    background-image: url("images/Humanities.png");
+    background-size: contain;
+    background-image: url("images/Humanities.avif");
 }
 
 .law{
-    background-image: url("images/Law.jpg");
+    background-size: contain;
+    background-image: url("images/Law.jfif");
 }
 
 .math{
-    background-image: url("images/Math.png");
+    background-size: contain;
+    background-image: url("images/Math.jfif");
 }
 
 .natty{
-    background-image: url("images/NatScience.png");
+    background-size: contain;
+    background-image: url("images/Natural.jfif");
 }
 
 .social{
-    background-image: url("images/SocialScience.png");
+    background-size: 100% 125%;
+    background-image: url("images/Social.jfif");
 }

@@ -2,6 +2,38 @@
 const container = document.getElementById("course-container");
 const noResults = document.getElementById("no-results");
 
+async function signOut() {
+  console.log("Logout function called");
+  try {
+      // Send a request to localhost:8080 to clear the cookies
+      const response = await fetch('http://localhost:8080/logout', {       
+          method: 'POST',
+          credentials: 'include' // Include credentials (cookies) in the request
+      });
+      if (response.status === 200) {
+          console.log("Logout successful");
+          window.location.href = 'http://localhost:8080/';
+      }
+  }
+  catch (error) {
+      console.error('Error during sign-out:', error);
+  }
+
+}
+
+async function personalData() {
+  console.log("Personal data function called");
+  window.location.href = 'http://localhost:8080/personalData';
+}
+
+function goHome(){
+  window.location.href = 'http://localhost:7070/getStudentPage';
+}
+function goNotes(){
+  window.location.href = 'http://localhost:7070/getNotesPage';
+}
+
+
 function openPopup(popupId, overlayId) {
   document.getElementById(popupId).classList.add("popupactive");
   document.getElementById(overlayId).classList.add("overlayactive");
@@ -55,6 +87,48 @@ function close_Profile() {
   document.getElementById("profileSidebar").style.display = "none";
   document.getElementById("overlaysidebar").classList.remove("overlayactive");
 }
+function changeColor(courseTitle, tag){
+  if ( tag == 'Arts & Design'){
+    courseTitle.style.color = "#000000";
+    courseTitle.style.textShadow= "2px 2px 5px grey";
+  }
+  if ( tag == 'Business & Management'){
+    courseTitle.style.color = "#ffffff";
+    courseTitle.style.textShadow= "2px 2px 7px black";
+  }
+  if ( tag == 'Communication & Media'){
+    courseTitle.style.color = "#000000";
+    courseTitle.style.textShadow= "2px 2px 7px grey";
+  }
+  if ( tag == 'Engineering & Technology'){
+    courseTitle.style.color = "#ffffff";
+    courseTitle.style.textShadow= "2px 2px 7px black";
+  }
+  if ( tag == 'Health & Life Sciences'){
+    courseTitle.style.color = "#000000";
+    courseTitle.style.textShadow= "2px 2px 5px grey";
+  }
+  if ( tag == 'Humanities'){
+    courseTitle.style.color = "#ffffff";
+    courseTitle.style.textShadow= "2px 2px 7px grey";
+  }
+  if ( tag == 'Law & Legal Studies'){
+    courseTitle.style.color = "#000000";
+    courseTitle.style.textShadow= "2px 2px 7px grey";
+  }
+  if ( tag == 'Mathematical Sciences'){
+    courseTitle.style.color = "#ffffff";
+    courseTitle.style.textShadow= "2px 2px 7px black";
+  }
+  if ( tag == 'Natural Sciences'){
+    courseTitle.style.color = "darkgreen";
+    courseTitle.style.textShadow= "2px 2px 7px grey";
+  }
+  if ( tag == 'Social Sciences'){
+    courseTitle.style.color = "#ffffff";
+    courseTitle.style.textShadow= "2px 2px 7px black";
+  }
+}
 
 
 // Funzione per creare un box corso
@@ -63,11 +137,13 @@ function createCourseBox(title, category, prof_name) {
   box.className = "box";
 
   const h1 = document.createElement("h1");
-  h1.textContent = title;-
+  changeColor(h1, category);
+  h1.textContent = title;
   box.appendChild(h1);
 
   const h2 = document.createElement("h2");
   h2.textContent = "Prof. "+prof_name; 
+  changeColor(h2, category);
   box.appendChild(h2);
   return box;
 }
@@ -166,10 +242,22 @@ async function loadCourses() {
       else {
         noResults.style.display = "none";
         res.forEach(course => {
-          console.log(course);
+          
           const box = createCourseBox(course.title, course.tag, course.professor_name|| "uncategorized");
           changeTag(box,course.tag);
+
           container.appendChild(box);
+
+          box.addEventListener('click', () => {
+            // Crea l'URL con i parametri
+            localStorage.setItem("courseId", course.id);
+            localStorage.setItem("title", course.title);
+            localStorage.setItem("professor", course.professor_name);
+            localStorage.setItem("subject", course.tag);
+            
+            // Reindirizza alla pagina (senza passare parametri in URL)
+            window.location.href = "./course_home.html";
+          });
         });
         
       }
@@ -199,9 +287,11 @@ function createResultBox(courseName, professorName, courseId, isSubscribed) {
   button.classList.add('subscribe-btn');
   button.dataset.courseId = courseId;
 
+  console.log("courseID exists?", document.getElementById(courseId));
   // Stato iniziale del bottone
   button.textContent = isSubscribed ? 'Subscribed ✓' : 'Subscribe';
   if (isSubscribed) button.classList.add('subscribed');
+  
 
   button.addEventListener('click', async () => {
     const studentId = getCookie('user_Id');
@@ -349,32 +439,39 @@ async function refreshCourseContainer() {
 
 
 
-// // Request for the name of the student to user-service
-// async function fetchUsername() {
-//   const studentId = getCookie("user_Id");
-//   try{
-//       const response = await fetch('/getUsername', {
-//           method: 'POST',
-//           headers: {
-//               'Content-Type': 'application/json',
-//           },
-//           body: JSON.stringify({ id: studentId, target: "getUsername" }),
-//       });
+// Request for the name of the student to user-service
+async function fetchUsername() {
+  const studentId = getCookie("user_Id");
+  try{
+      const response = await fetch('/getUsername', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ id: studentId, target: "getUsername" }),
+      });
 
-//       if(response.status === 200) {
-//           const res = await response.json();
-//           const student = res.response
+      if(response.status === 200) {
+          const res = await response.json();
+          const student = res.response;
           
 //           console.log("Student name fetched successfully:", student);
 
-//       }
-//       else{
-//           console.error("Failed to fetch student name:", response.statusText);
-//       }
-//   } catch (error) {
-//       console.error('Error fetching student name:', error);
-//   }
-// }
-// document.addEventListener("DOMContentLoaded", fetchUsername);
+          const welcomeMessage = document.getElementById('welcomeUser');
+          if(welcomeMessage) {
+            console.log(`Welcome, `+student);
+              // Set the welcome message in the HTML element with ID 'welcomeUser'
+              welcomeMessage.textContent = `Welcome, ${student}`;
+          } else {
+              console.error("Element with ID 'welcomeUser' not found.");
+          }
 
-
+      }
+      else{
+          console.error("Failed to fetch student name:", response.statusText);
+      }
+  } catch (error) {
+      console.error('Error fetching student name:', error);
+  }
+}
+document.addEventListener("DOMContentLoaded", fetchUsername);

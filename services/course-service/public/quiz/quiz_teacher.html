@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Professor Quizzes</title>
-    <link rel="stylesheet" type="text/css" href="quiz.css">
+    <link rel="stylesheet" type="text/css" href="/quiz/quiz.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 </head>
@@ -37,6 +37,19 @@
            
             <img id="profile" src="../images/profilo.png" onclick="open_Profile()">
         </div>
+
+        <!-- Tab -->
+        <div class="box" id="titlebox">
+            <h1 id="courseTitle"></h1>
+        </div>
+    
+        <div class="sectionbar">
+            <a href="http://localhost:6060/CoursePage">Home</a>
+            <a href="http://localhost:6060/QuizPage">Tests</a>
+            <label id="stud_annou" >Students</label>
+        </div>
+         
+        <!-- Quizzes -->
          
         <div class="main-container">
             <h1 class="page-title"> Quizzes</h1>
@@ -84,6 +97,6 @@
         </div>
     </div>
 
-    <script src="quiz.js"></script> 
+    <script src="/quiz/quiz.js"></script> 
 </body>
 </html>

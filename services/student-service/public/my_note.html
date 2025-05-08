@@ -12,7 +12,7 @@
     <div class="sidebar"  id="mySidebar">
         <div class = "menu-items">
             <p><a href="./student_home.html"><i class="fa-solid fa-house-user"></i> Home</a></p>
-            <p><a href="http://localhost:6060/getCoursesPage"><i class="fa-solid fa-chalkboard"></i> Courses</a></p>
+            <p><a href="http://localhost:6060/CoursesPage"><i class="fa-solid fa-chalkboard"></i> Courses</a></p>
         </div>
     </div>
 
@@ -20,7 +20,7 @@
       
     <div class="sidebar"  id="profileSidebar">
         <div class = "menu-items" >
-            <p><a href="#"> <i class="fa-solid fa-user"></i> Personal Data</a></p>
+            <p><a onclick="personalData()"> <i class="fa-solid fa-user"></i> Personal Data</a></p>
             <p><a onclick="signOut()"> <i class="fa-solid fa-right-from-bracket"></i> Logout</a></p>
         </div>
     </div>
@@ -29,12 +29,12 @@
 
     <div id="main">
         <div class="header">
-            <img id="openNav" src="menu.png" class="menu" onclick="open_Menu()">
+            <img id="openNav" src="./images/menu.png" class="menu" onclick="open_Menu()">
             <div class="wrapper">
-                <img src="Spark-LOGO-removebg-preview.png" id="logo">
+                <img src="./images/Spark-LOGO-removebg-preview.png" id="logo">
             </div>
             <h1 id="welcomeUser"></h1>
-            <img id="profile" src="profilo.png" alt="" onclick="open_Profile()">
+            <img id="profile" src="./images/profilo.png" alt="" onclick="open_Profile()">
         </div>
 
         <div class="searchBox">
@@ -57,17 +57,15 @@
             <h1>New Note</h1> 
             <div class="Form">
                 <form id="noteForm">
-                    <label for="courseId">Course ID</label>
-                    <input type="text" id="courseId" required>
-    
+            
                     <label for="title">Note Title</label>
                     <input type="text" id="title" required>
     
                     <label for="description">Description</label>
                     <textarea id="description"></textarea>
     
-                    <label for="fileUrl">File URL</label>
-                    <input type="text" id="fileUrl" required>
+                    <label for="file">File</label>
+                    <input id='file' type="file" single>
     
                     <label for="fileType">File Type</label>
                     <select id="fileType" required>

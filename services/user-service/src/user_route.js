@@ -65,8 +65,8 @@ router.get('/access', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'access.html'));
 });
 
-router.get('/personalData', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'public', 'personal_page.html'));
+router.get("/personalData", (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public', 'Personal_page.html'));
 });
   
 

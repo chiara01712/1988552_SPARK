@@ -65,10 +65,15 @@ body {
     /* transform: translateX(-50%); centro il menu rispetto al pulsante*/ 
 }
 #profileSidebar {
+    position: fixed;
     top: 0;
-    right: 0;
-    width: 250px; /* Adjust the width as needed */
-   
+    right: 0; /* <-- invece di left: 0 */
+    width: 250px;
+    height: 100%;
+    background-color: white;
+    z-index: 2;
+    display: none; /* inizialmente nascosto */
+    box-shadow: -2px 0 8px rgba(0,0,0,0.3); 
 }
 
 /* Stile dei link nel menu */
@@ -200,24 +205,7 @@ button {
     cursor: pointer;
 }
 
-#math{
-    background-image: url("./images/BGMath.png");
-}
 
-#science{
-    background-image: url("./images/BGscience.png");
-}
-#compscience{
-    background-image: url("./images/BGcompscience.png");
-    
-} 
-#tech{
-    background-image: url("./images/BGTech.png");
-}
-
-.box h1{
-    color: black;
-}
 
 /* Contenitore della scrollbar */
 .container-box::-webkit-scrollbar {
@@ -325,6 +313,21 @@ button {
     transition: 200ms ease-in-out;
     pointer-events: none;
 }
+.overlaybar{
+    position: fixed;
+    top:0;
+    bottom:0;
+    left:0; 
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    transition: 200ms ease-in-out;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 1;
+
+}
 
 .overlayactive{
     opacity: 1 ; 
@@ -382,38 +385,48 @@ button {
 }
 
 #art{
-    background-image: url("images/Arts.png");
+    background-size: contain;
+    background-image: url("images/Arts.jpg");
 }
 
 #bam{
+    background-size: fill;
     background-image: url("images/Business.jpg");
 }
 
 #cam{
-    background-image: url("images/Communication.png");
+    background-size: contain;
+    background-image: url("images/Comunication.jpg");
 }
 
 #engandtech{
+    background-size: cover;
     background-image: url("images/Engineering.png");
 }
 
 #handlife{
+    background-size: contain;
     background-image: url("images/HealthLife.jpg");
 }
 #human{
-    background-image: url("images/Humanities.png");
+    background-size: contain;
+    background-image: url("images/Humanities.avif");
 }
 #law{
-    background-image: url("images/Law.jpg");
+    background-size: contain;
+    background-image: url("images/Law.jfif");
 }
 #math{
-    background-image: url("images/Math.png");
+    background-size: contain;
+    background-image: url("images/Math.jfif");
 }
 
 #natty{
-    background-image: url("images/NatScience.png");
+    background-size: contain;
+    background-image: url("images/Natural.jfif");
 }
 
 #social{
-    background-image: url("images/SocialScience.png");
+    background-size: 100% 120%;
+    background-image: url("images/Social.jfif");
 }

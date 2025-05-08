@@ -1,5 +1,6 @@
 const { randomUUID } = require('crypto');
 const config = require('../../config');
+const MessageHandler = require('../../messageHandler');
 
 class Producer {
   constructor(channel, replyQueueName, eventEmitter) {
@@ -46,8 +47,12 @@ class Producer {
     );
     }
     
+    const res= await MessageHandler.response();
+    return JSON.parse(res);
+    
+    //return response(username);
 
-    // Return a Promise that resolves when the response is received
+   /*  // Return a Promise that resolves when the response is received
     return new Promise((resolve, reject) => {
       console.log("Listening for correlationId:", correlationId);
       console.log("Listening type:", typeof correlationId);
@@ -61,12 +66,12 @@ class Producer {
           reject(error);
         }
       });
-    
-      setTimeout(() => {
+     */
+      /* setTimeout(() => {
         reject(new Error("Response timeout exceeded"));
-      }, 5000);
+      }, 5000); */
     
-    });
+    //});
   }
 }
 

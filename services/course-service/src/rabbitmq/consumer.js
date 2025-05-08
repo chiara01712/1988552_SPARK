@@ -1,7 +1,10 @@
 
 const { CourseRepo } = require('../course_repo');
+const {Channel, consumeMessage} = require("amqplib");
 const {Course} = require("../course");
+const MessageHandler = require('../../messageHandler');
 const e = require('express');
+const Producer = require("./producer");
 
 let isConsuming = false;
 
@@ -10,10 +13,10 @@ class Consumer {
     // rpcQueueC is the queue to consume messages from
     // eventEmitter is the event emitter to handle the communication between the producer and consumer
 
-  constructor(channel, rpcQueueC, eventEmitter) {
+  constructor(channel, rpcQueueC) {
     this.channel = channel;
     this.rpcQueueC = rpcQueueC;
-    this.eventEmitter = eventEmitter;
+    //this.eventEmitter = eventEmitter;
     
   }
 
@@ -33,20 +36,17 @@ class Consumer {
           
           console.log("Course Message received:", message.content.toString());
           const { correlationId, replyTo } = message.properties;
-          console.log("Corr Id"+ correlationId);
   
           if (!correlationId ) {
             console.log("Missing some properties...");
             return;
           }
           else if( !replyTo){
-            console.log("Emitting correlationId:", message.properties.correlationId);
-            console.log("Emitting type:", typeof message.properties.correlationId);     
-            this.eventEmitter.emit(
-              message.properties.correlationId.toString(),
-              message
+            console.log("Username in consumer", message.content.toString())
+            await MessageHandler.handle(
+              "returnUsername",
+              JSON.parse(message.content.toString())
             );
-            
           }
           else{
             // To understand which function to call (query) to reterieve the data that the client needs
@@ -83,7 +83,7 @@ class Consumer {
            
           // Produce the response back to the client
             const RabbitMQCourse = require("./course-s");
-            await RabbitMQCourse.initPromise;  // Wait for RabbitMQCourse to be initialized
+            //await RabbitMQCourse.initPromise;  // Wait for RabbitMQCourse to be initialized
             
             await RabbitMQCourse.produce(response, correlationId, replyTo);    
           }

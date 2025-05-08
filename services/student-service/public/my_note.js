@@ -1,4 +1,6 @@
 
+const noResults = document.getElementById("no-results");
+
 async function signOut() {
     console.log("Logout function called");
     
@@ -18,6 +20,10 @@ async function signOut() {
     }
 
 }
+async function personalData() {
+    console.log("Personal data function called");
+    window.location.href = 'http://localhost:8080/personalData';
+  }
 
 function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -28,12 +34,15 @@ function getCookie(name) {
 function search(prefix) {
     const noResults = document.getElementById("no-results");
 
-    const container = document.getElementById('course-container');
+    const container = document.getElementById('note-box');
     const boxes = container.querySelectorAll('.box');
     let found = 0;
   
     boxes.forEach(box => {
-      const text = box.textContent.toLowerCase();
+      const text = box.querySelector('h2').textContent.toLowerCase();
+      console.log(text);
+      console.log(prefix);
+      console.log(text.startsWith(prefix.toLowerCase()));
       if (text.startsWith(prefix.toLowerCase())) {
         box.style.display = 'block';
         found++;
@@ -42,7 +51,7 @@ function search(prefix) {
       }
     });
   
-    noResults.style.display = found === 0 ? 'block' : 'none';
+    //noResults.style.display = found === 0 ? 'block' : 'none';
   }
   
   // Esegui la funzione ogni volta che cambia l'input
@@ -53,6 +62,105 @@ function search(prefix) {
       search(value);
     });
   });
+
+  function changeTag(tag){
+    if ( tag == 'Arts & Design'){
+      return("art");
+    }
+    if ( tag == 'Business & Management'){
+      return("bam");
+    }
+    if ( tag == 'Communication & Media'){
+      return("cam");
+    }
+    if ( tag == 'Engineering & Technology'){
+      return("engandtech");
+    }
+    if ( tag == 'Health & Life Sciences'){
+      return("handlife");
+    }
+    if ( tag == 'Humanities'){
+      return("human");
+    }
+    if ( tag == 'Law & Legal Studies'){
+      return("law");
+    }
+    if ( tag == 'Mathematical Sciences'){
+      return("math");
+    }
+    if ( tag == 'Natural Sciences'){
+      return("natty");
+    }
+    if ( tag == 'Social Sciences'){
+      return("social");
+    }
+  }
+    
+
+  function changeColor(courseTitle, tag){
+    if ( tag == 'Arts & Design'){
+      courseTitle.style.color = "#000000";
+      courseTitle.style.textShadow= "2px 2px 5px grey";
+    }
+    if ( tag == 'Business & Management'){
+      courseTitle.style.color = "#ffffff";
+      courseTitle.style.textShadow= "2px 2px 7px black";
+    }
+    if ( tag == 'Communication & Media'){
+      courseTitle.style.color = "#000000";
+      courseTitle.style.textShadow= "2px 2px 7px grey";
+    }
+    if ( tag == 'Engineering & Technology'){
+      courseTitle.style.color = "#ffffff";
+      courseTitle.style.textShadow= "2px 2px 7px black";
+    }
+    if ( tag == 'Health & Life Sciences'){
+      courseTitle.style.color = "#000000";
+      courseTitle.style.textShadow= "2px 2px 5px grey";
+    }
+    if ( tag == 'Humanities'){
+      courseTitle.style.color = "#ffffff";
+      courseTitle.style.textShadow= "2px 2px 7px grey";
+    }
+    if ( tag == 'Law & Legal Studies'){
+      courseTitle.style.color = "#000000";
+      courseTitle.style.textShadow= "2px 2px 7px grey";
+    }
+    if ( tag == 'Mathematical Sciences'){
+      courseTitle.style.color = "#ffffff";
+      courseTitle.style.textShadow= "2px 2px 7px black";
+    }
+    if ( tag == 'Natural Sciences'){
+      courseTitle.style.color = "darkgreen";
+      courseTitle.style.textShadow= "2px 2px 7px grey";
+    }
+    if ( tag == 'Social Sciences'){
+      courseTitle.style.color = "#ffffff";
+      courseTitle.style.textShadow= "2px 2px 7px black";
+    }
+  }
+
+  async function deleteNote(noteId){
+    const note_id= noteId;
+    console.log("Note id"+note_id);
+    try {
+        const response = await fetch('/deleteNote', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'note_id': note_id
+            },
+        });
+
+        if(response.status === 200) {
+            const res = await response.json();
+            console.log("Note deleted successfully:", res);
+            fetchNotes();
+        }
+    }catch (error) {
+        console.error('Error fetching notes:', error);
+    }
+}
 
 // Fetch notes when the page loads
 async function fetchNotes() {
@@ -78,18 +186,32 @@ async function fetchNotes() {
             else {
                 noResults.style.display = "none";
                 carouselContent.innerHTML = '';
-                let id = 0; 
+                
                 notes.forEach((note, index) => {
-                    const isActive = index === 0 ? 'active' : '';
-                    const noteHtml = `
-                        <div class="box ${isActive}" id="note-${id}">
-                            <h2>${note.title}</h2>
-                            <h4 onclick="showFile('${note.file_type}', '${note.file_url}')">View File</h4>
-                            <h4 href="${note.file_url}" download>Download File</h4>
-                        </div>
-                    `;
-                    carouselContent.innerHTML += noteHtml;
-                    id++;
+                    const isActive =  'active' ;
+                    
+                    const box = document.createElement("div");
+                    box.className = "box";
+                    box.classList.add(isActive);
+                    box.id=changeTag(note.tag);
+
+                    const h2 = document.createElement("h2");
+                    changeColor(h2, note.tag);
+                    h2.textContent = note.title;
+                    box.appendChild(h2);
+                    
+                    box.innerHTML+= `<i class="fa-regular fa-rectangle-xmark" id="bin" onClick=deleteNote('${note.id}')></i>`;
+                    box.innerHTML+= `<h4  onclick="showFile('${note.file_type}', '${note.file_url}')">View File</h4>`;
+                    changeColor(box.querySelectorAll('h4')[0], note.tag);
+                    changeColor(box.querySelectorAll('i')[0], note.tag);
+
+                    const dwnd = document.createElement("h4");
+                    dwnd.innerHTML= `<a href="${note.file_url}" style="text-decoration=none;">Download File </a>`;
+                    box.appendChild(dwnd);
+                    changeColor(dwnd.querySelectorAll('a')[0], note.tag);
+                    
+                    carouselContent.appendChild(box);
+                    
                 });
             }
 
@@ -106,7 +228,6 @@ function showFile(file_type,url){
     window.location.href = "notes_viewer.html";    
 }
 document.addEventListener('DOMContentLoaded', fetchNotes);
-
 
 function openPopup(popup, overlay){
     document.getElementById(popup).classList.add("popupactive");
@@ -146,7 +267,30 @@ function close_Profile() {
 
 
 document.addEventListener("DOMContentLoaded", function () {
+    var select = document.createElement( 'select' );
+    select.id="courseSelected";
+    var option;
+    var inputdata = JSON.parse(sessionStorage.getItem('courses'));
+    option = document.createElement( 'option' );
+    option.value = '';
+    option.textContent = "None";
+    select.appendChild( option );
+    console.log(inputdata);
+    inputdata.forEach((course,item) => {
+        option = document.createElement( 'option' );
+        option.value = course.title+","+course.tag;
+        option.textContent = course.title;
+        select.appendChild( option );
+    });
     
+    const label= document.createElement('laber');
+    label.textContent="Course";
+    label.for=select;
+    const form= document.getElementById('noteForm');
+
+    form.insertBefore(label, form.childNodes[5]);
+    form.insertBefore(select, form.childNodes[6]);
+
 
     // Handle form submission
     const noteForm = document.getElementById("noteForm");
@@ -155,20 +299,51 @@ document.addEventListener("DOMContentLoaded", function () {
         noteForm.addEventListener("submit", async (event) => {
             event.preventDefault(); // Prevent the default form submission
             const studentId = getCookie("user_Id");
-            const courseId = document.getElementById("courseId").value;
+            const info =document.querySelector("#courseSelected").value.split(",");
+            const courseTitle= info[0];
             const title = document.getElementById("title").value;
             const description = document.getElementById("description").value;
-            const fileUrl = document.getElementById("fileUrl").value;
+            const file = document.getElementById("file");
             const fileType = document.getElementById("fileType").value;
+            if (!file.files[0]) {
+                console.error("No file selected for upload.");
+                return;
+            }
+            
+            let fileNmae= "";            
+            try {
+                const formData = new FormData();
+                formData.append('file', file.files[0]); // Append the file
+
+                const v = await fetch("/upload", {
+                    method: "POST",
+                    body: formData, // Use FormData as the body
+                });
+
+                if (v.status === 200) {
+                    const ret = await v.json();
+                    console.log("File uploaded successfully:", ret);
+                    fileNmae=ret.filename;
+                } else {
+                    console.error("Failed to add file:", v.statusText);
+                }
+            } catch (error) {
+                console.error("Error adding file:", error);
+            }
+            let baseUrl = "./uploads/"+fileNmae;
+            let tag_note= info[1];
             const data = {
                 student_id: studentId,
-                course_id: courseId,
+                course_id: courseTitle,
                 title: title,
                 description: description,
-                file_url: fileUrl,
-                file_type: fileType
+                file_url: baseUrl,
+                file_type: fileType,
+                tag: tag_note
             };
             console.log("data",data);
+
+            
             try {
                 const response = await fetch("/addNote", {
                     method: "POST",
@@ -181,6 +356,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (response.status === 200) {
                     const result = await response.json();
                     console.log("Note added successfully:", result);
+                    fetchNotes();
                 } else {
                     console.error("Failed to add note:", response.statusText);
                 }
@@ -197,7 +373,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("noteForm").addEventListener("submit", function (event) {
         event.preventDefault(); // Prevent page refresh
         fetchNotes(); // Refresh the notes after adding a new one
-        pop.style.display = "none"; // Hide modal after submission
+        document.getElementById('popup').classList.remove = "popupactive"; // Hide modal after submission
     });
 
 
@@ -237,3 +413,4 @@ async function fetchUsername() {
     }
 }
 document.addEventListener("DOMContentLoaded", fetchUsername);
+

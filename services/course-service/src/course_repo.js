@@ -12,7 +12,14 @@ class CourseRepo {
 
     async addCourse(uuidV4, title, description, professor_id, professor_name, student_ids,tag) {
       console.log("AAA", title, description, professor_id, student_ids);
-      try {
+      // adding check for identical named courses by the same prof
+      const name = await this.courseModel.count({ where: { professor_id: professor_id , title: title} });
+      if (name>=1 ) {
+        const resp= "The course already exists, please change the name";
+        console.log(resp, name); 
+        return resp;
+      } else {
+        try {
           const newCourse = await this.courseModel.create({
               id: uuidV4,       // Set the generated UUID
               title,             // Insert the title
@@ -24,9 +31,10 @@ class CourseRepo {
           });
           console.log("Corso creato:", newCourse);
           return newCourse;     // Return the created course object
-      } catch (error) {
-          console.error("Error inserting course:", error);
-          throw new Error('Database error');  // Throw an error if creation fails
+        } catch (error) {
+            console.error("Error inserting course:", error);
+            throw new Error('Database error');  // Throw an error if creation fails
+        }
       }
   }
   
@@ -67,7 +75,7 @@ class CourseRepo {
       console.error("Error adding student to course:", error);
       return null;
     }
-  }
+  } 
 
   // Functions for RabbitMQ
   async getCoursesByStudentId(student_id) {

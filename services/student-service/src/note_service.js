@@ -27,6 +27,22 @@ class NoteService{
             return { status: 500, message: 'Internal server error' };
         }
     }
+    async deleteNote(req){
+        const noteId= req.headers.note_id;
+        console.log("Received note_id:", noteId); 
+        if(!noteId) {
+            return { status: 400, message: 'Missing noteId' };
+        }
+    
+        try {
+            const res = await this.noteRepo.deleteNote(noteId);
+            return { status: 200, data: res };
+        } catch (error) {
+            console.error('Error fetching notes for student:', error);
+            return { status: 500, message: 'Internal server error' };
+        }
+    }
+    
 
     // New method to fetch all notes
     async getNotesByStudentId(req) {
