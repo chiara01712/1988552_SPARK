@@ -242,7 +242,7 @@ async function loadCourses() {
       else {
         noResults.style.display = "none";
         res.forEach(course => {
-          console.log(course);
+          
           const box = createCourseBox(course.title, course.tag, course.professor_name|| "uncategorized");
           changeTag(box,course.tag);
 
@@ -256,7 +256,7 @@ async function loadCourses() {
             localStorage.setItem("subject", course.tag);
             
             // Reindirizza alla pagina (senza passare parametri in URL)
-            window.location.href = "course_home.html";
+            window.location.href = "./course_home.html";
           });
         });
         
@@ -452,9 +452,18 @@ async function fetchUsername() {
 
       if(response.status === 200) {
           const res = await response.json();
-          const student = res.response
+          const student = res.response;
           
           console.log("Student name fetched successfully:", student);
+
+          const welcomeMessage = document.getElementById('welcomeUser');
+          if(welcomeMessage) {
+            console.log(`Welcome, `+student);
+              // Set the welcome message in the HTML element with ID 'welcomeUser'
+              welcomeMessage.textContent = `Welcome, ${student}`;
+          } else {
+              console.error("Element with ID 'welcomeUser' not found.");
+          }
 
       }
       else{

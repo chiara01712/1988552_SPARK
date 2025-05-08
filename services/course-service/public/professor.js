@@ -41,8 +41,6 @@ function open_Profile() {
 function close_Profile() {
   document.getElementById("profileSidebar").style.display = "none";
   document.getElementById("overlaysidebar").classList.remove("overlayactive");
-  document.getElementById("overlaysidebar").classList.remove("overlayactive");
-
 }
 
 function getCookie(name) {
@@ -247,9 +245,7 @@ async function addCourse(popupId, overlayId) {
   const titleInput = document.getElementById('course_name');
   const descriptionInput = document.getElementById('description');
   const subjectInput = document.querySelector('#subject');
-
-  const welcomeMessage = document.getElementById('welcomeUser');
-  const professorUsername= welcomeMessage.innerHTML;
+  const professorUsername= fetchUsername();
   console.log("the Username for prof is: "+professorUsername+ "and Id:"+professorId);
   const title = titleInput.value.trim();
   const description = descriptionInput.value.trim();

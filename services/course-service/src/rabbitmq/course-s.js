@@ -3,19 +3,18 @@ const { Channel, Connection,connect } = require("amqplib");
 const config = require("../../config");
 const Consumer = require("./consumer");
 const Producer = require("./producer");
-const { EventEmitter } = require("events");
+//const { EventEmitter } = require("events");
 
 
 class RabbitMQCourse {
     constructor() {
-      
         this.isInitialized = false;
         this.producer = null;
         this.consumer = null;
         this.connection = null;
         this.producerChannel = null;
         this.consumerChannel = null;
-        this.initPromise = this.initialize();  // Store the promise to ensure it's awaited everywhere
+        //this.initPromise = null;  // Store the promise to ensure it's awaited everywhere
       }
     
   
@@ -37,17 +36,17 @@ class RabbitMQCourse {
           { exclusive: false }
         );
         // Initialize the EventEmitter to handle the communication between the producer and consumer
-        this.eventEmitter = new EventEmitter();
+        //this.eventEmitter = new EventEmitter();
         // Initialize the producer and consumer
         this.producer = new Producer(
           this.producerChannel,
           rpcQueueC,
-          this.eventEmitter
-        );
+          //this.eventEmitter
+        ); 
         this.consumer = new Consumer(
           this.consumerChannel,
           rpcQueueC,
-          this.eventEmitter
+          //this.eventEmitter
         );
 
         // Start consuming messages

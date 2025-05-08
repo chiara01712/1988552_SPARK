@@ -328,42 +328,96 @@ function getRandomColor() {
   return color;
 }
 
+async function fetchUsername(studentId) {
+  try{
+      const response = await fetch('/getUsername', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ id: studentId, target: "getUsername" }),
+      });
+
+      if(response.status === 200) {
+          const res = await response.json();
+          const student = res.response;
+          
+          console.log("Student name fetched successfully:", student);
+
+        return student;
+
+      }
+      else{
+          console.error("Failed to fetch student name:", response.statusText);
+          return null;
+      }
+  } catch (error) {
+      console.error('Error fetching student name:', error);
+      return null;
+  }
+}
+
+
 async function loadStudentsByCourse(courseId) {
   try {
     const response = await fetch(`/getStudentsByCourseID/${courseId}`);
-    const studentIds = await response.json();
+    const studentIds = await response.json(); // Assuming this is an array of student IDs
+    console.log('Student IDs received from the server:', studentIds);
 
-    console.log('Student IDs ricevuti dal server:', studentIds);
+    // Fetch all student names in parallel using Promise.all
+    const students = await Promise.all(
+      studentIds.map(async (studentId) => {
+        try {
+          const studentName = await fetchUsername(studentId); // Fetch the name for each studentId
+          if (studentName) {
+            return { id: studentId, name: studentName };
+          }
+        } catch (error) {
+          console.error(`Error fetching name for student ID ${studentId}:`, error);
+          return null; // Return null for failed fetches
+        }
+      })
+    );
 
+    // Filter out any null values (in case of errors)
+    const validStudents = students.filter((student) => student !== null);
+
+    console.log("The students' names are:", validStudents);
+
+    // Update the UI with the fetched student names
     const studentsBox = document.getElementById('students-box');
-    studentsBox.innerHTML = ''; // Pulisce il contenuto precedente
+    studentsBox.innerHTML = ''; // Clear previous content
 
-    studentIds.forEach((id, index) => {
-      const profileLetter = id.charAt(0).toUpperCase();
+    if (validStudents.length > 0) {
+      validStudents.forEach((student, index) => {
+        const name = student.name;
+        const profileLetter = name.charAt(0).toUpperCase();
 
-      // Crea il div per lo studente
-      const studentDiv = document.createElement('div');
-      studentDiv.className = 'student';
+        // Create the div for the student
+        const studentDiv = document.createElement('div');
+        studentDiv.className = 'student';
 
-      const randomColor = getRandomColor();
+        const randomColor = getRandomColor();
 
-      studentDiv.innerHTML = `
-        <div class="profile_letter" style="background-color: ${randomColor};">${profileLetter}</div>
-        <h1>${id}</h1>
-      `;
+        studentDiv.innerHTML = `
+          <div class="profile_letter" style="background-color: ${randomColor};">${profileLetter}</div>
+          <h1>${name}</h1>
+        `;
 
-      // Aggiungi il div studente alla sezione students-box
-      studentsBox.appendChild(studentDiv);
+        // Add the student div to the students-box section
+        studentsBox.appendChild(studentDiv);
 
-      // Se non è l'ultimo studente, aggiungi il separatore
-      if (index < studentIds.length - 1) {
-        const separator = document.createElement('div');
-        separator.className = 'student-separator';
-        studentsBox.appendChild(separator);
-      }
-    });
-
+        // If not the last student, add a separator
+        if (index < validStudents.length - 1) {
+          const separator = document.createElement('div');
+          separator.className = 'student-separator';
+          studentsBox.appendChild(separator);
+        }
+      });
+    } else {
+      studentsBox.innerHTML = 'There aren\'t students enrolled';
+    }
   } catch (err) {
-    console.error('Errore nel caricamento degli studenti:', err);
+    console.error('Error loading students:', err);
   }
 }
