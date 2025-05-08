@@ -253,17 +253,26 @@ button {
     height: 60%;
     border-radius: 30px;
     background-size: cover;
+    margin-bottom: 20px;
 
 }
 
 .box h1 {
     color: black;
+    background-color: white;
+    display: inline-block;
+    border-radius: 10px;
+    padding: 5px;
 }
 
 .box h2 {
     font-size: 20px;
     color: black;
     margin-left: 30px;
+    background-color: white;
+    width:fit-content;
+    border-radius: 10px;
+    padding: 5px;
 }
 
 

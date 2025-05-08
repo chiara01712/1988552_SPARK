@@ -179,7 +179,7 @@ async function loadCourses() {
     console.error("Error in LoadCourses", error);
   };
 };
-//document.addEventListener("DOMContentLoaded", loadCourses);
+document.addEventListener("DOMContentLoaded", loadCourses);
 
 
 function createResultBox(courseName, professorName, courseId, isSubscribed) {
@@ -251,12 +251,13 @@ function createResultBox(courseName, professorName, courseId, isSubscribed) {
   return resultBox;
 }
  
-//document.getElementById("add").addEventListener("click", searchCourses);
+document.getElementById("add").addEventListener("click", searchCourses);
 
 async function searchCourses() {
   const professor = document.getElementById("description").value.trim();
   const course = document.getElementById("course_name").value.trim();
   const studentId = getCookie('user_Id');
+  console.log(studentId);
   const resultsContainer = document.getElementById("search-results");
   resultsContainer.innerHTML = "";
 
@@ -348,60 +349,32 @@ async function refreshCourseContainer() {
 
 
 
-// Request for the name of the student to user-service
-async function fetchUsername() {
-  const studentId = getCookie("user_Id");
-  try{
-      const response = await fetch('/getUsername', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ id: studentId, target: "getUsername" }),
-      });
+// // Request for the name of the student to user-service
+// async function fetchUsername() {
+//   const studentId = getCookie("user_Id");
+//   try{
+//       const response = await fetch('/getUsername', {
+//           method: 'POST',
+//           headers: {
+//               'Content-Type': 'application/json',
+//           },
+//           body: JSON.stringify({ id: studentId, target: "getUsername" }),
+//       });
 
-      if(response.status === 200) {
-          const res = await response.json();
-          const student = res.response
+//       if(response.status === 200) {
+//           const res = await response.json();
+//           const student = res.response
           
-          console.log("Student name fetched successfully:", student);
+//           console.log("Student name fetched successfully:", student);
 
-      }
-      else{
-          console.error("Failed to fetch student name:", response.statusText);
-      }
-  } catch (error) {
-      console.error('Error fetching student name:', error);
-  }
-}
-document.addEventListener("DOMContentLoaded", fetchUsername);
-
-// Request for the name of the student to user-service
-async function fetchUsername() {
-  const studentId = getCookie("user_Id");
-  try{
-      const response = await fetch('/getUsername', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ id: studentId, target: "getUsername" }),
-      });
-
-      if(response.status === 200) {
-          const res = await response.json();
-          const student = res.response
-          
-          console.log("Student name fetched successfully:", student);
-
-      }
-      else{
-          console.error("Failed to fetch student name:", response.statusText);
-      }
-  } catch (error) {
-      console.error('Error fetching student name:', error);
-  }
-}
-document.addEventListener("DOMContentLoaded", fetchUsername);
+//       }
+//       else{
+//           console.error("Failed to fetch student name:", response.statusText);
+//       }
+//   } catch (error) {
+//       console.error('Error fetching student name:', error);
+//   }
+// }
+// document.addEventListener("DOMContentLoaded", fetchUsername);
 
 
