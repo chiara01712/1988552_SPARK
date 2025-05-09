@@ -220,7 +220,7 @@ async function fetchUsername() {
           console.log("In get Usernamr");
           console.log("Student name fetched successfully:", res);
         
-          const welcomeMessage = document.getElementById('welcomeUser');
+          const welcomeMessage = document.getElementById('welcomeUser');     
           if(welcomeMessage) {
             console.log(`Welcome, `+student);
               // Set the welcome message in the HTML element with ID 'welcomeUser'

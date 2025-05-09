@@ -170,6 +170,26 @@ class CourseService {
         }   
     }
 
+    async addQuizAnswer(req) {
+        console.log("Received Request Body:", req.body); 
+        const { quiz_id, student_id, answers, completed, score } = req.body;
+        const id = require('uuid').v4(); 
+        if (!quiz_id || !student_id || !answers || !completed || !score) {
+            return { status: 400, message: 'Invalid request: Missing fields' };
+        }
+        try {
+            const quizAnswer = await this.courseRepo.addQuizAnswer(id, quiz_id, student_id, answers, completed, score);
+            if (!quizAnswer) {
+                return { status: 500, message: 'Internal server error' };
+            }
+            console.log("Quiz answer added successfully:", quizAnswer);
+            return { status: 200, message: 'Quiz answer added successfully' };
+        } catch (error) {
+            console.error('Error adding quiz answer:', error);
+            return { status: 500, message: 'Internal server error' };
+        }
+    }
+
     async publishMaterial(materialData) {
         const { courseId, description, file_url, file_type } = materialData;
         

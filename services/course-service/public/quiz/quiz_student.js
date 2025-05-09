@@ -3,6 +3,7 @@ function getCookie(name) {
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
+ 
 
 let quizzes = [];
 async function getQuizzes() {
@@ -158,7 +159,6 @@ function renderQuizzes(quizzes) {
 }
 
 
-//TODO
 // Popup functionality
 function openQuizPopup(quizId) {
     currentQuizId = quizId;
@@ -211,6 +211,69 @@ function closeQuizPopup() {
     currentQuizId = null;
 }
 
+
+// Function to submit quiz
+async function submitQuiz(event) {
+    event.preventDefault();
+    
+    if (!currentQuizId) return;
+    const quiz = quizzes.find(q => q.id === currentQuizId);
+    if (!quiz) return;
+    
+    // Collect user answers
+    const userAnswers = [];
+    let correctAnswers = 0;
+    
+    quiz.questions.forEach((question, qIndex) => {
+        const selectedOption = document.querySelector(`input[name="q${qIndex}"]:checked`);
+        
+        if (selectedOption) {
+            const answerIndex = parseInt(selectedOption.value);
+            userAnswers.push(answerIndex);
+            
+            if (question.options[answerIndex].correct) {
+                correctAnswers++;
+            }
+        } else {
+            userAnswers.push(null); // No answer provided
+        }
+    });
+    
+    // Calculate score
+    const score = Math.round((correctAnswers / quiz.questions.length) * 100);
+    
+    const data  = {
+        student_id: getCookie("user_Id"), 
+        quiz_id: currentQuizId,
+        answers: userAnswers,
+        completed: true,
+        score: score
+    };
+
+    console.log("Quiz data to be sent:", data);
+
+    try {
+        const response = await fetch("/addQuizAnswer", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (response.status === 200) {
+            const result = await response.json();
+            console.log("Quiz added successfully:", result);
+            closeQuizPopup();
+            renderQuizzes(quizzes);
+        } else {
+            console.error("Failed to add quiz:", response.statusText);
+        }
+    } catch (error) {
+        console.error("Error adding quiz:", error);
+    }
+    
+}
 
 
 document.addEventListener('DOMContentLoaded', getQuizzes);
