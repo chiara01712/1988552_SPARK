@@ -109,16 +109,40 @@ function open_Menu() {
   }
 
 
+async function isCompleted(quizId) {
+    const currentUserId = getCookie("user_Id");
+    console.log("Current user ID:", currentUserId);
+    try {
+        const response = await fetch(`/getQuizAnswer?studentId=${currentUserId}&quizId=${quizId}`);
+        
+        if (response.status === 200) {
+            const data = await response.json();
+            if(data == null){
+                return { quiz_completed: false, score: null };
+            }
+            else{
+                return { quiz_completed: true, score: data.score };
+            }  
+        }
+    } catch (error) {
+        console.error("Error fetching quiz completion status:", error);
+        return false;
+    }
+}
+
+
 // Function to render quizzes
-function renderQuizzes(quizzes) {
+async function renderQuizzes(quizzes) {
     console.log("Rendering quizzes:", quizzes);
     console.log("Quizzes is of type:", typeof quizzes);
     const quizzesContainer = document.getElementById('quizzes-list');
     quizzesContainer.innerHTML = '';
     
-    quizzes.forEach(quiz => {
+    for (const quiz of quizzes) {
         const quizCard = document.createElement('div');
         quizCard.classList.add('quiz-card');
+
+        const {quiz_completed, score} = await isCompleted(quiz.id);
         
         let quizContent = `
             <h2 class="quiz-title">
@@ -127,27 +151,31 @@ function renderQuizzes(quizzes) {
             </h2>
             <p class="quiz-description">${quiz.description}</p>
         `;
-        
+
+        console.log("Quiz ID and completed:", quiz.id, quiz_completed);
+
         // Add button or results based on completion status
-        if (!quiz.completed) {
+        if (!quiz_completed) {
             quizContent += `
                 <button class="take-quiz-btn" onclick="openQuizPopup('${quiz.id}')">
                     <i class="fa-solid fa-play"></i> Take Quiz
                 </button>
             `;
         } else {
+            console.log("Quiz ID:", quiz.id);
+            const resultsHTML = await renderQuizResults(quiz);
             quizContent += `
                 <div class="result-container" style="display: block;">
                     <div class="result-header">
                         <div class="result-score">
-                            Your score: <span class="score-percentage ${getScoreClass(quiz.score)}">${quiz.score}%</span>
+                            Your score: <span class="score-percentage ${getScoreClass(score)}">${score}%</span>
                         </div>
-                        <button class="view-results-btn" onclick="toggleResults(${quiz.id})">
+                        <button class="view-results-btn" onclick="toggleResults('${quiz.id}')">
                             <i class="fa-solid fa-eye"></i> View Details
                         </button>
                     </div>
                     <div id="result-details-${quiz.id}" style="display: none;">
-                        ${renderQuizResults(quiz)}
+                        ${resultsHTML}
                     </div>
                 </div>
             `;
@@ -155,7 +183,7 @@ function renderQuizzes(quizzes) {
         
         quizCard.innerHTML = quizContent;
         quizzesContainer.appendChild(quizCard);
-    });
+    };
 }
 
 
@@ -223,11 +251,13 @@ async function submitQuiz(event) {
     // Collect user answers
     const userAnswers = [];
     let correctAnswers = 0;
+    let atLeastOneAnswered = false;
     
     quiz.questions.forEach((question, qIndex) => {
         const selectedOption = document.querySelector(`input[name="q${qIndex}"]:checked`);
         
         if (selectedOption) {
+            atLeastOneAnswered = true;
             const answerIndex = parseInt(selectedOption.value);
             userAnswers.push(answerIndex);
             
@@ -238,6 +268,12 @@ async function submitQuiz(event) {
             userAnswers.push(null); // No answer provided
         }
     });
+
+        // Show alert if no answers were selected
+        if (!atLeastOneAnswered) {
+            alert("You should select at least one answer before submitting the quiz.");
+            return;
+        }
     
     // Calculate score
     const score = Math.round((correctAnswers / quiz.questions.length) * 100);
@@ -245,7 +281,7 @@ async function submitQuiz(event) {
     const data  = {
         student_id: getCookie("user_Id"), 
         quiz_id: currentQuizId,
-        answers: userAnswers,
+        answers: userAnswers, 
         completed: true,
         score: score
     };
@@ -276,9 +312,106 @@ async function submitQuiz(event) {
 }
 
 
-document.addEventListener('DOMContentLoaded', getQuizzes);
+
+// Function to get score class based on percentage
+function getScoreClass(score) {
+    if (score >= 80) return 'high-score';
+    if (score >= 60) return 'medium-score';
+    return 'low-score';
+}
+
+// Function to toggle result details visibility
+function toggleResults(quizId) {
+    console.log("Toggling results for quiz ID:", quizId);
+    const detailsElement = document.getElementById(`result-details-${quizId}`);
+    if (detailsElement.style.display === 'none') {
+        detailsElement.style.display = 'block';
+    } else {
+        detailsElement.style.display = 'none';
+    }
+}
+
+// Function to render quiz results
+async function renderQuizResults(quiz) {
+    let resultsHTML = '';
+
+    let userAnswers = [];
+    const currentUserId = getCookie("user_Id");
+    console.log("Current user ID:", currentUserId);
+    try {
+        const response = await fetch(`/getQuizAnswer?studentId=${currentUserId}&quizId=${quiz.id}`);
+        
+        if (response.status === 200) {
+            const data = await response.json();
+            userAnswers = data.answers;
+            console.log("User answers fetched successfully:", data);
+        } else {
+            console.error("Failed to fetch student answers");
+        }
+    } catch (error) {
+        console.error("Error fetching quiz answers:", error);
+    }
+    console.log("User answers:", userAnswers);
+    quiz.questions.forEach((question, qIndex) => {
+        
+        const userAnswer = userAnswers[qIndex];
+        
+        const userOption = question.options[userAnswer];
+        
+        // Find correct answer
+        const correctOption = question.options.find(opt => opt.correct);
+        const correctIndex = question.options.findIndex(opt => opt.correct);
+        
+        let optionsHTML = '';
+        question.options.forEach((option, oIndex) => {
+            let classes = [];
+            let label = null;
+            
+            // User's answer
+            if (oIndex === userAnswer) {
+                classes.push('your-answer');
+                label = 'Your Answer';
+            }
+            
+            // Correct answer
+            if (option.correct) {
+                classes.push('correct-answer');
+                if (label !== 'Your Answer') {
+                    label = 'Correct Answer';
+                }
+            }
+            
+            // Wrong answer (user selected incorrect option)
+            if (oIndex === userAnswer && !option.correct) {
+                classes.push('wrong-answer');
+            }
+            
+            if (classes.length > 0) {
+                optionsHTML += `
+                    <div class="answer-option ${classes.join(' ')}">
+                        ${option.text}
+                        ${label ? `<span class="answer-label ${label === 'Your Answer' && !option.correct ? 'your-answer-label' : 'correct-answer-label'}">${label}</span>` : ''}
+                    </div>
+                `;
+            }
+        });
+        
+        resultsHTML += `
+            <div class="question-result">
+                <div class="question-text">${qIndex + 1}. ${question.text}</div>
+                ${optionsHTML}
+            </div>
+        `;
+    });
+    
+    return resultsHTML;
+}
+
+
 
 // Add event listeners
+
+document.addEventListener('DOMContentLoaded', getQuizzes);
 document.addEventListener('DOMContentLoaded', function() {
 
     // To add the course details to the page

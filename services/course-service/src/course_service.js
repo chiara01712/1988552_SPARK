@@ -190,6 +190,23 @@ class CourseService {
         }
     }
 
+    async getQuizAnswer(req) {
+        const { studentId, quizId } = req.query;
+        console.log("Received studentId and quizId:", studentId, quizId); // Debugging log
+        if (!studentId || !quizId) {
+            return { status: 400, message: 'Invalid request: Missing fields' };
+        }
+        try {
+            const quizAnswer = await this.courseRepo.getQuizAnswer(studentId, quizId);
+            
+            console.log("Quiz answer retrieved successfully:", quizAnswer);
+            return { status: 200, data: quizAnswer };
+        } catch (error) {
+            console.error('Error retrieving quiz answer:', error);
+            return { status: 500, message: 'Internal server error' };
+        }
+    }
+
     async publishMaterial(materialData) {
         const { courseId, description, file_url, file_type } = materialData;
         

@@ -223,6 +223,18 @@ router.post('/addQuizAnswer', async (req, res) => {
   }
 });
 
+router.get('/getQuizAnswer', async (req, res) => {
+  try {
+    const response = await courseService.getQuizAnswer(req, res);
+    console.log("Response, quiz answers:",response);
+    res.status(response.status).json(response.data);
+  } catch (error) {
+    console.error('Error adding answer:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+);
+
 router.post('/publishMaterial', upload.single('file'), async (req, res) => {
   try {
     // Log dei dati ricevuti
