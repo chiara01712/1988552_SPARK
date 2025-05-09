@@ -173,35 +173,6 @@ Manca la tabella per i quiz e la parte dei materiali di un corso (che a questo p
 addStudentToCourse (gestisce l'iscrizione di uno studente a un corso)
 getCoursesByStudentId (usata dal consumer per trovare i corsi a cui è iscritto uno studente)
 
-## Rabbit e le code
-Vdendo su internet sembra che in config.js quando compare:
-queues: {
-        rpcQueue: "rpc_queue",
-      },
-Si possano mettere più code con diciture diverse e quindi avevo provato a creare due code (in student-service) in questo modo:
-queues: {
-        userRPC: "rpc_user_queue",
-        courseRPC: "rpc_course_queue",
-      },
-(mentre per user-> config.js sarebbe stato rpcQueue: "rpc_user_queue",) idem per course-service (in modo che il codice per consumer e producer non cambiasse).
-Dopo di che ho aggiunto la funzione fetchCourses gestita come fetchUsername in student_home.js e getCourses in note_route.js che era getsita allo stesso modo di getUsername ed ho modificato il messaggio che veniva passato al Producer non più req.body ma una variabile così definita:
-const message = {
-        payload: req.body,
-        target: 'getUsername',
-}
-in modo che il Producer potesse vedere che tipo di richiesta era stata fatta e in base al 'target' decidere su quale coda rpc aggiungerla (producer.js in student-service):
-const {target, payload} =data;
-let queue={};
-if (target.toString()=="getUsername") queue=config.rabbitMQ.queues.userRPC; 
-if (target.toString()=="getCourses") queue=config.rabbitMQ.queues.courseRPC; 
-this.channel.sendToQueue(
-      queue, // 2. Queue to send the message to
-      Buffer.from(JSON.stringify(data.payload)),// in modo che il formato del messaggio passato al consumer non cambi
-... //stesso codice
-)
-E fin qui ancora sembrava funzionare perchè il Consumer di user-service riceveva correttamente la richiesta (leggeva lo student id) e ritornava l'username corrispondente ... che però è come se non venisse mai ricevuto da student-service che dai Log non stampa nulla che mostri che la richiesta sia andata a buon fine o meno (ho provato a modificare welcomeMessage.textContent sia nel caso in cui ritorni con successo e student non è NULL sia nel caso in cui è NULL e sia nel caso in cui non ritorni .status==200, però il testo di welcome non è mai modificato)
-Quindi ho tolto tutte le modifiche che ho fatto anche basandomi sull'ultima versione del codice presente su Git però ancora non funzionaaaaaaaaa non so perchè ...
-
 
 ## TODO:
 
