@@ -73,11 +73,9 @@ class Consumer {
               response = { error: "Users not found" };
             }
             else {
-              let arr=[];
-              users.forEach(user => {
-                arr.push(user.username);
-              });
-              response =  arr;
+              const usernames = users.map((user) => user.username);
+              console.log("Usernames being returned:", usernames);
+              response = usernames;
             }
           }
           const RabbitMQUser = require("./user-s");

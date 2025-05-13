@@ -35,7 +35,7 @@ class Producer {
         }
         
       );
-      
+  
     }
     else if(target.toString() == "returnCourses"){
       this.channel.sendToQueue(
@@ -45,9 +45,10 @@ class Producer {
         correlationId: correlationId, // ID to correlate the request with the response
       }
     );
+   
     }
     else if(target.toString() == "getUsernames"){
-      console.log("Target is getUsername");
+      console.log("Target is getUsernames");
       this.channel.sendToQueue(
         config.rabbitMQ.queues.rpcQueue,  // 2. Queue to send the message to
         Buffer.from(JSON.stringify(data)), // Data to be sent
@@ -62,10 +63,14 @@ class Producer {
            //},
         }
       );
+      
     }
+     let res= await MessageHandler.response();
+     return res;
+     //else return JSON.parse(res);
+
     
-    const res= await MessageHandler.response();
-    return JSON.parse(res);
+    
     
     //return response(username);
 

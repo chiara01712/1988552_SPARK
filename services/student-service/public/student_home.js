@@ -270,6 +270,7 @@ async function fetchCourses() {
              const carouselContent = document.getElementById('course-box');
              carouselContent.innerHTML = '';
              if (courses.length === 0) {
+                console.log("error");
                  carouselContent.innerHTML = '<div class="box"> No courses available</div>';
                  return;
              }

@@ -10,15 +10,28 @@ class MessageHandler {
 
         console.log("The operation is", operation);
         console.log("username idd: ", username);
-
+        if(Array.isArray(username)) {
+            res={
+                content: username,
+                target: "array",
+            }
+            console.log("Username is 3:", res);
+        }
         // Produce the response back to the client
-        res = JSON.stringify(username);
-        console.log("Username is 3:", res);
+        else {
+            res = res={
+                content: JSON.stringify(username),
+                target: "string",
+            }
+            
+            console.log("Username is 3:", res);
+        }
 
         // Resolve the Promise when res is updated
         if (resolvePromise) {
             resolvePromise(res);
             resolvePromise = null; // Reset the resolver
+            res="";
         }
     }
 

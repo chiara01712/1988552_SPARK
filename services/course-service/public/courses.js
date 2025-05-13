@@ -439,7 +439,7 @@ async function refreshCourseContainer() {
 
 
 
-// Request for the name of the student to user-service
+/* // Request for the name of the student to user-service
 async function fetchUsername() {
   const studentId = getCookie("user_Id");
   try{
@@ -455,7 +455,7 @@ async function fetchUsername() {
           const res = await response.json();
           const student = res.response;
           
-//           console.log("Student name fetched successfully:", student);
+           console.log("Student name fetched successfully:", student);
 
           const welcomeMessage = document.getElementById('welcomeUser');
           if(welcomeMessage) {
@@ -475,3 +475,4 @@ async function fetchUsername() {
   }
 }
 document.addEventListener("DOMContentLoaded", fetchUsername);
+ */

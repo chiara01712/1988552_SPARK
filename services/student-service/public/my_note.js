@@ -378,7 +378,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 });
-
+/* 
 // Request for the name of the student to user-service
 async function fetchUsername() {
     const studentId = getCookie("user_Id");
@@ -413,4 +413,4 @@ async function fetchUsername() {
     }
 }
 document.addEventListener("DOMContentLoaded", fetchUsername);
-
+ */
