@@ -347,6 +347,7 @@ async function searchCourses() {
   const professor = document.getElementById("description").value.trim();
   const course = document.getElementById("course_name").value.trim();
   const studentId = getCookie('user_Id');
+  console.log(studentId);
   const resultsContainer = document.getElementById("search-results");
   resultsContainer.innerHTML = "";
 
@@ -454,7 +455,7 @@ async function fetchUsername() {
           const res = await response.json();
           const student = res.response;
           
-          console.log("Student name fetched successfully:", student);
+//           console.log("Student name fetched successfully:", student);
 
           const welcomeMessage = document.getElementById('welcomeUser');
           if(welcomeMessage) {

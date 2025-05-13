@@ -7,13 +7,13 @@ function getCookie(name) {
 
 async function getQuizzes() {
 
-    // TODO: Retrive the courseId from the session storage 
+    
     try {
         const response = await fetch('/getQuizzes', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'course_id': '123e4567-e89b-12d3-a456-426614174111',
+                'course_id': localStorage.getItem("courseId"),
             },
         });
         if (response.status === 200) {

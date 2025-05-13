@@ -219,8 +219,10 @@ async function fetchUsername() {
           const student = res.response;
           console.log("In get Usernamr");
           console.log("Student name fetched successfully:", res);
+
+          localStorage.setItem("professorName", student); // Store the student name in local storage
         
-          const welcomeMessage = document.getElementById('welcomeUser');
+          const welcomeMessage = document.getElementById('welcomeUser');     
           if(welcomeMessage) {
             console.log(`Welcome, `+student);
               // Set the welcome message in the HTML element with ID 'welcomeUser'
@@ -245,7 +247,7 @@ async function addCourse(popupId, overlayId) {
   const titleInput = document.getElementById('course_name');
   const descriptionInput = document.getElementById('description');
   const subjectInput = document.querySelector('#subject');
-  const professorUsername= fetchUsername();
+  const professorUsername= localStorage.getItem("professorName");
   console.log("the Username for prof is: "+professorUsername+ "and Id:"+professorId);
   const title = titleInput.value.trim();
   const description = descriptionInput.value.trim();

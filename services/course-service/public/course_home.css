@@ -315,21 +315,7 @@ body {
     transform: scale(1.2);
 }
 
-.cs{
-    background-image: url("images/BGcompscience.png");
-}
 
-.tech{
-    background-image: url("images/BGTech.png");
-}
-
-.math{
-    background-image: url("images/BGMath.png");
-}
-
-.science{
-    background-image: url("images/BGscience.png");
-}
 .popup{
     background-color: white;
     position: fixed;

@@ -73,7 +73,7 @@ const Quiz = sequelize.define('quiz', {
   questions: {
     type: Sequelize.JSONB,
     allowNull: false
-  }
+  },
 });
 
 // Table for quiz answers (submitted by students)
@@ -162,7 +162,8 @@ const quizzes = [
           { text: "JavaScript", correct: false }
         ]
       }
-    ]
+    ],
+    completed: false,
   },
   {
     id: '22222222-2222-2222-2222-222222222222',
@@ -196,7 +197,8 @@ const quizzes = [
           { text: "Automated, Consistent, Integrated, Distributed", correct: false }
         ]
       }
-    ]
+    ],
+    completed: false,
   },
   {
     id: '33333333-3333-3333-3333-333333333333',
@@ -230,7 +232,8 @@ const quizzes = [
           { text: "hyperlink", correct: false }
         ]
       }
-    ]
+    ],
+    completed: false,
   }
 ];
 

@@ -235,6 +235,41 @@ class CourseRepo {
         }
       }
 
+    async addQuizAnswer(uuidV4, quiz_id, student_id, answers, completed, score) {
+        try {
+          const newQuizAnswer = await this.quizAnswerModel.create({
+            id: uuidV4,       // Set the generated UUID
+            quiz_id,           // Insert the quiz_id
+            student_id,        // Insert the student_id
+            answers,           // Insert the answers
+            completed,         // Insert the completed status
+            score              // Insert the score
+          });
+
+          return newQuizAnswer;     // Return the created quiz answer object
+        } catch (error) {
+          console.error("Error inserting quiz answer:", error);
+          return null;        // Return null in case of an error
+        }
+      }
+
+    async getQuizAnswer(student_id, quiz_id) {
+        try {
+          const quizAnswer = await this.quizAnswerModel.findOne({
+            where: { quiz_id, student_id }
+          });
+          if (quizAnswer) {
+            return quizAnswer.dataValues;  // Return the raw data
+          } else {
+            console.log("Quiz answer not found for quiz_id:", quiz_id, "and student_id:", student_id);
+            return null;
+          }
+        } catch (error) {
+          console.error("Error fetching quiz answer:", error);
+          return null;
+        }
+      }
+
       async saveMaterial(materialId, courseId, date, description, file_url, file_type) {
         try {
           // Se il file_url o file_type non sono forniti, saranno null
