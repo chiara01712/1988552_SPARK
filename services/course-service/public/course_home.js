@@ -345,7 +345,7 @@ async function loadStudentsByCourse(courseId) {
 
       if(response.status === 200) {
           const res = await students.json();
-          console.log(res);
+          console.log(students);
           const usernames = res.response;
           //console.log("Student name fetched successfully:", students);
       
