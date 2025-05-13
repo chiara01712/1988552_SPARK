@@ -328,36 +328,6 @@ function getRandomColor() {
   return color;
 }
 
-async function fetchUsername(studentId) {
-  try{
-      const response = await fetch('/getUsername', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ id: studentId, target: "getUsername" }),
-      });
-
-      if(response.status === 200) {
-          const res = await response.json();
-          const student = res.response;
-          
-          console.log("Student name fetched successfully:", student);
-
-        return student;
-
-      }
-      else{
-          console.error("Failed to fetch student name:", response.statusText);
-          return null;
-      }
-  } catch (error) {
-      console.error('Error fetching student name:', error);
-      return null;
-  }
-}
-
-
 async function loadStudentsByCourse(courseId) {
   try {
     const response = await fetch(`/getStudentsByCourseID/${courseId}`);
@@ -365,33 +335,31 @@ async function loadStudentsByCourse(courseId) {
     console.log('Student IDs received from the server:', studentIds);
 
     // Fetch all student names in parallel using Promise.all
-    const students = await Promise.all(
-      studentIds.map(async (studentId) => {
-        try {
-          const studentName = await fetchUsername(studentId); // Fetch the name for each studentId
-          if (studentName) {
-            return { id: studentId, name: studentName };
-          }
-        } catch (error) {
-          console.error(`Error fetching name for student ID ${studentId}:`, error);
-          return null; // Return null for failed fetches
-        }
-      })
-    );
+    const students =await fetch('/getUsernames', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ id: studentIds, target: "getUsernames" }),
+      });
 
+      if(response.status === 200) {
+          const res = await students.json();
+          console.log(res);
+          const usernames = res.response;
+          //console.log("Student name fetched successfully:", students);
+      
     // Filter out any null values (in case of errors)
-    const validStudents = students.filter((student) => student !== null);
 
-    console.log("The students' names are:", validStudents);
+    console.log("The students' names are:", usernames);
 
     // Update the UI with the fetched student names
     const studentsBox = document.getElementById('students-box');
     studentsBox.innerHTML = ''; // Clear previous content
 
-    if (validStudents.length > 0) {
-      validStudents.forEach((student, index) => {
-        const name = student.name;
-        const profileLetter = name.charAt(0).toUpperCase();
+    if (usernames.length > 0) {
+      usernames.forEach((student, index) => {
+        const profileLetter = student.charAt(0).toUpperCase();
 
         // Create the div for the student
         const studentDiv = document.createElement('div');
@@ -401,14 +369,14 @@ async function loadStudentsByCourse(courseId) {
 
         studentDiv.innerHTML = `
           <div class="profile_letter" style="background-color: ${randomColor};">${profileLetter}</div>
-          <h1>${name}</h1>
+          <h1>${student}</h1>
         `;
 
         // Add the student div to the students-box section
         studentsBox.appendChild(studentDiv);
 
         // If not the last student, add a separator
-        if (index < validStudents.length - 1) {
+        if (index < usernames.length - 1) {
           const separator = document.createElement('div');
           separator.className = 'student-separator';
           studentsBox.appendChild(separator);
@@ -417,6 +385,11 @@ async function loadStudentsByCourse(courseId) {
     } else {
       studentsBox.innerHTML = 'There aren\'t students enrolled';
     }
+    }
+      else{
+          console.error("Failed to fetch student name:", response.statusText);
+      }
+
   } catch (err) {
     console.error('Error loading students:', err);
   }

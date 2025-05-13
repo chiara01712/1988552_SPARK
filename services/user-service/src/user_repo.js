@@ -1,4 +1,6 @@
 const { use } = require("./user_route");
+const { Op, Sequelize} = require("sequelize");
+
 
 class UserRepo{
 
@@ -48,7 +50,27 @@ class UserRepo{
 
     }
 
+    async getUsersById(ids) {
+      console.log("IDs received:", ids);
     
+      try {
+        const users = await this.userModel.findAll({
+          where: { id: { [Op.in]: ids } }
+        });
+    
+        if (users && users.length > 0) {
+          const userData = users.map(user => user.dataValues); // Extract dataValues from each user
+          console.log("Users are: ", userData);
+          return userData; // Return the array of raw data
+        } else {
+          console.log("Users not found");
+          return null;
+        }
+      } catch (error) {
+        console.error("Error fetching users by IDs:", error);
+        return null;
+      }
+    }
     
 
 

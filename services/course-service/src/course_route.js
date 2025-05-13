@@ -86,6 +86,20 @@ router.post('/getUsername', async (req, res, next) => {
     next(error); 
   }
 });
+
+router.post('/getUsernames', async (req, res, next) => {
+  console.log("getUsernames",req.body);
+  console.log("Type of req.body:", typeof req.body);
+  try {
+    const { randomUUID } = require("crypto");
+    const correlationId = randomUUID();
+    const replyToQueue = "rpc_queue"; // or fetch it from config if needed
+    const response = await RabbitMQCourse.produce(req.body, correlationId, replyToQueue);
+    res.send({ response });
+  } catch (error) {
+    next(error); 
+  }
+});
   
 router.get('/home', (req, res) => {
     const token = req.cookies.access_token;

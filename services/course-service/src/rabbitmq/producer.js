@@ -46,6 +46,23 @@ class Producer {
       }
     );
     }
+    else if(target.toString() == "getUsernames"){
+      console.log("Target is getUsername");
+      this.channel.sendToQueue(
+        config.rabbitMQ.queues.rpcQueue,  // 2. Queue to send the message to
+        Buffer.from(JSON.stringify(data)), // Data to be sent
+        {
+          // Queue in which the response will be sent by user-service
+          replyTo: this.replyQueueName, 
+          correlationId: correlationId, // ID to correlate the request with the response
+          expiration: 5000, // Time in milliseconds after which the message will be deleted
+          
+          // headers: {
+            // function: data.operation,
+           //},
+        }
+      );
+    }
     
     const res= await MessageHandler.response();
     return JSON.parse(res);
