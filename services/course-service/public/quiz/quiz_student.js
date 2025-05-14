@@ -188,6 +188,7 @@ async function renderQuizzes(quizzes) {
 
 // Popup functionality
 function openQuizPopup(quizId) {
+   
     currentQuizId = quizId;
     const quiz = quizzes.find(q => q.id === quizId);
     console.log("Quiz ID:", quizId);
@@ -230,11 +231,13 @@ function openQuizPopup(quizId) {
     // Display popup
     document.getElementById("quiz-overlay").classList.add("active");
     document.getElementById("quiz-popup").classList.add("active");
+    document.body.classList.add('no-scroll');
 }
 
 function closeQuizPopup() {
     document.getElementById("quiz-overlay").classList.remove("active");
     document.getElementById("quiz-popup").classList.remove("active");
+    document.body.classList.remove('no-scroll');
     currentQuizId = null;
 }
 

@@ -111,6 +111,7 @@ function open_Menu() {
 function openQuizPopup() {
     document.getElementById("quiz-overlay").classList.add("active");
     document.getElementById("quiz-popup").classList.add("active");
+    document.body.classList.add('no-scroll');
 }
 
 function closeQuizPopup() {
@@ -119,6 +120,7 @@ function closeQuizPopup() {
     // Reset form
     document.getElementById("quiz-form").reset();
     document.getElementById("questions-container").innerHTML = "";
+    document.body.classList.remove('no-scroll');
 }
 
 // Function to add a new question form
