@@ -45,17 +45,21 @@
         <div class="sectionbar">
             <a href="http://localhost:6060/CoursePage">Home</a>
             <a href="http://localhost:6060/QuizPage">Tests</a>
-            <label id="stud_annou" >Students</label>
+            <label id="stud_annou"  onclick="openStudents()" >Students</label>
         </div>
          
         <!-- Quizzes -->
-        <div class="main-container">
+        <div class="main-container" id="main-container">
             
             <div class="quiz-container" id="quizzes-list">
                 <!-- Quiz cards will be inserted here by JavaScript -->
             </div>
         </div>
+
+        <div class="students-box" id="students-box"> </div>
     </div>
+
+    
     
     <!-- Take Quiz Popup -->
     <div class="overlay" id="quiz-overlay">
@@ -80,6 +84,8 @@
             </form>
         </div>
     </div>
+
+    
 
     <script src="/quiz/quiz_student.js"></script> 
 

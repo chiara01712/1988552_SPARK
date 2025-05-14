@@ -67,9 +67,118 @@ function getQueryParams() {
       professor: localStorage.getItem("professor"),
       subject: localStorage.getItem("subject")
     };
+}
+
+
+// Student list
+function getRandomColor() {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
   }
-  
-  function populateCourseDetails() {
+  return color;
+}
+
+async function loadStudentsByCourse(studentIds) {
+  try {
+    // Fetch all student names in parallel using Promise.all
+    const students =await fetch('/getUsernames', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Cache-Control': 'no-cache',
+          },
+          body: JSON.stringify({ id: studentIds, target: "getUsernames" }),
+      });
+
+      if(students.status === 200) {
+          const res = await students.json();
+          console.log(students);
+          const usernames = res.response.content;
+          //console.log("Student name fetched successfully:", students);
+      
+    // Filter out any null values (in case of errors)
+
+    console.log("The students' names are:", usernames);
+    // Ensure usernames is an array
+      
+    // Update the UI with the fetched student names
+    const studentsBox = document.getElementById('students-box');
+    studentsBox.innerHTML = ''; // Clear previous content
+
+    if (usernames.length > 0) {
+      if (!Array.isArray(usernames)) {
+        console.log("Usernames is not an array:", usernames);
+        const profileLetter = JSON.parse(usernames).charAt(0).toUpperCase();
+        const studentDiv = document.createElement('div');
+        studentDiv.className = 'student';
+        const randomColor = getRandomColor();
+        studentDiv.innerHTML = `
+            <div class="profile_letter" style="background-color: ${randomColor};">${profileLetter}</div>
+            <h1>${JSON.parse(usernames)}</h1>
+          `;
+
+          // Add the student div to the students-box section
+          studentsBox.appendChild(studentDiv);
+      }
+      else{
+        usernames.forEach((student, index) => {
+          const profileLetter = student.charAt(0).toUpperCase();
+
+          // Create the div for the student
+          const studentDiv = document.createElement('div');
+          studentDiv.className = 'student';
+
+          const randomColor = getRandomColor();
+
+          studentDiv.innerHTML = `
+            <div class="profile_letter" style="background-color: ${randomColor};">${profileLetter}</div>
+            <h1>${student}</h1>
+          `;
+
+          // Add the student div to the students-box section
+          studentsBox.appendChild(studentDiv);
+
+          // If not the last student, add a separator
+          if (index < usernames.length - 1) {
+            const separator = document.createElement('div');
+            separator.className = 'student-separator';
+            studentsBox.appendChild(separator);
+          }
+        });
+    }
+    } else {
+      studentsBox.innerHTML = 'There aren\'t students enrolled';
+    }
+    }
+      else{
+          console.error("Failed to fetch student name:", students.statusText);
+      }
+
+  } catch (err) {
+    console.error('Error loading students:', err);
+  }
+}
+
+async function fetchStudents(courseId) {
+  try {
+    const response = await fetch(`/getStudentsByCourseID/${courseId}`);
+    const studentIds = await response.json(); // Assuming this is an array of student IDs
+    console.log('Student IDs received from the server:', studentIds);
+
+    if (studentIds) {
+      // Store each student ID in localStorage
+      studentIds.forEach((id, index) => {
+        localStorage.setItem(`studentId_${index}`, id);
+      });
+    }
+  } catch (error) {
+    console.log("Error in fetching student IDs:", error);
+  }
+}
+
+function populateCourseDetails() {
     const { title, subject } = getQueryParams();
     console.log("Course title:", title, "Subject:", subject);
     const courseTitle = document.getElementById('courseTitle');
@@ -82,7 +191,35 @@ function getQueryParams() {
   async function viewAllCourses(){
     window.location.href = 'http://localhost:6060/CoursePage';
  }
- //TODO: Function to see all the students enrolled in the course
+
+ async function openStudents() {
+  let studIds=[];
+  // Iterate through localStorage to collect all student IDs
+  Object.keys(localStorage).forEach((key) => {
+    if (key.startsWith('studentId_')) {
+      studIds.push(localStorage.getItem(key)); // Add the student ID to the array
+    }
+  });
+
+  console.log("Collected student IDs:", studIds);
+  loadStudentsByCourse(studIds);
+  const quizContainer = document.getElementById('main-container');
+  const studentsBox = document.getElementById('students-box');
+  const label = document.getElementById('stud_annou');
+
+  
+  const isShowingStudents = studentsBox.style.display === 'block';
+
+  if (isShowingStudents) {
+    // Mostra quiz, nasconde studenti
+    studentsBox.style.display = 'none';
+    quizContainer.style.display = 'block';
+  } else {
+    // Mostra studenti, nasconde quiz
+    quizContainer.style.display = 'none';
+    studentsBox.style.display = 'block';
+  }
+}
 
 
 
@@ -418,6 +555,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // To add the course details to the page
     populateCourseDetails();
+    const { courseId } = getQueryParams();
+    if (courseId) fetchStudents(courseId);  
 
     
     // Quiz popup listeners
