@@ -1,26 +1,38 @@
+
+
 // Menu functionality
+function openPopup(popup, overlay){
+    document.getElementById(popup).classList.add("popupactive");
+    document.getElementById(overlay).classList.add("overlayactive");
+}
+
+function closePopup(popup, overlay){
+    document.getElementById(popup).classList.remove("popupactive");
+    document.getElementById(overlay).classList.remove("overlayactive");
+}
+
 function open_Menu() {
+    document.getElementById("mySidebar").style.width = "25%";
     document.getElementById("mySidebar").style.display = "block";
     document.getElementById("overlaybar").classList.add("overlayactive");
 }
-
 function close_Menu() {
+    document.getElementById("openNav").style.marginLeft = "0%";
     document.getElementById("mySidebar").style.display = "none";
     document.getElementById("overlaybar").classList.remove("overlayactive");
 }
-
 function open_Profile() {
+    document.getElementById("profileSidebar").style.width = "25%";
     document.getElementById("profileSidebar").style.display = "block";
     document.getElementById("overlaysidebar").classList.add("overlayactive");
 }
-
 function close_Profile() {
     document.getElementById("profileSidebar").style.display = "none";
     document.getElementById("overlaysidebar").classList.remove("overlayactive");
 }
 
 // Add event listeners
-document.getElementById("menu").addEventListener("click", open_Menu);
+document.getElementById("openNav").addEventListener("click", open_Menu);
 document.getElementById("profile").addEventListener("click", open_Profile);
 document.getElementById("overlaybar").addEventListener("click", close_Menu);
 document.getElementById("overlaysidebar").addEventListener("click", close_Profile);
