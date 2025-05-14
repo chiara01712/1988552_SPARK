@@ -216,9 +216,10 @@ async function fetchUsername() {
 
       if(response.status === 200) {
           const res = await response.json();
-          const student = res.response;
+          const student1 = res.response.content;
+          const student = JSON.parse(student1);
           console.log("In get Usernamr");
-          console.log("Student name fetched successfully:", res);
+          console.log("Student name fetched successfully:", student);
 
           localStorage.setItem("professorName", student); // Store the student name in local storage
         
