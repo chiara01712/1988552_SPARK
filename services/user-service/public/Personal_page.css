@@ -12,26 +12,27 @@ body {
 }
 
 .wrapper {
-    display: block;
-    margin: auto;
-    padding: 35vw;
-    padding-left: 35vw;
-    width: 30vw;
-    height: auto;
-    margin-top: -60px;
-    margin-bottom: -470px;
+    text-align: center;
+
 }
 
-#logo {
+.wrapper img {
+    width: 30vw;
+    height: auto;
+    margin-top: -10px;
+}
+
+#logo{
     width: 200px;
     height: 200px;
     padding-top: 5%;
 }
 
-.header {
+.header{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin-bottom: 80px;
 }
 
 .menu {
@@ -47,6 +48,7 @@ body {
     padding-top: 2%;
     width: 40px;
     height: 40px;
+    cursor: pointer;
 }
 
 .sidebar {
