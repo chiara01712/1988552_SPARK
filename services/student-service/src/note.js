@@ -46,6 +46,10 @@ const Note = sequelize.define('note', {
     type: Sequelize.ENUM('pdf', 'doc', 'image'),
     allowNull: true
   },
+  professor_name: {
+      type: Sequelize.STRING,
+      allowNull: true
+    },
   tag: {
       type: Sequelize.ENUM('Arts & Design', 'Business & Management','Communication & Media', 'Engineering & Technology','Health & Life Sciences','Humanities','Law & Legal Studies','Mathematical Sciences','Natural Sciences', 'Social Sciences'),
       allowNull: true

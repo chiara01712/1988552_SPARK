@@ -162,6 +162,8 @@ function search(prefix) {
     }
 }
 
+
+
 // Fetch notes when the page loads
 async function fetchNotes() {
     const noResults = document.getElementById("no-results");
@@ -189,28 +191,58 @@ async function fetchNotes() {
                 
                 notes.forEach((note, index) => {
                     const isActive =  'active' ;
-                    
-                    const box = document.createElement("div");
-                    box.className = "box";
-                    box.classList.add(isActive);
-                    box.id=changeTag(note.tag);
+                    if( JSON.parse(sessionStorage.getItem('courses'))){
+                      const box = document.createElement("div");
+                      box.className = "box";
+                      box.classList.add(isActive);
+                      box.id=changeTag(note.tag);
 
-                    const h2 = document.createElement("h2");
-                    changeColor(h2, note.tag);
-                    h2.textContent = note.title;
-                    box.appendChild(h2);
-                    
-                    box.innerHTML+= `<i class="fa-regular fa-rectangle-xmark" id="bin" onClick=deleteNote('${note.id}')></i>`;
-                    box.innerHTML+= `<h4  onclick="showFile('${note.file_type}', '${note.file_url}')">View File</h4>`;
-                    changeColor(box.querySelectorAll('h4')[0], note.tag);
-                    changeColor(box.querySelectorAll('i')[0], note.tag);
+                      const h2 = document.createElement("h2");
+                      changeColor(h2, note.tag);
+                      h2.textContent = note.title;
+                      box.appendChild(h2);
 
-                    const dwnd = document.createElement("h4");
-                    dwnd.innerHTML= `<a href="${note.file_url}" style="text-decoration=none;">Download File </a>`;
-                    box.appendChild(dwnd);
-                    changeColor(dwnd.querySelectorAll('a')[0], note.tag);
+                      const h3 = document.createElement("h3");
+                      changeColor(h3, note.tag);
+                      h3.textContent = note.professor_name;
+                      box.appendChild(h3);
+                      
+                      box.innerHTML+= `<i class="fa-regular fa-rectangle-xmark" id="bin" onClick=deleteNote('${note.id}')></i>`;
+                      box.innerHTML+= `<h4  onclick="showFile('${note.file_type}', '${note.file_url}')">View File</h4>`;
+                      changeColor(box.querySelectorAll('h4')[0], note.tag);
+                      changeColor(box.querySelectorAll('i')[0], note.tag);
+
+                      const dwnd = document.createElement("h4");
+                      dwnd.innerHTML= `<a href="${note.file_url}" style="text-decoration=none;">Download File </a>`;
+                      box.appendChild(dwnd);
+                      changeColor(dwnd.querySelectorAll('a')[0], note.tag);
+                      console.log("the url is: "+note.file_url);
+                      carouselContent.appendChild(box);
+                    }
+                    else{
+                      const box = document.createElement("div");
+                      box.className = "box";
+                      box.classList.add(isActive);
+                      box.id="note-"+index;
+                      
+                      const h2 = document.createElement("h2");
+                      h2.color= "black";
+                      h2.textContent = note.title;
+                      box.appendChild(h2);
+                      
+                      box.innerHTML+= `<i class="fa-regular fa-rectangle-xmark" id="bin" onClick=deleteNote('${note.id}')></i>`;
+                      box.innerHTML+= `<h4  onclick="showFile('${note.file_type}', '${note.file_url}')">View File</h4>`;
+                      box.querySelectorAll('h4')[0].style.color= "black";
+                      box.querySelectorAll('i')[0].style.color="black";
+
+                      const dwnd = document.createElement("h4");
+                      dwnd.innerHTML= `<a href="${note.file_url}" download style="text-decoration=none;">Download File </a>`;
+                      box.appendChild(dwnd);
+                      dwnd.querySelectorAll('a')[0].style.color= "black";
+                      console.log("the url is: "+note.file_url);
+                      carouselContent.appendChild(box);
+                    }
                     
-                    carouselContent.appendChild(box);
                     
                 });
             }
@@ -276,14 +308,15 @@ document.addEventListener("DOMContentLoaded", function () {
     option.textContent = "None";
     select.appendChild( option );
     console.log(inputdata);
-    inputdata.forEach((course,item) => {
-        option = document.createElement( 'option' );
-        option.value = course.title+","+course.tag;
-        option.textContent = course.title;
-        select.appendChild( option );
-    });
+    if(inputdata)
+    {  inputdata.forEach((course,item) => {
+          option = document.createElement( 'option' );
+          option.value = course.title+","+course.tag+","+course.prof;
+          option.textContent = course.title;
+          select.appendChild( option );
+      });}
     
-    const label= document.createElement('laber');
+    const label= document.createElement('label');
     label.textContent="Course";
     label.for=select;
     const form= document.getElementById('noteForm');
@@ -301,6 +334,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const studentId = getCookie("user_Id");
             const info =document.querySelector("#courseSelected").value.split(",");
             const courseTitle= info[0];
+            const courseProfessor= info[2];
             const title = document.getElementById("title").value;
             const description = document.getElementById("description").value;
             const file = document.getElementById("file");
@@ -339,7 +373,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 description: description,
                 file_url: baseUrl,
                 file_type: fileType,
-                tag: tag_note
+                tag: tag_note, 
+                professor_name: courseProfessor
             };
             console.log("data",data);
 
