@@ -1,4 +1,5 @@
 
+const filterSelect = document.getElementById('courseFilter');
 
 async function signOut() {
     console.log("Logout function called");
@@ -50,7 +51,41 @@ function search(prefix) {
     });
   
   }
+function populateCourseFilter() {
+    console.log("filtering");
+     const courses      = JSON.parse(sessionStorage.getItem('courses')) || [];
+  const container = document.getElementById("courseFilterContainer");
+  const filterSelect = document.getElementById('courseFilter');
+
+  if (!filterSelect || !container || courses.length ==0 ) return;
+
+  filterSelect.style.display = 'inline-block';
+  filterSelect.innerHTML = '<option value="all">All courses</option>';
+  courses.forEach(c => {
+    const key  = courseKey(c.title);
+    const opt  = document.createElement('option');
+    opt.value  = key;
+    opt.text   = c.title;
+    filterSelect.appendChild(opt);
+  });
+}
+/* 3. whenever the user switches course, hide / show boxes */
+function applyCourseFilter(key){
   
+  const boxes = document.querySelectorAll('.container-box .box');
+  console.log(key);
+  console.log(boxes[0].classList.contains(key));
+  boxes.forEach(box => {
+    if (key === 'all' || box.classList.contains(key)){
+      
+      box.style.display = 'block';
+    }else{
+      box.style.display = 'none';
+    }
+  });
+}
+
+
   // Esegui la funzione ogni volta che cambia l'input
   document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById('searchInput');
@@ -58,6 +93,20 @@ function search(prefix) {
       const value = input.value.trim();
       search(value);
     });
+
+     const courses      = JSON.parse(sessionStorage.getItem('courses')) || [];
+    const filterSelect = document.getElementById('courseFilter');
+    if (filterSelect){
+        filterSelect.addEventListener('change', e => applyCourseFilter(e.target.value));
+    }
+     if (courses.length === 0) {
+        var option= document.createElement( 'option' );
+        option.value = '';
+        option.textContent = "No course available";
+        filterSelect.style.pointerEvents="none";
+        filterSelect.appendChild( option );
+  }
+    populateCourseFilter();
   });
 
   function changeTag(tag){
@@ -159,17 +208,18 @@ function search(prefix) {
     }
 }
 
-
+function courseKey(title){
+  return title.toLowerCase().trim().replace(/[^a-z0-9]+/g,'-');
+}
 
 // Fetch notes when the page loads
 async function fetchNotes() {
-    const studentId = getCookie("user_Id");
     try {
         const response = await fetch('/getNotes', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'student_id': studentId,
+                'student_id': "",
             },
         });
 
@@ -179,14 +229,15 @@ async function fetchNotes() {
             const carouselContent = document.getElementById('note-box');
             
             if (notes.length === 0) {
-              return;
+                return;
             }
             else {
                 carouselContent.innerHTML = '';
                 
                 notes.forEach((note, index) => {
                     const isActive =  'active' ;
-                    const box = document.createElement("div");
+                    
+                      const box = document.createElement("div");
                       box.className = "box";                      
 
                       const h2 = document.createElement("h2");
@@ -198,8 +249,9 @@ async function fetchNotes() {
                       dwnd.innerHTML= `<a href="${note.file_url}" style="text-decoration=none;">Download File </a>`;
                       
 
-                      if(note.course_id){
+                      if(note.professor_name){
                         box.id=changeTag(note.tag);
+                        box.classList.add(courseKey(note.course_id));
                         changeColor(h2, note.tag);
                         const h3 = document.createElement("h3");
                         box.appendChild(h3);
@@ -225,6 +277,8 @@ async function fetchNotes() {
                     
                     box.appendChild(dwnd);
                       carouselContent.appendChild(box);
+                    
+                    
                 });
             }
 
@@ -277,141 +331,6 @@ function close_Profile() {
     document.getElementById("overlaysidebar").classList.remove("overlayactive");
 }
 
-
-
-document.addEventListener("DOMContentLoaded", function () {
-    var select = document.createElement( 'select' );
-    select.id="courseSelected";
-    var option;
-    var inputdata = JSON.parse(sessionStorage.getItem('courses'));
-    option = document.createElement( 'option' );
-    option.value = '';
-    option.textContent = "None";
-    select.appendChild( option );
-    console.log(inputdata);
-    if(inputdata)
-    {  inputdata.forEach((course,item) => {
-          option = document.createElement( 'option' );
-          option.value = course.title+","+course.tag+","+course.prof+",";
-          option.textContent = course.title;
-          select.appendChild( option );
-      });}
-    
-    const label= document.createElement('label');
-    label.textContent="Course";
-    label.for=select;
-    const form= document.getElementById('noteForm');
-
-    form.insertBefore(label, form.childNodes[5]);
-    form.insertBefore(select, form.childNodes[6]);
-
-
-    // Handle form submission
-    const noteForm = document.getElementById("noteForm");
-    if(noteForm){
-        console.log("noteForm",noteForm);
-        noteForm.addEventListener("submit", async (event) => {
-            event.preventDefault(); // Prevent the default form submission
-            const studentId = getCookie("user_Id");
-                
-            const title = document.getElementById("title").value;
-            const description = document.getElementById("description").value;
-            const file = document.getElementById("file");
-            const fileType = document.getElementById("fileType").value;
-            if (!file.files[0]) {
-                console.error("No file selected for upload.");
-                return;
-            }
-            
-            let fileNmae= "";            
-            try {
-                const formData = new FormData();
-                formData.append('file', file.files[0]); // Append the file
-
-                const v = await fetch("/upload", {
-                    method: "POST",
-                    body: formData, // Use FormData as the body
-                });
-
-                if (v.status === 200) {
-                    const ret = await v.json();
-                    console.log("File uploaded successfully:", ret);
-                    fileNmae=ret.filename;
-                } else {
-                    console.error("Failed to add file:", v.statusText);
-                }
-            } catch (error) {
-                console.error("Error adding file:", error);
-            }
-            let data;
-            let baseUrl = "./uploads/"+fileNmae;
-            if(document.querySelector("#courseSelected").value){
-              const info =document.querySelector("#courseSelected").value.split(",");
-              const courseTitle= info[0];
-              const courseProfessor= info[2];
-              console.log("name id: ",courseProfessor);
-              let tag_note= info[1];
-             data = {
-                student_id: studentId,
-                course_id: courseTitle,
-                title: title,
-                description: description,
-                file_url: baseUrl,
-                file_type: fileType,
-                tag: tag_note, 
-                professor_name: courseProfessor
-            };
-            }
-            else{
-             data = {
-                student_id: studentId,
-                course_id: '',
-                title: title,
-                description: description,
-                file_url: baseUrl,
-                file_type: fileType,
-                tag: '', 
-                professor_name: ''
-            };
-            }
-            
-            console.log("data",data);
-
-            
-            try {
-                const response = await fetch("/addNote", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(data),
-                });
-
-                if (response.status === 200) {
-                    const result = await response.json();
-                    console.log("Note added successfully:", result);
-                    fetchNotes();
-                } else {
-                    console.error("Failed to add note:", response.statusText);
-                }
-            } catch (error) {
-                console.error("Error adding note:", error);
-            }
-            
-        })
-            
-fetchNotes();
-
-    } 
-
-    document.getElementById("noteForm").addEventListener("submit", function (event) {
-        event.preventDefault(); // Prevent page refresh
-        fetchNotes(); // Refresh the notes after adding a new one
-        document.getElementById('popup').classList.remove = "popupactive"; // Hide modal after submission
-    });
-
-
-});
 /* 
 // Request for the name of the student to user-service
 async function fetchUsername() {

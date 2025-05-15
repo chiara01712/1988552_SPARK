@@ -51,7 +51,7 @@ const Note = sequelize.define('note', {
       allowNull: true
     },
   tag: {
-      type: Sequelize.ENUM('Arts & Design', 'Business & Management','Communication & Media', 'Engineering & Technology','Health & Life Sciences','Humanities','Law & Legal Studies','Mathematical Sciences','Natural Sciences', 'Social Sciences'),
+      type: Sequelize.ENUM('Arts & Design', 'Business & Management','Communication & Media', 'Engineering & Technology','Health & Life Sciences','Humanities','Law & Legal Studies','Mathematical Sciences','Natural Sciences', 'Social Sciences',''),
       allowNull: true
     }
 }, {

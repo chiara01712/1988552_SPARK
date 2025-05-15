@@ -6,8 +6,8 @@ class NoteRepo{
         this.noteModel = noteModel;
     }
 
-    async addNote(uuidV4, student_id, course_id, title, description, file_url, file_type,tag) {
-        console.log("AAA",student_id, course_id, title, description, file_url, file_type,tag);
+    async addNote(uuidV4, student_id, course_id, title, description, file_url, file_type,professor_name,tag) {
+        console.log("AAA",student_id, course_id, title, description, file_url, file_type,professor_name,tag);
         try {
           const newNote = await this.noteModel.create({
             id: uuidV4,       // Set the generated UUID
@@ -17,6 +17,7 @@ class NoteRepo{
             description,        // Insert the description
             file_url,           // Insert the file_url
             file_type,           // Insert the file_type
+            professor_name,
             tag,
           });
           return newNote;     // Return the created note object
@@ -36,8 +37,14 @@ class NoteRepo{
     }
 
     async getNotesByStudentId(student_id) {
+      var notes="";
+      if(student_id){
+         notes = await this.noteModel.findAll({ where: { student_id } });
+      }
+      else{
+        notes = await this.noteModel.findAll();
 
-      const notes = await this.noteModel.findAll({ where: { student_id } });
+      }
       if(notes){
         const allDataValues = notes.map(note => note.dataValues);
         console.log(allDataValues);

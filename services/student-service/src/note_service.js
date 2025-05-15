@@ -9,7 +9,7 @@ class NoteService{
     async addNote(req) {
         console.log("Received Request Body:", req.body); // Debugging log
 
-        const { student_id, course_id, title, description, file_url, file_type, tag } = req.body;
+        const { student_id, course_id, title, description, file_url, file_type,professor_name, tag } = req.body;
         const id = require('uuid').v4(); // Generate a UUID for the note
 
         if (!student_id  || !title || !file_url || !file_type) {
@@ -17,7 +17,7 @@ class NoteService{
         }
 
         try {
-            const note = await this.noteRepo.addNote(id, student_id, course_id, title, description, file_url, file_type, tag);
+            const note = await this.noteRepo.addNote(id, student_id, course_id, title, description, file_url, file_type,professor_name, tag);
             if (!note) {
                 return { status: 500, message: 'Internal server error' };
             }
@@ -38,7 +38,7 @@ class NoteService{
             const res = await this.noteRepo.deleteNote(noteId);
             return { status: 200, data: res };
         } catch (error) {
-            console.error('Error fetching notes for student:', error);
+            console.error('Error deleting notes for student:', error);
             return { status: 500, message: 'Internal server error' };
         }
     }
@@ -50,7 +50,7 @@ class NoteService{
        const student_id = req.headers.student_id; // Extract student_id from headers
        console.log("Received student_id:", student_id); 
         if(!student_id) {
-            return { status: 400, message: 'Missing student_id' };
+            console.log("fetch for all notes");
         }
     
         try {
