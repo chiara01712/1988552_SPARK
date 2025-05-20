@@ -285,6 +285,7 @@ button {
 .box h4:hover{
     color: rgb(134, 134, 134);
     text-decoration: underline;
+    cursor: pointer;
 }
 .box a:hover{
     color: rgb(134, 134, 134);

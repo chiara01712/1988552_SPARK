@@ -228,7 +228,10 @@ button {
     color: rgb(134, 134, 134);
     text-decoration: underline;
 }
-
+.box img{
+    width:25px;
+     height:25px;
+}
 
 .container::-webkit-scrollbar-thumb:hover {
     background: #555;

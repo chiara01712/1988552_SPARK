@@ -186,27 +186,6 @@ function applyCourseFilter(key){
     }
   }
 
-  async function deleteNote(noteId){
-    const note_id= noteId;
-    console.log("Note id"+note_id);
-    try {
-        const response = await fetch('/deleteNote', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'note_id': note_id
-            },
-        });
-
-        if(response.status === 200) {
-            const res = await response.json();
-            console.log("Note deleted successfully:", res);
-            fetchNotes();
-        }
-    }catch (error) {
-        console.error('Error fetching notes:', error);
-    }
-}
 
 function courseKey(title){
   return title.toLowerCase().trim().replace(/[^a-z0-9]+/g,'-');
@@ -257,21 +236,19 @@ async function fetchNotes() {
                         box.appendChild(h3);
                         changeColor(h3, note.tag);
                         console.log("getting prof",note.professor_name);
+                        //box.innerHTML+= `<img width="25" height="25" src="https://img.icons8.com/ios/50/add--v1.png" onclick="addNote('${note.id}', '${this}')" alt="add--v1"/>`;
                         h3.textContent = "Prof. "+note.professor_name;
-                         box.innerHTML+= `<i class="fa-regular fa-rectangle-xmark" id="bin" onClick=deleteNote('${note.id}')></i>`;
                         box.innerHTML+= `<h4  onclick="showFile('${note.file_type}', '${note.file_url}')">View File</h4>`;
                         changeColor(box.querySelectorAll('h4')[0], note.tag);
-                        changeColor(box.querySelectorAll('i')[0], note.tag);
                         changeColor(dwnd.querySelectorAll('a')[0], note.tag);
 
                     }
                       else  {
                         box.id="note-"+index;
                         h2.color= "black";
-                         box.innerHTML+= `<i class="fa-regular fa-rectangle-xmark" id="bin" onClick=deleteNote('${note.id}')></i>`;
+                        //box.innerHTML+= `<img  src="https://img.icons8.com/ios/50/add--v1.png" onclick="addNote('${note.id}')" alt="add--v1"/>`;
                         box.innerHTML+= `<h4  onclick="showFile('${note.file_type}', '${note.file_url}')">View File</h4>`;
                         box.querySelectorAll('h4')[0].style.color= "black";
-                        box.querySelectorAll('i')[0].style.color="black";
                         dwnd.querySelectorAll('a')[0].style.color= "black";
                     }
                     
@@ -288,12 +265,12 @@ async function fetchNotes() {
         console.error('Error fetching notes:', error);
     }
 }
-function showFile(file_type,url){
+/* function showFile(file_type,url){
     console.log("entering show function");
     sessionStorage.setItem("url",url);
     sessionStorage.setItem("file_type", file_type);
     window.location.href = "notes_viewer.html";    
-}
+} */
 document.addEventListener('DOMContentLoaded', fetchNotes);
 
 function openPopup(popup, overlay){
@@ -330,6 +307,12 @@ function close_Profile() {
     document.getElementById("profileSidebar").style.display = "none";
     document.getElementById("overlaysidebar").classList.remove("overlayactive");
 }
+
+function addNote(note_id, element){
+  // va aggiunta per lo studente
+  
+}
+
 
 /* 
 // Request for the name of the student to user-service
