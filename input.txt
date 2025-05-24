@@ -1,0 +1,2 @@
+# SYSTEM DESCRIPTION:
+Our project is about building a user-friendly educational platform that streamlines course management, content sharing, and assessments for professors and students. It allows professors to create courses, upload materials, and design quizzes, while students can access resources, take tests, and share their own notes within a collaborative learning environment.
