@@ -5,38 +5,50 @@ Our project is about building a user-friendly educational platform that streamli
 
 # USER STORIES:
 
+## Registration, Authentication, Profile Management, and Logout
 1. As a professor, I want to Register in the site, So that I can have an account as a professor
 2. As a Student, I want to Register in the site, So that I can have an account as a student
-3. As a professor, I want to Login in the site, So that I can use the functionality fo the site as a professor
-4. As a Student, I want to Login in the site, So that I can use the functionality fo the site as a student
+3. As a professor, I want to Login in the site, So that I can use the functionality of the site as a professor
+4. As a Student, I want to Login in the site, So that I can use the functionality of the site as a student
 5. As a professor, I want to access my profile, So that I can view my account
 6. As a Student, I want to access my profile, So that I can view my account
-. As a Student, I want to logout from the site, So that I can end my session
-. As a professor, I want to logout from the site, So that I can end my session
+7. As a Student, I want to logout from the site, So that I can end my session
+8. As a professor, I want to logout from the site, So that I can end my session
+9. As a student, I want to acces to my home page, So that I can see the last notes created and the last courses I enrolled in
 
 PROFESSOR
-7. As a professor, I want to create new courses, So that I can publish new materials
-8. As a professor. I want to add a new post to my courses, So that I can share an announcement or material with my students
-9. As a professor, I want to create test for my courses, So that the students can assess their knowledge
-10. As a professor, I want to view all my courses, So that I can then manage them
-11. As a professor, I want to view the students enrolled in my courses, So that I can check who is enrolled
-12. As a professor, I want to search my courses by their name, So that I can find them quickly
+10. As a professor, I want to create a new course, So that I can publish new materials
+11. As a professor, I want to add a new post to my courses, So that I can share an announcement or material with my students
+12. As a professor, I want to view all my courses, So that I can manage them
+13. As a professor, I want to search my courses by their name, So that I can find them quickly
+14. As a professor, I want to create a test for my course, So that the students can assess their knowledge
+15. As a professor, I want to view the tests I created, So that I can manage them
+16. As a professor, I want to view the students enrolled in my courses, So that I can check who is enrolled
+
 
 STUDENT
-13. As a student, I want to view the courses I'm enrolled in, So that I can access the materials and assignments
-14. As a student, I want to create new notes, So that I can keep track of important information
-15. As a student, I want to view the tests created by my professors, So that I can prepare for them
-16. As a student, I want to do the tests, So that I can assess my understanding of the material
+17. As a student, I want to view the courses I'm enrolled in, So that I can access the materials and assignments
+18. As a student, I want to search the courses I'm enrolled in by their name, So that I can find them quickly
+19. As a student, I want to search for a new course by its name or by its professor, So that I can enroll in it
+20. As a student, I want to view the materials shared by my professors, So that I can study them
+21. As a student, I want to view the posts made by my professors, So that I can stay updated on course announcements
 
-17. As a student, I want to view the results of my tests, So that I can track my progress
+22. As a student, I want to create new notes, So that I can keep track of important information
+23. As a student, I want to view the notes I created, So that I can review important information
+24. As a student I want to view all all the notes created by other students, So that I can learn from their insights
+25. As a student, I want to serch my notes by their name, So that I can find them quickly
+26. As a student, I want to filter the other students notes by the course they are related to, So that I can find them quickly
+27. As a student, I want to search the notes created by other students by their name, So that I can find them quickly
 
-18. As a student, I want to view the materials shared by my professors, So that I can study them
-19. As a student, I want to view the notes I created, So that I can review important information
-20. As a student, I want to view the posts made by my professors, So that I can stay updated on course announcements
-21. As a student I want to view all all the notes created by otgher students, So that I can learn from their insights
+28. As a student, I want to view the tests created by my professors, So that I can prepare for them
+29. As a student, I want to do the tests, So that I can assess my understanding of the material
+30. As a student, I want to view the results of my tests, So that I can track my progress
 
-22. As a student, I want to serch my notes by their name, So that I can find them quickly
 
-23. As a student, I want to serch the other students notes by the course they are related to, So that I can find them quickly
+
+
+
+
+
 
 

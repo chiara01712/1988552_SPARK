@@ -1,1 +1,17 @@
+[
+    {
+        "set_id": 1,
+        "set_name": "User authentication and mangement",
+        "user_stories": [],
+        "links": [],
+        "db": "true"
+    },
+    {
+        "set_id": 2,
+        "set_name": "Note management",
+        "user_stories": [],
+        "links": [],
+        "db": "true"
+    }
 
+]
