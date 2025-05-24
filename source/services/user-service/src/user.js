@@ -58,6 +58,36 @@ sequelize.sync({ force: false }) // if false it will not drop the table if it ex
       }
     });
   })
+
+  .then(() => {
+    return User.findOrCreate({
+      where: {
+        id: '015a5b67-a570-4a7c-8f30-5ce374fac818',
+        username: 'Leonardi'
+      },
+      defaults: {
+        role: 'teacher',
+        password: bcryptjs.hashSync('teacher@example.com', 10),
+        email: 'teacher@example.com'
+    }
+    });
+  })
+
+  .then(() => {
+    return User.findOrCreate({
+      where: {
+        id: 'e1424969-a7d7-4be5-aab4-1a4a36ee80ec',
+        username: 'D Amore'
+      },
+      defaults: {
+        role: 'teacher',
+        password: bcryptjs.hashSync('teacher1@example.com', 10),
+        email: 'teacher1@example.com'
+    }
+    });
+  })
+
+
   .then(([user, created]) => {
     if(created) {
       console.log('User created:', user.toJSON());
