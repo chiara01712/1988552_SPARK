@@ -207,18 +207,10 @@ function populateCourseDetails() {
   const studentsBox = document.getElementById('students-box');
   const label = document.getElementById('stud_annou');
 
-  
-  const isShowingStudents = studentsBox.style.display === 'block';
-
-  if (isShowingStudents) {
-    // Mostra quiz, nasconde studenti
-    studentsBox.style.display = 'none';
-    quizContainer.style.display = 'block';
-  } else {
     // Mostra studenti, nasconde quiz
     quizContainer.style.display = 'none';
     studentsBox.style.display = 'block';
-  }
+  
 }
 
 
@@ -273,6 +265,12 @@ async function renderQuizzes(quizzes) {
     console.log("Quizzes is of type:", typeof quizzes);
     const quizzesContainer = document.getElementById('quizzes-list');
     quizzesContainer.innerHTML = '';
+
+     if(quizzes === null || quizzes.length === 0) {
+        quizzesContainer.innerHTML = '<p>No quizzes available.</p>';
+        return;
+    }
+    else{
     
     for (const quiz of quizzes) {
         const quizCard = document.createElement('div');
@@ -320,6 +318,7 @@ async function renderQuizzes(quizzes) {
         quizCard.innerHTML = quizContent;
         quizzesContainer.appendChild(quizCard);
     };
+    }
 }
 
 

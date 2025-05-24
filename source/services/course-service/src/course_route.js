@@ -191,7 +191,7 @@ router.get("/QuizPage", (req, res) => {
     if (decoded.role === 'student') {
       res.sendFile(path.join(__dirname, '..', 'public', '/quiz/quiz_student.html'));
     }
-    else if (decoded.role === 'professor') {
+    else if (decoded.role === 'teacher') {
       res.sendFile(path.join(__dirname, '..', 'public', '/quiz/quiz_teacher.html'));
     }    
   } catch (error) {

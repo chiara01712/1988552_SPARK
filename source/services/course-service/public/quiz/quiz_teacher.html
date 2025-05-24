@@ -46,12 +46,12 @@
         <div class="sectionbar">
             <a href="http://localhost:6060/CoursePage">Home</a>
             <a href="http://localhost:6060/QuizPage">Tests</a>
-            <label id="stud_annou" >Students</label>
+            <label id="stud_annou"  onclick="openStudents()" >Students</label>
         </div>
          
         <!-- Quizzes -->
          
-        <div class="main-container">
+        <div class="main-container" id="main-container">
             <div class="quiz-header" id="quiz-header">
                 <h1 class="page-title"> Quizzes</h1>
                 <button class="new-quiz" id="new-quiz-btn">
@@ -63,8 +63,10 @@
                 <!-- Quiz cards will be inserted here by JavaScript -->
             </div>
             
-            
         </div>
+        <div class="students-box" id="students-box"> </div>
+
+
     </div>
     
     <!-- Create Quiz Popup -->

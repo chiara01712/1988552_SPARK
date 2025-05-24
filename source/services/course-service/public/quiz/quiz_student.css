@@ -544,7 +544,7 @@ body {
 }
 
  
-  .students-box{
+.students-box{
     display: none;
     flex-direction:column;
     align-items: stretch;
@@ -561,6 +561,7 @@ body {
 
 .student {
     width: 80%;
+    height: 71.5px;
     margin: 0 auto;
     display: flex;               /* Imposta il layout flex */
     flex-direction: row;         /* Allineamento orizzontale */

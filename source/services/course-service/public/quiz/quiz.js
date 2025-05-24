@@ -68,8 +68,117 @@ function getQueryParams() {
       professor: localStorage.getItem("professor"),
       subject: localStorage.getItem("subject")
     };
+}
+
+
+// Student list
+function getRandomColor() {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
   }
-  
+  return color;
+}
+
+async function loadStudentsByCourse(studentIds) {
+  try {
+    // Fetch all student names in parallel using Promise.all
+    const students =await fetch('/getUsernames', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Cache-Control': 'no-cache',
+          },
+          body: JSON.stringify({ id: studentIds, target: "getUsernames" }),
+      });
+
+      if(students.status === 200) {
+          const res = await students.json();
+          console.log(students);
+          const usernames = res.response.content;
+          //console.log("Student name fetched successfully:", students);
+      
+    // Filter out any null values (in case of errors)
+
+    console.log("The students' names are:", usernames);
+    // Ensure usernames is an array
+      
+    // Update the UI with the fetched student names
+    const studentsBox = document.getElementById('students-box');
+    studentsBox.innerHTML = ''; // Clear previous content
+
+    if (usernames.length > 0) {
+      if (!Array.isArray(usernames)) {
+        console.log("Usernames is not an array:", usernames);
+        const profileLetter = JSON.parse(usernames).charAt(0).toUpperCase();
+        const studentDiv = document.createElement('div');
+        studentDiv.className = 'student';
+        const randomColor = getRandomColor();
+        studentDiv.innerHTML = `
+            <div class="profile_letter" style="background-color: ${randomColor};">${profileLetter}</div>
+            <h1>${JSON.parse(usernames)}</h1>
+          `;
+
+          // Add the student div to the students-box section
+          studentsBox.appendChild(studentDiv);
+      }
+      else{
+        usernames.forEach((student, index) => {
+          const profileLetter = student.charAt(0).toUpperCase();
+
+          // Create the div for the student
+          const studentDiv = document.createElement('div');
+          studentDiv.className = 'student';
+
+          const randomColor = getRandomColor();
+
+          studentDiv.innerHTML = `
+            <div class="profile_letter" style="background-color: ${randomColor};">${profileLetter}</div>
+            <h1>${student}</h1>
+          `;
+
+          // Add the student div to the students-box section
+          studentsBox.appendChild(studentDiv);
+
+          // If not the last student, add a separator
+          if (index < usernames.length - 1) {
+            const separator = document.createElement('div');
+            separator.className = 'student-separator';
+            studentsBox.appendChild(separator);
+          }
+        });
+    }
+    } else {
+      studentsBox.innerHTML = 'There aren\'t students enrolled';
+    }
+    }
+      else{
+          console.error("Failed to fetch student name:", students.statusText);
+      }
+
+  } catch (err) {
+    console.error('Error loading students:', err);
+  }
+}
+
+async function fetchStudents(courseId) {
+  try {
+    const response = await fetch(`/getStudentsByCourseID/${courseId}`);
+    const studentIds = await response.json(); // Assuming this is an array of student IDs
+    console.log('Student IDs received from the server:', studentIds);
+
+    if (studentIds) {
+      // Store each student ID in localStorage
+      studentIds.forEach((id, index) => {
+        localStorage.setItem(`studentId_${index}`, id);
+      });
+    }
+  } catch (error) {
+    console.log("Error in fetching student IDs:", error);
+  }
+}
+
   function populateCourseDetails() {
     const { title, subject } = getQueryParams();
     const courseTitle = document.getElementById('courseTitle');
@@ -82,9 +191,28 @@ function getQueryParams() {
   async function viewAllCourses(){
     window.location.href = 'http://localhost:6060/CoursePage';
  }
- //TODO: Function to see all the students enrolled in the course
 
+ 
+async function openStudents() {
+  let studIds=[];
+  // Iterate through localStorage to collect all student IDs
+  Object.keys(localStorage).forEach((key) => {
+    if (key.startsWith('studentId_')) {
+      studIds.push(localStorage.getItem(key)); // Add the student ID to the array
+    }
+  });
 
+  console.log("Collected student IDs:", studIds);
+  loadStudentsByCourse(studIds);
+  const quizContainer = document.getElementById('main-container');
+  const studentsBox = document.getElementById('students-box');
+  const label = document.getElementById('stud_annou');
+  
+    // Mostra studenti, nasconde quiz
+    quizContainer.style.display = 'none';
+    studentsBox.style.display = 'block';
+  
+}
 
 // Menu functionality
 function open_Menu() {
@@ -220,102 +348,50 @@ function renderQuizzes(quizzes) {
     console.log("Quizzes is of type:", typeof quizzes);
     const quizzesContainer = document.getElementById('quizzes-list');
     quizzesContainer.innerHTML = '';
-    
-    quizzes.forEach(quiz => {
-        const quizCard = document.createElement('div');
-        quizCard.classList.add('quiz-card');
-        
-        let questionsHTML = '';
-        quiz.questions.forEach((question, qIndex) => {
-            let optionsHTML = '';
-            question.options.forEach((option, oIndex) => {
-                optionsHTML += `
-                    <div class="option ${option.correct ? 'correct' : ''}">
-                        <input type="radio" id="q${quiz.id}-${qIndex}-${oIndex}" name="q${quiz.id}-${qIndex}" ${option.correct ? 'checked' : ''} disabled>
-                        <label for="q${quiz.id}-${qIndex}-${oIndex}" class="option-text">${option.text}</label>
+
+    if(quizzes === null || quizzes.length === 0) {
+        quizzesContainer.innerHTML = '<p>No quizzes available.</p>';
+        return;
+    }
+    else{
+        quizzes.forEach(quiz => {
+            const quizCard = document.createElement('div');
+            quizCard.classList.add('quiz-card');
+            
+            let questionsHTML = '';
+            quiz.questions.forEach((question, qIndex) => {
+                let optionsHTML = '';
+                question.options.forEach((option, oIndex) => {
+                    optionsHTML += `
+                        <div class="option ${option.correct ? 'correct' : ''}">
+                            <input type="radio" id="q${quiz.id}-${qIndex}-${oIndex}" name="q${quiz.id}-${qIndex}" ${option.correct ? 'checked' : ''} disabled>
+                            <label for="q${quiz.id}-${qIndex}-${oIndex}" class="option-text">${option.text}</label>
+                        </div>
+                    `;
+                });
+                
+                questionsHTML += `
+                    <div class="question-card">
+                        <div class="question-text">${qIndex + 1}. ${question.text}</div>
+                        <div class="options-container">
+                            ${optionsHTML}
+                        </div>
                     </div>
                 `;
             });
             
-            questionsHTML += `
-                <div class="question-card">
-                    <div class="question-text">${qIndex + 1}. ${question.text}</div>
-                    <div class="options-container">
-                        ${optionsHTML}
-                    </div>
+            quizCard.innerHTML = `
+                <h2 class="quiz-title">${quiz.title}</h2>
+                <p class="quiz-description">${quiz.description}</p>
+                ${questionsHTML}
+                <div class="quiz-actions">
                 </div>
             `;
+            
+            quizzesContainer.appendChild(quizCard);
         });
-        
-        quizCard.innerHTML = `
-            <h2 class="quiz-title">${quiz.title}</h2>
-            <p class="quiz-description">${quiz.description}</p>
-            ${questionsHTML}
-            <div class="quiz-actions">
-                <button class="quiz-btn edit-btn" onclick="editQuiz(${quiz.id})">
-                    <i class="fa-solid fa-edit"></i> Edit
-                </button>
-            </div>
-        `;
-        
-        quizzesContainer.appendChild(quizCard);
-    });
+    }
 }
-
-// Function to edit a quiz
-// function editQuiz(quizId) {
-//     const quiz = quizzes.find(q => q.id === quizId);
-//     if (!quiz) return;
-    
-//     // Populate the form with quiz data
-//     document.getElementById('quiz-title').value = quiz.title;
-//     document.getElementById('quiz-description').value = quiz.description;
-    
-//     // Clear existing questions
-//     document.getElementById('questions-container').innerHTML = '';
-    
-//     // Add each question
-//     quiz.questions.forEach((question, qIndex) => {
-//         const questionForm = document.createElement('div');
-//         questionForm.classList.add('question-form');
-        
-//         let optionsHTML = '';
-//         question.options.forEach((option, oIndex) => {
-//             optionsHTML += `
-//                 <div class="option-form">
-//                     <input type="radio" name="correct-${qIndex}" ${option.correct ? 'checked' : ''}>
-//                     <input type="text" value="${option.text}" required>
-//                     <button type="button" class="remove-btn" onclick="removeOption(this)">
-//                         <i class="fa-solid fa-times"></i>
-//                     </button>
-//                 </div>
-//             `;
-//         });
-        
-//         questionForm.innerHTML = `
-//             <div class="form-group">
-//                 <label for="question-${qIndex}">Question ${qIndex + 1}</label>
-//                 <input type="text" id="question-${qIndex}" value="${question.text}" required>
-//                 <button type="button" class="remove-question-btn" onclick="removeQuestion(this)">
-//                     <i class="fa-solid fa-trash"></i> Remove Question
-//                 </button>
-//             </div>
-            
-//             <div class="options-container" id="options-container-${qIndex}">
-//                 ${optionsHTML}
-//             </div>
-            
-//             <button type="button" class="add-option-btn" onclick="addOption(${qIndex})">
-//                 <i class="fa-solid fa-plus"></i> Add Option
-//             </button>
-//         `;
-        
-//         document.getElementById('questions-container').appendChild(questionForm);
-//     });
-    
-//     // Open the popup
-//     openQuizPopup();
-// }
 
 
 
@@ -351,7 +427,7 @@ document.getElementById('quiz-form').addEventListener('submit', async (e) => {
     });
     // Create new quiz or update existing
     const data = {
-        course_id: '123e4567-e89b-12d3-a456-426614174111', // TODO: Retrive the courseId from the session storage 
+        course_id: courseId,
         title,
         description,
         questions
@@ -389,6 +465,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // To add the course details to the page
     populateCourseDetails();
+    const { courseId } = getQueryParams();
+    if (courseId) fetchStudents(courseId); 
     
     // Quiz popup listeners
     document.getElementById("new-quiz-btn").addEventListener("click", function() {
