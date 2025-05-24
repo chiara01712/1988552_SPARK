@@ -23,12 +23,12 @@ The postgres container does not connect to external services.
 
 ### MICROSERVICES:
 
-#### MICROSERVICE: PostgreSQL Database
+#### MICROSERVICE: PostgreSQL Databases
 - TYPE: backend
 - DESCRIPTION:  Manages persistent storage of data for the application
 - PORTS: 5432
 - TECHNOLOGICAL SPECIFICATION:
-- SERVICE ARCHITECTURE:
+- SERVICE ARCHITECTURE: three db (...)
 - DB STRUCTURE:
 
 **_courses_** :	| **_id_** | title | description | professor_id | student_ids | professor_name | tag | timestamps | created_at |
@@ -64,7 +64,7 @@ The user-service container communicates with the postgres container in order to 
 #### MICROSERVICE: User management
 - TYPE: backend
 - DESCRIPTION: Handles user authentication, including login and token validation
-- PORTS: 5432
+- PORTS: 8080
 - TECHNOLOGICAL SPECIFICATION:
 - SERVICE ARCHITECTURE:
-- DB STRUCTURE:
+
