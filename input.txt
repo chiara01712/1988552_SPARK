@@ -1,4 +1,40 @@
 # SYSTEM DESCRIPTION:
 Our project is about building a user-friendly educational platform that streamlines course management, content sharing, and assessments for professors and students. It allows professors to create courses, upload materials, and design quizzes, while students can access resources, take tests, and share their own notes within a collaborative learning environment.
 
+
+
 # USER STORIES:
+
+1. As a professor, I want to Register in the site, So that I can have an account as a professor
+2. As a Student, I want to Register in the site, So that I can have an account as a student
+3. As a professor, I want to Login in the site, So that I can use the functionality fo the site as a professor
+4. As a Student, I want to Login in the site, So that I can use the functionality fo the site as a student
+5. As a professor, I want to access my profile, So that I can view my account
+6. As a Student, I want to access my profile, So that I can view my account
+
+PROFESSOR
+7. As a professor, I want to create new courses, So that I can publish new materials
+8. As a professor. I want to add a new post to my courses, So that I can share an announcement or material with my students
+9. As a professor, I want to create test for my courses, So that the students can assess their knowledge
+10. As a professor, I want to view all my courses, So that I can then manage them
+11. As a professor, I want to view the students enrolled in my courses, So that I can check who is enrolled
+
+
+STUDENT
+. As a student, I want to view the courses I'm enrolled in, So that I can access the materials and assignments
+. As a student, I want to create new notes, So that I can keep track of important information
+. As a student, I want to view the tests created by my professors, So that I can prepare for them
+. As a student, I want to do the tests, So that I can assess my understanding of the material
+
+. As a student, I want to view the results of my tests, So that I can track my progress
+
+. As a student, I want to view the materials shared by my professors, So that I can study them
+. As a student, I want to view the notes I created, So that I can review important information
+. As a student, I want to view the posts made by my professors, So that I can stay updated on course announcements
+. As a student I want to view all all the notes created by otgher students, So that I can learn from their insights
+
+. As a student, I want to serch my notes by their name, So that I can find them quickly
+
+. As a student, I want to serch the other students notes by the course they are related to, So that I can find them quickly
+
+
