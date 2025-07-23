@@ -2,7 +2,7 @@
 
 ## Sprint Duration:
 
-2 Weeks per Sprint
+Total duration 12 weeks
 
 ## Sprint 1: Authentication and Core infrastructure
 ### Goal:
@@ -10,153 +10,163 @@ Set up the basic infrastructure, including the database, authentication system, 
 ### Sprint Backlog:
 
 #### Set up PostgreSQL database
-Create users, courses, course_materials, notes, quizzes and quizAnswers tables.
+Initialize DB schema: users, courses, course_materials, notes, quizzes, quizAnswers
+
+Tables if needed must support both professor and student roles.
 
 User Stories: 2, 3, 4, 5, 7, 8, 9
 
 #### Implement Authentication Service
 
-Create the /index.js endpoint and the src fordel for authentication funtionalities. 
-
-Implement token-based session management.
+Build /index.js and src/ folder (route, service, repo layers).
+- Add JWT-based login + session handling
+- Bcrypt for hashing, Sequelize for ORM
+- Role-based access: student or professor
 
 User Stories: 1, 2, 3, 4, 5, 6
 
-#### Develop Frontend for Login and Registration and Personal pages
+#### Develop Frontend for Login and Registration and Profile
 
-Create the public folder with the /index and /access and Personal_page (css,html,js) pages.
-
-Integrate with Authentication Service.
+Pages: /index, /access, and /personal_page with HTML, CSS, JS
+Integrate with Authentication Service (UI adapts based on user role)
 
 User Stories: 7, 8, 9, 10
 
-## Sprint 2: RabbitMq setup and Student service basics  
+### Duration: 2 weeks
+
+## Sprint 2: RabbitMQ Integration & Student Service Setup
+
 ### Goal: 
-Set up the rabbitMq comunication between containers and build the infrastructure of the student service.
+Enable inter-service communication and implement student dashboard and note creation features.
 
 ### Sprint Backlog:
 
-#### Implement Rabbitmq managment
-Set up the rpcQueue for the user and student services, implement the consumer.js, producer.js and service-s.js .. 
+#### Implement Rabbitmq infrastructure
+- Set up rpcQueue for user-service and student-service
+- Build producer.js, consumer.js, and service-s.js logic 
+
+User Stories: 
+
+#### Build Student Service Backend 
+
+Create API for:
+- Student homepage
+- Allow note's search
+- Personal notes (create/view/delete/upload)
+
+Connect to PostgreSQL through Node.js 
 
 User Stories: 7, 8, 9, 10, 11, 12, 13, 14, 15, 18
 
-#### Develop Frontend for Profile Page 
+#### Student Frontend Development 
+Create the public folder (pages: student_home, my_notes, view_note)
+Features:
+- Display recent notes
+- Add/upload/delete personal notes
 
-Create Profile page.
+User Stories: 18, 24, 25, 26, 27
 
-Integrate with Profile Handling Service.
+### Duration: 3 weeks
 
-User Stories: 7, 8, 9, 10, 11, 12, 13, 14, 15, 18
-
-#### Set up WebSocket Service
-
-.
-
-User Stories: 1, 16, 17, 18, 19, 20
-
-#### Develop Frontend for Challenge Creation and Joining
-
-Create Index page for challenge creation and joining.
-
-Integrate with WebSocket Service.
-
-User Stories: 1, 16, 17, 18, 19, 20
-
-## Sprint 3: Game Logic and Real-Time Play
+## Sprint 3: Course Management for Professors & Students
 ### Goal:
-
-Implement the core game logic, real-time gameplay, and basic game features.
+Develop professor course creation flow and student access to courses and course's materials, posts and tests.
 
 ### Sprint Backlog:
 
-#### Implement Game Logic in WebSocket Service
+#### Implement Rabbitmq infrastructure
 
-Handle game state, turns, and win conditions.
+- Set up rpcQueueC for course <--> student comunication and the rpcQueue for course <--> user comunication 
+- Build producer.js, consumer.js, and service-s.js logic 
+
+User Stories: 23
+
+#### Build Course Service Backend
+
+Professors: create/view/search courses, post materials and create quizzes
 
 User Stories: 1, 21, 22, 24, 25, 26, 27, 28, 29
 
-#### Develop Frontend for Game Page
+#### Develope Student-side Course back-end
 
-Create Game page.
+Students: enroll, unsubscribe, access materials/posts/quizzes
 
 Implement real-time updates via WebSocket.
 
 User Stories: 1, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32
 
-#### Implement Chat Feature
 
-Add real-time chat functionality to WebSocket Service.
+#### Course Frontend Development
+Pages: course_home, courses, professor
+Features:
+- Professors manage course content
+- Students browse, filter, and enroll in courses
 
-User Stories: 23
+User Stories: 11, 13, 14, 19, 20, 21, 22, 23, 36, 37
 
-#### Implement Timing Settings
+### Duration: 3 weeks
 
-Add timing settings (blitz, rapid, custom) to game logic.
-
-User Stories: 20, 24
-
-## Sprint 4: Replays, Statistics, and Polish
+## Sprint 4: Shared Notes, Quizzes & Test Results
 ### Goal:
 
-Implement game replays, statistics, and final polish for the platform.
+Enable collaboration via shared student notes, and implement test-taking, answer-submission and  result-viewing workflows.
 
 ### Sprint Backlog:
 
-#### Implement Replay Functionality
+#### Implement Shared Notes Features
 
-Store move sequences in the database.
+Students can view, search, filter, and save other students’ notes. ourse-based filtering and tagging
 
-Create /replay.php endpoint.
+User Stories: 28, 29, 30, 31, 32
 
-User Stories: 12, 14, 30, 33, 34, 35, 36, 37
+### Complete Quiz Functionality
 
-### Develop Frontend for Replay Page
-
-Create Replay page.
+Students can take quizzes, submit unswers and view results.
 
 Implement move-by-move replay functionality.
 
-User Stories: 12, 14, 30, 33, 34, 35, 36, 37
+User Stories: 15, 16, 33, 34, 35
 
-### Implement Aggregate Statistics
+### Final Frontend Integrations
 
-Add statistics calculation to Profile Handling Service.
+Pages: all_notes, notes_viewer, quiz_page
+Display shared notes and tests with filters, tags, downloads
 
-User Stories: 10, 11, 15
+User Stories: 26, 28, 30, 31, 32, 33, 34, 35
 
-### Polish and Bug Fixes
+### Duration: 2 weeks
 
-Address any remaining bugs and improve UI/UX.
 
-User Stories: All
-
-## Sprint 5: Testing and Deployment
+## Sprint 5: Testing, Optimization, and Deployment
 ### Goal:
 
-Conduct thorough testing, fix any remaining issues, and prepare for deployment.
-### Sprint Backlog:
+Final system testing, container configuration, and deployment-ready state### Sprint Backlog:
 
 #### End-to-End Testing
 
-Test all user stories and edge cases.
+Validate workflows for both professors and students. Handle edge cases and authorization errors
 
 User Stories: All
 
 #### Performance Optimization
-
-Optimize database queries and WebSocket performance.
+Comprensive of:
+- Database query refinement
+- RabbitMQ load testing
+- Frontend responsiveness fixes
 
 User Stories: All
 
-#### Deployment Preparation
+#### Docker deplyment and Polish
 
-Prepare the platform for deployment (e.g., Docker setup, environment configuration).
+Docker Compose setup for all containers: user, course, student, postgres, rabbitmq
+- Bug fixes & UI improvements
 
 User Stories: All
 
 #### Final Documentation
 
-Write final documentation for the platform.
+Write the final README, documentation and architecture diagrams
 
 User Stories: All
+
+### Duration: 2 weeks
