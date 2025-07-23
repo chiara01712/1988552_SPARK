@@ -133,7 +133,7 @@ The user-service container does not connect to external services.
 	---|---|---|---
 	Index|Home page of the website it leads to student/teacher login/signin | Authentication service|1, 
 	Access|Page for registering or loggin in |PostgreSQL Database, Autntication Serhevice| 2, 3, 4, 5, 6
-	Personale Page|Page for viewing personal information|PostgreSQL Database, Autntication Serhevice|7, 8
+	Personal_page|Page for viewing personal information|PostgreSQL Database, Autntication Serhevice|7, 8
 
 ## CONTAINER_NAME: student-service
 ### DESCRIPTION:
