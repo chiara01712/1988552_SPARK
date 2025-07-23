@@ -1,7 +1,4 @@
-# 📊 Function Points Analysis – University Platform
-
-This document contains the **Function Point Analysis** of a university platform.  
-Each user story is categorized by:
+# Function Points Analysis
 
 - **Function Type**:
   - `EI` – External Input
@@ -15,7 +12,7 @@ Each user story is categorized by:
 
 ---
 
-## 📥 External Input (EI)
+## External Input (EI)
 
 | User Story ID | Task Description | Complexity |
 |---------------|------------------|------------|
@@ -37,7 +34,7 @@ Each user story is categorized by:
 
 ---
 
-## 📤 External Output (EO)
+## External Output (EO)
 
 | User Story ID | Task Description | Complexity |
 |---------------|------------------|------------|
@@ -49,7 +46,7 @@ Each user story is categorized by:
 
 ---
 
-## 🔍 External Inquiry (EQ)
+## External Inquiry (EQ)
 
 | User Story ID | Task Description | Complexity |
 |---------------|------------------|------------|
