@@ -1,16 +1,5 @@
 # Function Points Analysis
 
-- **Function Type**:
-  - `EI` – External Input
-  - `EO` – External Output
-  - `EQ` – External Inquiry
-  - `ILF` – Internal Logical File
-  - `EIF` – External Interface File
-- **User Story ID**
-- **Task Description**
-- **Complexity**
-
----
 
 ## External Input (EI)
 
