@@ -102,11 +102,12 @@
 
 ## Total Function Points 
 
-| Category | Total FP |
-|----------|----------|
-| EI       | 63       |
-| EO       | 24       |
-| EQ       | 67       |
-| ILF      | 265      |
-| EIF      | 21       |
-| **TOTAL**| **440**  |
+| Category | FP Sum |
+|----------|--------|
+| EI       | 56     |
+| EO       | 24     |
+| EQ       | 58     |
+| ILF      | 140    |
+| EIF      | 7      |
+| **TOTAL**| **285** |
+
