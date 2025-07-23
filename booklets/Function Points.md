@@ -99,3 +99,14 @@
 | 12 | File upload/download | Medium | 7 |
 | 22 | File upload/download | Medium | 7 |
 | 27 | File upload/download | Medium | 7 |
+
+## Total Function Points 
+
+| Category | Total FP |
+|----------|----------|
+| EI       | 63       |
+| EO       | 24       |
+| EQ       | 67       |
+| ILF      | 265      |
+| EIF      | 21       |
+| **TOTAL**| **440**  |
