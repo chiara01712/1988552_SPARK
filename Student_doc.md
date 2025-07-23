@@ -227,16 +227,16 @@ The course-service container communicates with the postgres container in order t
     | POST | /unsubscribeFromCourse | allows the student to view the student home | 37 |
     | POST | /upload | allows the professor to add the his files to an posts | 12 |
     | GET | /CoursesPage | allows the student to view all his notes | 19 |
-    | GET | /getCoursesBySearch | fetches the student's notes | 21 |
+    | GET | /getCoursesBySearch | fetches the student's courses | 20, 21 |
     | GET | /CoursePage | allows the professor to view the professor home | 13 |
     | GET | /getCoursesByStudentId | allows the student to access the student page from another service | 19 |
-    | GET | /getCourses | gets the students's course information |  20  |
+    | GET | /getCourses | gets the professor's courses information |  13  |
     | GET | /home | allows the professor to view the professor home | 13 |
     | GET | /QuizPage | allows the user's to view the quizzes | 34, 16 |
     | GET | /getQuizAnswer | allows the student to view the student home | 35 |
     | GET | /getQuizzes | allows the user to retieve the quizzes' information  | 34, 16 |
-    | GET | /getStudentsByCourseID/:courseId |  |  |
-    | GET | /by-course-id/:courseId | allows the student to view the student home |  |
+    | GET | /getStudentsByCourseID/:courseId | 17 |
+    | GET | /by-course-id/:courseId | allows the student to view the student home | 12 |
   
 
 #### MICROSERVICE: course frontend
