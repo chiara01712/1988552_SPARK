@@ -99,7 +99,7 @@ The user-service container is responsible for handling all operations related to
 The user-service container does not handle data persistence internally; instead, it depends on the postgres container to store and manage all persistent user data.
 
 ### EXTERNAL SERVICES CONNECTIONS
-The user-service container communicates with the postgres container in order to store and retrieve user's information through RabbitMQ.
+The user-service container does not connect to external services.
 
 ### MICROSERVICES:
 
@@ -149,7 +149,7 @@ The student-service container is responsible for managing all operations related
 The student-service container does not handle data persistence internally; instead, it depends on the postgres container to store and manage all persistent user data.
 
 ### EXTERNAL SERVICES CONNECTIONS
-The student-service container communicates with the postgres container in order to store and retrieve student's information through RabbitMQ.
+The student-service container cdoes not connect to external services.
 
 ### MICROSERVICES:
 
@@ -203,7 +203,7 @@ The Course Service is a backend microservice responsible for managing all aspect
 The course-service container does not handle data persistence internally; instead, it depends on the postgres container to store and manage all persistent user data.
 
 ### EXTERNAL SERVICES CONNECTIONS
-The course-service container communicates with the postgres container in order to store and retrieve student's information through RabbitMQ.
+The course-service container does not connect to external services.
 
 ### MICROSERVICES:
 
@@ -255,4 +255,29 @@ The course-service container communicates with the postgres container in order t
 	Professor| professor's home page, where he can view its courses |PostgreSQL Database, Course Service| 11, 13, 14, 36, 37
 
 
+
+## CONTAINER_NAME: RabbitMq
+
+### DESCRIPTION: 
+Provides a single Point of Access for all the incoming requests
+
+### USER-STORIES:
+
+### PORTS: 
+- 5672:5672  
+- 15672:15672
+
+### DESCRIPTION:
+RabbitMQ is a reliable and mature messaging and streaming broker
+
+### PERSISTANCE EVALUATION
+The rabbitMq container does not include a database.
+
+### EXTERNAL SERVICES CONNECTIONS
+The rabbitMq container does not connect to external services.
+
+#### MICROSERVICE: api-getaway
+- TYPE: intermediary
+- DESCRIPTION: This microservice acts as an intermediary, enabling other containers to communicate and exchange messages asynchronously.
+- PORTS: 5672 (AMQP port), 15672 (port for the management plugin)
 
