@@ -14,7 +14,7 @@ Initialize DB schema: users, courses, course_materials, notes, quizzes, quizAnsw
 
 Tables if needed must support both professor and student roles.
 
-User Stories: 2, 3, 4, 5, 7, 8, 9
+User Stories: 
 
 #### Implement Authentication Service
 
@@ -45,18 +45,18 @@ Enable inter-service communication and implement student dashboard and note crea
 - Set up rpcQueue for user-service and student-service
 - Build producer.js, consumer.js, and service-s.js logic 
 
-User Stories: 
+User Stories: 18, 11
 
 #### Build Student Service Backend 
 
-Create API for:
+Create functionalities for:
 - Student homepage
-- Allow note's search
+- Note's search
 - Personal notes (create/view/delete/upload)
 
 Connect to PostgreSQL through Node.js 
 
-User Stories: 7, 8, 9, 10, 11, 12, 13, 14, 15, 18
+User Stories: 18, 24, 25, 26, 27, 29
 
 #### Student Frontend Development 
 Create the public folder (pages: student_home, my_notes, view_note)
@@ -64,7 +64,7 @@ Features:
 - Display recent notes
 - Add/upload/delete personal notes
 
-User Stories: 18, 24, 25, 26, 27
+User Stories: 18, 24, 25, 26, 27, 29
 
 ### Duration: 3 weeks
 
@@ -79,21 +79,22 @@ Develop professor course creation flow and student access to courses and course'
 - Set up rpcQueueC for course <--> student comunication and the rpcQueue for course <--> user comunication 
 - Build producer.js, consumer.js, and service-s.js logic 
 
-User Stories: 23
+User Stories: 17, 19
 
 #### Build Course Service Backend
 
-Professors: create/view/search courses, post materials and create quizzes
+Professors: create/view/search courses, post materials and create quizzes.
+Connect to PostgreSQL through Node.js 
 
-User Stories: 1, 21, 22, 24, 25, 26, 27, 28, 29
+User Stories: 11, 12, 13, 14, 17
 
 #### Develope Student-side Course back-end
 
-Students: enroll, unsubscribe, access materials/posts/quizzes
+Students: enroll, unsubscribe, access materials and posts
 
 Implement real-time updates via WebSocket.
 
-User Stories: 1, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32
+User Stories: 19, 20, 22, 23, 26, 37
 
 
 #### Course Frontend Development
@@ -102,7 +103,7 @@ Features:
 - Professors manage course content
 - Students browse, filter, and enroll in courses
 
-User Stories: 11, 13, 14, 19, 20, 21, 22, 23, 36, 37
+User Stories: 11, 12, 13, 14, 17, 19, 20, 22, 23, 26, 37
 
 ### Duration: 3 weeks
 
@@ -115,9 +116,9 @@ Enable collaboration via shared student notes, and implement test-taking, answer
 
 #### Implement Shared Notes Features
 
-Students can view, search, filter, and save other students’ notes. ourse-based filtering and tagging
+Students can view, search, filter, and save other students’ notes. Course-based filtering and tagging
 
-User Stories: 28, 29, 30, 31, 32
+User Stories: 21, 28, 29, 30, 31, 32
 
 ### Complete Quiz Functionality
 
@@ -125,14 +126,14 @@ Students can take quizzes, submit unswers and view results.
 
 Implement move-by-move replay functionality.
 
-User Stories: 15, 16, 33, 34, 35
+User Stories:  33, 34, 35
 
 ### Final Frontend Integrations
 
 Pages: all_notes, notes_viewer, quiz_page
 Display shared notes and tests with filters, tags, downloads
 
-User Stories: 26, 28, 30, 31, 32, 33, 34, 35
+User Stories: 28, 33, 34, 35
 
 ### Duration: 2 weeks
 
