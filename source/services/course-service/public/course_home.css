@@ -292,31 +292,13 @@ body {
 }
 
 
-.testbutton{
-    width: 60px;
-    height: 60px;
-    position: fixed;
-    border-radius:  30px;
-    bottom: 90px;
-    right:20px;
-    border-style: hidden;
-    font-size: 25px; 
-    background-color:  #007bff;
-    color: rgb(227, 197, 2);
-    cursor: pointer;
-}
-
-.testbutton:hover{
-    transform: scale(1.2);
-}
-
 .contentbutton{
     width: 60px;
     height: 60px;
     position: fixed;
     border-radius:  30px;
-    bottom: 160px;
-    right:20px;
+    bottom: 30px;
+    right:40px;
     border-style: hidden;
     font-size: 25px; 
     background-color:  #007bff;
