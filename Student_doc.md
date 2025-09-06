@@ -276,7 +276,7 @@ The rabbitMq container does not include a database.
 ### EXTERNAL SERVICES CONNECTIONS
 The rabbitMq container does not connect to external services.
 
-#### MICROSERVICE: api-getaway
+#### MICROSERVICE: middleware
 - TYPE: intermediary
 - DESCRIPTION: This microservice acts as an intermediary, enabling other containers to communicate and exchange messages asynchronously.
 - PORTS: 5672 (AMQP port), 15672 (port for the management plugin)
