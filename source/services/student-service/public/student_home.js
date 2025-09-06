@@ -48,9 +48,8 @@ async function fetchNotes() {
             console.log("Notes fetched successfully:", notes);
             const carouselContent = document.getElementById('note-box');
             if (notes.length === 0) {
-                carouselContent.innerHTML='<div class="box"> No notes available</div>';
-            }
-            else {
+                carouselContent.innerHTML='<p> Ops...No note has been found</p>';
+            } else {
                 carouselContent.innerHTML = '';
                  
                 notes.forEach((note, index) => {
@@ -287,12 +286,12 @@ async function fetchCourses() {
              carouselContent.innerHTML = '';
              if (courses.length === 0) {
                 console.log("error");
-                 carouselContent.innerHTML = '<div class="box"> No courses available</div>';
+                 carouselContent.innerHTML = '<p> Ops...No course has been found</p>';
                  return;
              }
              else if(courses == "courses not found"){
                 console.log("courses not found");
-                carouselContent.innerHTML = '<div class="box"> No courses available</div>';
+                carouselContent.innerHTML = '<p> Ops...No course has been found</p>';
                 return;
             }
              let count=0;

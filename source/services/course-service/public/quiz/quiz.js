@@ -473,7 +473,9 @@ document.getElementById('quiz-form').addEventListener('submit', async (e) => {
     
     const questions = [];
     const questionForms = document.querySelectorAll('.question-form');
-    
+    const courseId = getQueryParams().courseId;
+    console.log("Course ID:", courseId);
+
     questionForms.forEach((qForm, qIndex) => {
         const questionText = qForm.querySelector(`#question-${qIndex}`).value;
         const options = [];

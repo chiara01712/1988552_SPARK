@@ -1,6 +1,25 @@
 function redirectToIndex() {
     window.location.href = "/index";
 }
+
+
+//Toast
+function showErrorPopup(message) { showToast(message, "error"); }
+function showSuccessPopup(message) { showToast(message, "success"); }
+
+function showToast(message, type) {
+      const toast = document.createElement("div");
+      toast.textContent = message;
+      toast.className = "toast " + type;
+      document.body.appendChild(toast);
+
+      setTimeout(() => toast.classList.add("show"), 100);
+      setTimeout(() => {
+          toast.classList.remove("show");
+          setTimeout(() => toast.remove(), 300);
+      }, 3000);
+}
+
 document.addEventListener("DOMContentLoaded", function () {
 
     const container = document.getElementById('container');
@@ -80,9 +99,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         window.location.href = "http://localhost:6060/home";
                     }
                 } else {
-                    const errorText = await response.text();
+                    const errorText = await response.json();
                     console.error("Login failed:", errorText);
-                    alert(errorText);
+                    showErrorPopup(errorText.message);
                 }
             } catch (error) {
                 console.error("Error during login:", error);
