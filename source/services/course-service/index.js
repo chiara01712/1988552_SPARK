@@ -16,10 +16,10 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Allow CORS for requests from the specified frontend origin, because the frontend that makes the 
 // request is on a different port (8080) than the backend (7070)
- app.use(cors({
+app.use(cors({
   origin: 'http://localhost:8080', 
   // credentials: true, // Allow credentials (cookies) to be sent
-})); 
+}));
 
 // Serve static files from the 'public' directory
 app.use('', courseRoutes);

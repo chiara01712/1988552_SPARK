@@ -3,21 +3,21 @@ const container = document.getElementById("course-container");
 const noResults = document.getElementById("no-results");
 
 async function signOut() {
-  console.log("Logout function called");
-  try {
-      // Send a request to localhost:8080 to clear the cookies
-      const response = await fetch('http://localhost:8080/logout', {       
-          method: 'POST',
-          credentials: 'include' // Include credentials (cookies) in the request
-      });
-      if (response.status === 200) {
-          console.log("Logout successful");
-          window.location.href = 'http://localhost:8080/';
-      }
-  }
-  catch (error) {
-      console.error('Error during sign-out:', error);
-  }
+    console.log("Logout function called");
+    try {
+        // Send a request to localhost:8080 to clear the cookies
+        const response = await fetch('http://localhost:8080/logout', {       
+            method: 'POST',
+            credentials: 'include' // Include credentials (cookies) in the request
+        });
+        if (response.status === 200) {
+            console.log("Logout successful");
+            window.location.href = 'http://localhost:8080/';
+        }
+    }
+    catch (error) {
+        console.error('Error during sign-out:', error);
+    }
 
 }
 

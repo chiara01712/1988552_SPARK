@@ -18,8 +18,8 @@ app.use(bodyParser.urlencoded({ extended: true })); // Add this line to parse fo
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors({
-  origin: 'http://localhost:7070', // Allow requests from this origin
-  credentials: true, // Allow credentials (cookies) to be sent
+  origin: ['http://localhost:6060', 'http://localhost:7070'],
+  credentials: true,
 }));
 
 // Serve static files from the 'public' directory
