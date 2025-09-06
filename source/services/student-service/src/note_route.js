@@ -37,6 +37,23 @@ router.get('/my_note', (req, res) => {
   
 });
 
+router.get('/All_Notes', (req, res) => {
+  const token = req.cookies.access_token;
+  if (!token) {
+    const error = encodeURIComponent('You need to login to access the website.');
+    return res.redirect(`http://localhost:8080?error=${error}`);
+  }
+  try{
+    // Verify the token using the same secret key used for signing
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    console.log("Authenticated user: ",decoded);
+
+    res.sendFile(path.join(__dirname, '..', 'public', 'all_notes.html'));
+  } catch (error) {
+    console.error("Error verifying token:", error);
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+});
 
 router.get('/getNotes', async (req, res) => {
     try {
