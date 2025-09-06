@@ -241,7 +241,7 @@ const quizzes = [
 const { v4: uuidv4 } = require('uuid');
 // Create the tables if they don't exist (according to the model)
 //sequelize.sync({ force: true }) 
-sequelize.sync({ force: false }) 
+sequelize.sync({ force: true }) 
 
 .then(() => {
   console.log('Material table ready.');
@@ -272,40 +272,119 @@ sequelize.sync({ force: false })
         
     },
     defaults: {
-      title: 'Algorithm Design',
-      professor_id: '015a5b67-a570-4a7c-8f30-5ce374fac818', 
-      description: 'decription.',
+      title: 'World History: Ancient Civilizations',
+      professor_id: 'e1424969-a7d7-4be5-aab4-1a4a36ee80ec', 
+      description: 'Discover the rise and fall of early civilizations around the globe.',
       student_ids: [
         '123e4567-e89b-12d3-a456-426614174000',
         '223e4567-e89b-12d3-a456-426614174001',
-        '323e4567-e89b-12d3-a456-426614174002',
-        '423e4567-e89b-12d3-a456-426614174003'
       ],
-      professor_name: 'Leonardi',
+      professor_name: 'Isabella Martinez',
       tag: 'Humanities'
       
     }
   }); 
 })
+
 .then(() => { 
-  // Create another course
+  // Arts & Design
   return Course.findOrCreate({
     where: {
-      id: '123e4567-e89b-12d3-a456-426614174111',
+      id: '123e4567-e89b-12d3-a456-426614874112',
     },
     defaults: {
-      title: 'Cybersecurity',
+      title: 'Programming Fundamentals',
       professor_id: 'e1424969-a7d7-4be5-aab4-1a4a36ee80ec',
-      description: 'Un altro corso per test.',
+      description: 'Learn the fundamentals of programming using Python.',
       student_ids: [
         '123e4567-e89b-12d3-a456-426614174000',
+        '223e4567-e89b-12d3-a456-426614174001',
+        '223e4567-e89b-12d3-a456-426614174002',
+        '223e4567-e89b-12d3-a456-426614174003',
+        '223e4567-e89b-12d3-a456-426614174004',
+        '223e4567-e89b-12d3-a456-426614174005',
+        '223e4567-e89b-12d3-a456-426614174006',
+        '223e4567-e89b-12d3-a456-426614174007',
       ],
-      professor_name: 'D Amore',
+      professor_name: 'Isabella Martinez',
       tag: 'Engineering & Technology'
-       
     }
   });
 })
+.then(() => { 
+  // Business & Management
+  return Course.findOrCreate({
+    where: {
+      id: '123e4567-e89b-12d3-a456-426614874113',
+    },
+    defaults: {
+      title: 'Principles of Marketing',
+      professor_id: 'e1424969-a7d7-4be5-aab4-1a4a36ee80ec',
+      description: 'Explore core marketing concepts and strategies.',
+      student_ids: [
+        '123e4567-e89b-12d3-a456-426614174000',
+      ],
+      professor_name: 'Isabella Martinez',
+      tag: 'Business & Management'
+    }
+  });
+})
+.then(() => { 
+  // Communication & Media
+  return Course.findOrCreate({
+    where: {
+      id: '123e4567-e89b-12d3-a456-426614874114',
+    },
+    defaults: {
+      title: 'Media and Society',
+      professor_id: 'e1424969-a7d7-4be5-aab4-1a4a36ee80ec',
+      description: 'Analyze the role of media in shaping public opinion.',
+      student_ids: [
+        '123e4567-e89b-12d3-a456-426614174000',
+      ],
+      professor_name: 'Isabella Martinez',
+      tag: 'Communication & Media'
+    }
+  });
+})
+.then(() => { 
+  // Health & Life Sciences
+  return Course.findOrCreate({
+    where: {
+      id: '123e4567-e89b-12d3-a456-426614874115',
+    },
+    defaults: {
+      title: 'Human Anatomy',
+      professor_id: '015a5b67-a570-4a7c-8f30-5ce374fac818',
+      description: 'Study the structure and function of the human body.',
+      student_ids: [
+        '123e4567-e89b-12d3-a456-426614174000',
+      ],
+      professor_name: 'Daniel Wilson',
+      tag: 'Health & Life Sciences'
+    }
+  });
+})
+.then(() => { 
+  // Law & Legal Studies
+  return Course.findOrCreate({
+    where: {
+      id: '123e4567-e89b-12d3-a456-426614874116',
+    },
+    defaults: {
+      title: 'Introduction to International Law',
+      professor_id: '015a5b67-a570-4a7c-8f30-5ce374fac818',
+      description: 'Learn the basics of treaties, human rights, and global law systems.',
+      student_ids: [
+        '123e4567-e89b-12d3-a456-426614174000',
+      ],
+      professor_name: 'Daniel Wilson',
+      tag: 'Law & Legal Studies'
+    }
+  });
+})
+
+
 
 .then(([course,created]) => {
   if (created) {
@@ -320,7 +399,7 @@ sequelize.sync({ force: false })
 .then(() => {
   console.log('DB sincronizzato, creazione quiz in corso...');
 
-  const courseId = '123e4567-e89b-12d3-a456-426614174111'; // collegati tutti a questo corso
+  const courseId = '123e4567-e89b-12d3-a456-426614874112'; // collegati tutti a questo corso
 
   return Promise.all(
     quizzes.map(quiz =>

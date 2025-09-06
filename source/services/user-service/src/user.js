@@ -41,7 +41,7 @@ const User = sequelize.define('user', {
 // Create a new user for testing
 const { v4: uuidv4 } = require('uuid');
 
-sequelize.sync({ force: false }) // if false it will not drop the table if it exists
+sequelize.sync({ force: true }) // if false it will not drop the table if it exists
   .then(() => {
     console.log('Table user ready.');
 
@@ -60,10 +60,131 @@ sequelize.sync({ force: false }) // if false it will not drop the table if it ex
   })
 
   .then(() => {
+    console.log('Table user ready.');
+
+    // Create the user
+    return User.findOrCreate({
+      where: {
+        id: '223e4567-e89b-12d3-a456-426614174001',
+        username: 'Alice Johnson'
+      },
+      defaults: {
+      role: 'student',
+      password: bcryptjs.hashSync('alice.johnson@example.com', 10),
+      email: 'alice.johnson@example.com'
+      }
+    });
+  })
+
+  .then(() => {
+    console.log('Table user ready.');
+
+    // Create the user
+    return User.findOrCreate({
+      where: {
+        id: '223e4567-e89b-12d3-a456-426614174002',
+        username: 'Michael Smith'
+      },
+      defaults: {
+      role: 'student',
+      password: bcryptjs.hashSync('michael.smith@example.com', 10),
+      email: 'michael.smith@example.com'
+      }
+    });
+  })
+
+  .then(() => {
+    console.log('Table user ready.');
+
+    // Create the user
+    return User.findOrCreate({
+      where: {
+        id: '223e4567-e89b-12d3-a456-426614174003',
+        username: 'Sophia Williams'
+      },
+      defaults: {
+      role: 'student',
+      password: bcryptjs.hashSync('sophia.williams@example.com', 10),
+      email: 'sophia.williams@example.com'
+      }
+    });
+  })
+
+  .then(() => {
+    console.log('Table user ready.');
+
+    // Create the user
+    return User.findOrCreate({
+      where: {
+        id: '223e4567-e89b-12d3-a456-426614174004',
+        username: 'James Brown'
+      },
+      defaults: {
+      role: 'student',
+      password: bcryptjs.hashSync('james.brown@example.com', 10),
+      email: 'james.brown@example.com'
+      }
+    });
+  })
+
+
+  .then(() => {
+    console.log('Table user ready.');
+
+    // Create the user
+    return User.findOrCreate({
+      where: {
+        id: '223e4567-e89b-12d3-a456-426614174005',
+        username: 'Olivia Taylor'
+      },
+      defaults: {
+      role: 'student',
+      password: bcryptjs.hashSync('olivia.taylor@example.com', 10),
+      email: 'olivia.taylor@example.com'
+      }
+    });
+  })
+
+
+  .then(() => {
+    console.log('Table user ready.');
+
+    // Create the user
+    return User.findOrCreate({
+      where: {
+        id: '223e4567-e89b-12d3-a456-426614174006',
+        username: 'Ethan Miller'
+      },
+      defaults: {
+      role: 'student',
+      password: bcryptjs.hashSync('ethan.miller@example.com', 10),
+      email: 'ethan.miller@example.com'
+      }
+    });
+  })
+
+  .then(() => {
+    console.log('Table user ready.');
+
+    // Create the user
+    return User.findOrCreate({
+      where: {
+        id: '223e4567-e89b-12d3-a456-426614174007',
+        username: 'Emma Davis'
+      },
+      defaults: {
+      role: 'student',
+      password: bcryptjs.hashSync('emma.davis@example.com', 10),
+      email: 'emma.davis@example.com'
+      }
+    });
+  })
+
+  .then(() => {
     return User.findOrCreate({
       where: {
         id: '015a5b67-a570-4a7c-8f30-5ce374fac818',
-        username: 'Leonardi'
+        username: 'Daniel Wilson'
       },
       defaults: {
         role: 'teacher',
@@ -77,12 +198,12 @@ sequelize.sync({ force: false }) // if false it will not drop the table if it ex
     return User.findOrCreate({
       where: {
         id: 'e1424969-a7d7-4be5-aab4-1a4a36ee80ec',
-        username: 'D Amore'
+        username: 'Isabella Martinez'
       },
       defaults: {
         role: 'teacher',
-        password: bcryptjs.hashSync('teacher1@example.com', 10),
-        email: 'teacher1@example.com'
+        password: bcryptjs.hashSync('isabella.martinez@example.com', 10),
+        email: 'isabella.martinez@example.com'
     }
     });
   })
