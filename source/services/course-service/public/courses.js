@@ -87,46 +87,111 @@ function close_Profile() {
   document.getElementById("profileSidebar").style.display = "none";
   document.getElementById("overlaysidebar").classList.remove("overlayactive");
 }
-function changeColor(courseTitle, tag){
+function changeColor(courseTitle, tag,){
   if ( tag == 'Arts & Design'){
     courseTitle.style.color = "#000000";
     courseTitle.style.textShadow= "2px 2px 5px grey";
+
   }
   if ( tag == 'Business & Management'){
     courseTitle.style.color = "#ffffff";
     courseTitle.style.textShadow= "2px 2px 7px black";
+
+
   }
   if ( tag == 'Communication & Media'){
     courseTitle.style.color = "#000000";
     courseTitle.style.textShadow= "2px 2px 7px grey";
+
   }
   if ( tag == 'Engineering & Technology'){
     courseTitle.style.color = "#ffffff";
     courseTitle.style.textShadow= "2px 2px 7px black";
+
   }
   if ( tag == 'Health & Life Sciences'){
     courseTitle.style.color = "#000000";
     courseTitle.style.textShadow= "2px 2px 5px grey";
+
   }
   if ( tag == 'Humanities'){
     courseTitle.style.color = "#ffffff";
     courseTitle.style.textShadow= "2px 2px 7px grey";
+
   }
   if ( tag == 'Law & Legal Studies'){
     courseTitle.style.color = "#000000";
     courseTitle.style.textShadow= "2px 2px 7px grey";
+
   }
   if ( tag == 'Mathematical Sciences'){
     courseTitle.style.color = "#ffffff";
     courseTitle.style.textShadow= "2px 2px 7px black";
+
   }
   if ( tag == 'Natural Sciences'){
     courseTitle.style.color = "darkgreen";
     courseTitle.style.textShadow= "2px 2px 7px grey";
+
   }
   if ( tag == 'Social Sciences'){
     courseTitle.style.color = "#ffffff";
     courseTitle.style.textShadow= "2px 2px 7px black";
+
+  }
+}
+
+function changeColorBox(courseTitle, tag,){
+  if ( tag == 'Arts & Design'){
+    courseTitle.style.color = "#000000";
+    courseTitle.style.textShadow= "2px 2px 5px grey";
+    courseTitle.style.backgroundColor = "#f1f1f1";
+  }
+  if ( tag == 'Business & Management'){
+    courseTitle.style.color = "#ffffff";
+    courseTitle.style.textShadow= "2px 2px 7px black";
+    courseTitle.style.backgroundColor = "#000000";
+
+  }
+  if ( tag == 'Communication & Media'){
+    courseTitle.style.color = "#000000";
+    courseTitle.style.textShadow= "2px 2px 7px grey";
+    courseTitle.style.backgroundColor = "#f1f1f1";
+  }
+  if ( tag == 'Engineering & Technology'){
+    courseTitle.style.color = "#ffffff";
+    courseTitle.style.textShadow= "2px 2px 7px black";
+    courseTitle.style.backgroundColor = "#0a2d63ff";
+  }
+  if ( tag == 'Health & Life Sciences'){
+    courseTitle.style.color = "#000000";
+    courseTitle.style.textShadow= "2px 2px 5px grey";
+    courseTitle.style.backgroundColor = "#f1f1f1";
+  }
+  if ( tag == 'Humanities'){
+    courseTitle.style.color = "#ffffff";
+    courseTitle.style.textShadow= "2px 2px 7px grey";
+    courseTitle.style.backgroundColor = "#855f33ff";
+  }
+  if ( tag == 'Law & Legal Studies'){
+    courseTitle.style.color = "#000000";
+    courseTitle.style.textShadow= "2px 2px 7px grey";
+    courseTitle.style.backgroundColor = "#f1f1f1";
+  }
+  if ( tag == 'Mathematical Sciences'){
+    courseTitle.style.color = "#ffffff";
+    courseTitle.style.textShadow= "2px 2px 7px black";
+    courseTitle.style.backgroundColor = "#000000";
+  }
+  if ( tag == 'Natural Sciences'){
+    courseTitle.style.color = "darkgreen";
+    courseTitle.style.textShadow= "2px 2px 7px grey";
+    courseTitle.style.backgroundColor = "#f1f1f1";
+  }
+  if ( tag == 'Social Sciences'){
+    courseTitle.style.color = "#ffffff";
+    courseTitle.style.textShadow= "2px 2px 7px black";
+    courseTitle.style.backgroundColor = "#000000";
   }
 }
 
@@ -143,7 +208,7 @@ function createCourseBox(title, category, prof_name) {
 
   const h2 = document.createElement("h2");
   h2.textContent = "Prof. "+prof_name; 
-  changeColor(h2, category);
+  changeColorBox(h2, category);
   box.appendChild(h2);
   return box;
 }
