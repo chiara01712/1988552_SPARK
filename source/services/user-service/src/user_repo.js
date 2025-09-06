@@ -25,8 +25,8 @@ class UserRepo{
         }
       }
 
-      async getUserByUsername(email) {
-        const user = await this.userModel.findOne({ where: { email } });
+      async getUserByUsername(email, role) {
+        const user = await this.userModel.findOne({ where: { email, role } });
         if (user) {
             console.log("User is: ", user.dataValues);  // Access the raw data in dataValues
             return user.dataValues;  // Return the raw data

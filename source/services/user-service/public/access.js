@@ -44,9 +44,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const email = document.getElementById("login-email").value;
             const password = document.getElementById("login-password").value;
+            const role = sessionStorage.getItem("userRole");
+            
             const data = {
                 email: email,
                 password: password,
+                role: role,
             };
 
             try {

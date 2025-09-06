@@ -48,20 +48,17 @@ class UserService{
     }
 
     async login(req, res) {
-        const { email, password } = req.body;
-        console.log("AAAA",email,"BBBB",password);
-        
-    
+        const { email, password, role } = req.body;
+        console.log("AAAA",email,"BBBB",password,"CCCC",role);
+
         if (!email || !password) {
             return res.status(400).json({ message: 'Invalid request' });
         }
     
         try {
-            const user = await this.userRepo.getUserByUsername(email);
-            console.log("USER",user);
+            const user = await this.userRepo.getUserByUsername(email, role);
 
             if(user){
-                
                 // Check if the password is correct
                 if(!bcryptjs.compareSync(password, user.password)) {
                     console.log("Password is not correct");
