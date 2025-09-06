@@ -114,3 +114,21 @@ async function fetchUserData() {
 }
 document.addEventListener('DOMContentLoaded', fetchUserData);
 
+document.addEventListener("DOMContentLoaded", function() {
+    const role = sessionStorage.getItem("userRole");
+    const menuItems = document.getElementById("menuItems");
+
+    if (role === "student") {
+        menuItems.innerHTML = `
+        <p><a href="http://localhost:7070/home"><i class="fa-solid fa-house-user"></i> Home</a></p>
+        <p><a href="http://localhost:6060/CoursesPage"><i class="fa-solid fa-chalkboard"></i> Courses</a></p>
+        <p><a href="http://localhost:7070/my_notes"><i class="fa-solid fa-file-pen"></i> My Notes</a></p>
+        <p><a href="http://localhost:7070/all_notes"><img width="40" height="40" src="https://img.icons8.com/ios-filled/50/search-in-browser.png"/> All Notes</a></p>
+
+        `;
+    } else if (role === "teacher") {
+        menuItems.innerHTML = `
+          <p><a href="http://localhost:6060/home"><i class="fa-solid fa-house-user"></i> Courses</a></p>
+        `;
+    }
+});
