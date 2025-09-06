@@ -31,6 +31,25 @@ function close_Profile() {
     document.getElementById("overlaysidebar").classList.remove("overlayactive");
 }
 
+async function signOut() {
+    console.log("Logout function called");
+    try {
+        // Send a request to localhost:8080 to clear the cookies
+        const response = await fetch('http://localhost:8080/logout', {       
+            method: 'POST',
+            credentials: 'include' // Include credentials (cookies) in the request
+        });
+        if (response.status === 200) {
+            console.log("Logout successful");
+            window.location.href = 'http://localhost:8080/';
+        }
+    }
+    catch (error) {
+        console.error('Error during sign-out:', error);
+    }
+
+}
+
 // Add event listeners
 document.getElementById("openNav").addEventListener("click", open_Menu);
 document.getElementById("profile").addEventListener("click", open_Profile);
