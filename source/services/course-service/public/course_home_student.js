@@ -17,6 +17,11 @@ async function signOut() {
 
 }
 
+async function personalData() {
+  console.log("Personal data function called");
+  window.location.href = 'http://localhost:8080/personalData';
+}
+
 // If role is student
 const role = sessionStorage.getItem("userRole");
 if (role == "student") {

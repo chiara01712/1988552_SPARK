@@ -37,7 +37,10 @@ async function signOut() {
     }
 
 }
-
+async function personalData() {
+  console.log("Personal data function called");
+  window.location.href = 'http://localhost:8080/personalData';
+}
 
 async function fetchStudents(courseId) {
   try {
