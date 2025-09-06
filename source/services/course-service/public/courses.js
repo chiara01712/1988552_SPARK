@@ -256,7 +256,7 @@ async function loadCourses() {
             localStorage.setItem("subject", course.tag);
             
             // Reindirizza alla pagina (senza passare parametri in URL)
-            window.location.href = "./course_home.html";
+            window.location.href = "/CoursePage";
           });
         });
         

@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
 });
 
 // When a GET request is made to /my_note, send back my_note.html
-router.get('/my_note', (req, res) => {
+router.get('/my_notes', (req, res) => {
   const token = req.cookies.access_token;
   if (!token) {
     const error = encodeURIComponent('You need to login to access the website.');
@@ -37,7 +37,7 @@ router.get('/my_note', (req, res) => {
   
 });
 
-router.get('/All_Notes', (req, res) => {
+router.get('/all_notes', (req, res) => {
   const token = req.cookies.access_token;
   if (!token) {
     const error = encodeURIComponent('You need to login to access the website.');
