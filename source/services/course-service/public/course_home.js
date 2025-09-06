@@ -58,21 +58,12 @@ async function openStudents() {
   loadStudentsByCourse(studIds);
   const publicationsContainer = document.getElementById('publicationsContainer');
   const studentsBox = document.getElementById('students-box');
-  const label = document.getElementById('stud_annou');
+  
 
-  const isShowingStudents = studentsBox.style.display === 'block';
+  // Show students, hide announcements
+  publicationsContainer.style.display = 'none';
+  studentsBox.style.display = 'block';
 
-  if (isShowingStudents) {
-    // Mostra pubblicazioni, nasconde studenti
-    studentsBox.style.display = 'none';
-    publicationsContainer.style.display = 'block';
-    label.innerText = 'Students';
-  } else {
-    // Mostra studenti, nasconde pubblicazioni
-    publicationsContainer.style.display = 'none';
-    studentsBox.style.display = 'block';
-    label.innerText = 'Announcements';
-  }
 }
 
 function open_Menu() {
@@ -346,13 +337,6 @@ function removeFile(event) {
   clearFile();
 }
 
-function goToQuiz() {
-  window.location.href = "../quiz/quiz_teacher.html";
-}
-
-function goToCourses() {
-  window.location.href = "professor.html";
-}
 
 function getRandomColor() {
   const letters = '0123456789ABCDEF';

@@ -42,7 +42,7 @@
     </div>
 
     <div class="sectionbar">
-        <label onclick="goToCourses()"  >Home</label>
+        <a href="http://localhost:6060/CoursePage">Home</a>
         <a href="http://localhost:6060/QuizPage">Tests</a>
         <label id="stud_annou"  onclick="openStudents()" >Students</label>
     </div>
@@ -50,11 +50,9 @@
     <div class="contents" id="publicationsContainer">
     </div>
 
-    <button id="addbutton" class="addbutton">+</button>
-        <div id="containerbutton" class="containerbutton">
-            <button class="testbutton" onclick="goToQuiz()"> <i class="fa-regular fa-clipboard"></i> </button>
-            <button class="contentbutton" onclick="openPopup('popup','overlay')"> <i class="fa-solid fa-pen-to-square"></i></button> 
-        </div>
+
+    <button class="contentbutton" onclick="openPopup('popup','overlay')"> <i class="fa-solid fa-pen-to-square"></i></button> 
+
 
     <div class="popup" id="popup">
         <h1>New Post</h1> 

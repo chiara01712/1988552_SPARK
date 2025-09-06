@@ -205,9 +205,9 @@ function populateCourseDetails() {
   loadStudentsByCourse(studIds);
   const quizContainer = document.getElementById('main-container');
   const studentsBox = document.getElementById('students-box');
-  const label = document.getElementById('stud_annou');
+  
 
-    // Mostra studenti, nasconde quiz
+    // Show students, hide quizzes
     quizContainer.style.display = 'none';
     studentsBox.style.display = 'block';
   
