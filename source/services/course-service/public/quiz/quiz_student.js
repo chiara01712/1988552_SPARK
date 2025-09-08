@@ -26,7 +26,24 @@ async function personalData() {
   console.log("Personal data function called");
   window.location.href = 'http://localhost:8080/personalData';
 }
- 
+
+//Toast
+function showErrorPopup(message) { showToast(message, "error"); }
+function showSuccessPopup(message) { showToast(message, "success"); }
+
+function showToast(message, type) {
+      const toast = document.createElement("div");
+      toast.textContent = message;
+      toast.className = "toast " + type;
+      document.body.appendChild(toast);
+
+      setTimeout(() => toast.classList.add("show"), 100);
+      setTimeout(() => {
+          toast.classList.remove("show");
+          setTimeout(() => toast.remove(), 300);
+      }, 3000);
+}
+
 
 let quizzes = [];
 async function getQuizzes() {
@@ -459,7 +476,6 @@ async function submitQuiz(event) {
     // Collect user answers
     const userAnswers = [];
     let correctAnswers = 0;
-    let atLeastOneAnswered = false;
     
     quiz.questions.forEach((question, qIndex) => {
         const selectedOption = document.querySelector(`input[name="q${qIndex}"]:checked`);
@@ -476,12 +492,12 @@ async function submitQuiz(event) {
             userAnswers.push(null); // No answer provided
         }
     });
-
-        // Show alert if no answers were selected
-        if (!atLeastOneAnswered) {
-            alert("You should select at least one answer before submitting the quiz.");
-            return;
-        }
+ 
+    if (userAnswers.includes(null)) {
+        const errorText = "Please answer all questions before submitting the quiz.";
+        showErrorPopup(errorText);
+        return;
+    }
     
     // Calculate score
     const score = Math.round((correctAnswers / quiz.questions.length) * 100);
