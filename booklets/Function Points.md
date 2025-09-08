@@ -11,7 +11,7 @@
 | 9  | Logout as a student | Low | 3 |
 | 10 | Logout as a professor | Low | 3 |
 | 11 | Create a new course | Medium | 4 |
-| 12 | Add a new post to a course | High | 6 |
+| 12 | Add a new post to a course | Medium | 4 |
 | 15 | Create a test for a course | High | 6 |
 | 24 | Create a new note | High | 6 |
 | 25 | Delete a note | Low | 3 |
@@ -110,4 +110,5 @@
 | ILF      | 140    |
 | EIF      | 7      |
 | **TOTAL**| **285** |
+
 
