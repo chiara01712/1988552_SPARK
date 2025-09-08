@@ -92,8 +92,6 @@ User Stories: 11, 12, 13, 14, 17
 
 Students: enroll, unsubscribe, access materials and posts
 
-Implement real-time updates via WebSocket.
-
 User Stories: 19, 20, 22, 23, 26, 37
 
 
@@ -141,7 +139,9 @@ User Stories: 28, 33, 34, 35
 ## Sprint 5: Testing, Optimization, and Deployment
 ### Goal:
 
-Final system testing, container configuration, and deployment-ready state### Sprint Backlog:
+Final system testing, container configuration, and deployment-ready state
+
+### Sprint Backlog:
 
 #### End-to-End Testing
 
@@ -153,11 +153,11 @@ User Stories: All
 Comprensive of:
 - Database query refinement
 - RabbitMQ load testing
-- Frontend responsiveness fixes
+
 
 User Stories: All
 
-#### Docker deplyment and Polish
+#### Docker deployment and Polish
 
 Docker Compose setup for all containers: user, course, student, postgres, rabbitmq
 - Bug fixes & UI improvements
@@ -171,3 +171,4 @@ Write the final README, documentation and architecture diagrams
 User Stories: All
 
 ### Duration: 2 weeks
+
