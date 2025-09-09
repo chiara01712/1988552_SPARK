@@ -76,7 +76,7 @@ The postgres container does not connect to external services.
 
 **_users_** :	| **_id_** | username | role | password | email | prof_name | created_at |
 
-**_notes_** :	| **_id_** | student_id | course_id | title | file_url | file_type | professor_name | tag | timestamps | created_at |
+**_notes_** :	| **_id_** | student_id | course_id | title | file_url | file_type | student_name | tag | timestamps | created_at |
 
 **_quizzes_** :	| **_id_** | course_id | title | description | questions  | created_at |
 
