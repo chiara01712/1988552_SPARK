@@ -60,7 +60,7 @@ const Note = sequelize.define('note', {
 
 
 const { v4: uuidv4 } = require('uuid');
-sequelize.sync({ force: false }) 
+sequelize.sync({ force: true }) 
   .then(() => {
     console.log('Note table ready.');
 
@@ -69,15 +69,17 @@ sequelize.sync({ force: false })
       where:{
         student_id: '123e4567-e89b-12d3-a456-426614174000',
         id: '987e6543-e21b-45f6-a654-423354174999',
+        
          
       },
       defaults: {
         title: 'Nota di esempio',
-        course_id: 'mate', 
+        course_id: 'Programming Fundamentals', 
         description: 'decription.',
-        file_url: 'https://example.com/file.pdf',
+        file_url: './uploads/notes.pdf',
         file_type: 'pdf',
-        tag: 'Humanities',
+        professor_name : 'testuser',
+        tag: 'Engineering & Technology',
         uploaded_at: new Date()  
       }
     });

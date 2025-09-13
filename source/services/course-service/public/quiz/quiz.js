@@ -28,6 +28,24 @@ async function personalData() {
   window.location.href = 'http://localhost:8080/personalData';
 }
 
+
+function showErrorPopup(message) { showToast(message, "error"); }
+function showSuccessPopup(message) { showToast(message, "success"); }
+
+function showToast(message, type) {
+      const toast = document.createElement("div");
+      toast.textContent = message;
+      toast.className = "toast " + type;
+      document.body.appendChild(toast);
+
+      setTimeout(() => toast.classList.add("show"), 100);
+      setTimeout(() => {
+          toast.classList.remove("show");
+          setTimeout(() => toast.remove(), 300);
+      }, 3000);
+}
+
+
 async function getQuizzes() {
 
     
@@ -394,7 +412,9 @@ function removeOption(button) {
     if (optionsContainer.children.length > 2) {
         optionsContainer.removeChild(optionForm);
     } else {
-        alert("Each question must have at least 2 options");
+        const errorText = "Each question must have at least 2 options";
+        showErrorPopup(errorText);
+        return;
     }
 }
 
@@ -406,7 +426,8 @@ function removeQuestion(button) {
         document.getElementById('questions-container').removeChild(questionForm);
     }
     else{
-        alert("At least one question is required.");
+        const errorText = "At least one question is required.";
+        showErrorPopup(errorText);
         
     }
 }

@@ -63,7 +63,7 @@ async function fetchNotes() {
                       
 
                       const dwnd = document.createElement("h4");
-                      dwnd.innerHTML= `<a href="${note.file_url}" style="text-decoration=none;">Download File </a>`;
+                      dwnd.innerHTML= `<a href="${note.file_url}" download style="text-decoration=none;">Download File </a>`;
                       
 
                       if(note.course_id){
@@ -73,21 +73,21 @@ async function fetchNotes() {
                         box.appendChild(h3);
                         changeColor(h3, note.tag);
                         console.log("getting prof",note.professor_name);
-                        h3.textContent = "Prof. "+note.professor_name;
-                         box.innerHTML+= `<i class="fa-regular fa-rectangle-xmark" id="bin" onClick=deleteNote('${note.id}')></i>`;
+                        h3.textContent = "";
+                        
                         box.innerHTML+= `<h4  onclick="showFile('${note.file_type}', '${note.file_url}')">View File</h4>`;
                         changeColor(box.querySelectorAll('h4')[0], note.tag);
-                        changeColor(box.querySelectorAll('i')[0], note.tag);
+                        
                         changeColor(dwnd.querySelectorAll('a')[0], note.tag);
 
                     }
                       else  {
                         box.id="note-"+index;
                         h2.color= "black";
-                         box.innerHTML+= `<i class="fa-regular fa-rectangle-xmark" id="bin" onClick=deleteNote('${note.id}')></i>`;
+
                         box.innerHTML+= `<h4  onclick="showFile('${note.file_type}', '${note.file_url}')">View File</h4>`;
                         box.querySelectorAll('h4')[0].style.color= "black";
-                        box.querySelectorAll('i')[0].style.color="black";
+                 
                         dwnd.querySelectorAll('a')[0].style.color= "black";
                     }
                     
@@ -168,7 +168,7 @@ async function fetchUsername() {
         if(response.status === 200) {
             const res = await response.json();
             const student = res.response
-            
+            sessionStorage.setItem("username",student);
             console.log("Student name fetched successfully:", student);
 
             const welcomeMessage = document.getElementById('welcomeUser');

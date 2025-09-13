@@ -583,6 +583,7 @@ body {
 
 .student h1 {
     font-size:25px;
+    margin: 0 auto;
 }
 
 .profile_letter{
@@ -603,3 +604,24 @@ body {
     background-color: #b8becf;
     margin: 0 auto; 
 }
+
+.toast {
+  position: fixed;
+  top: 20px; /* parte dall’alto */
+  left: 50%; /* centro orizzontale */
+  transform: translate(-50%, -50px); /* inizialmente sopra il centro */
+  padding: 15px 20px;
+  border-radius: 8px;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  z-index: 9999;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0); /* scende al centro */
+}
+
+.toast.error { background: #e74c3c; }
+.toast.success { background: #2ecc71; }

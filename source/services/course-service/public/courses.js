@@ -61,6 +61,7 @@ function closeSearchPopup(popupId, overlayId) {
   document.getElementById(overlayId).classList.remove("overlayactive");
 
   refreshCourseContainer();
+  window.location.reload(); 
 }
 
 function addCourse(popup, overlay) {
@@ -445,6 +446,8 @@ async function searchCourses() {
           resultsContainer.appendChild(box);
         });
       }
+
+      
       
       openSearchPopup();
 
