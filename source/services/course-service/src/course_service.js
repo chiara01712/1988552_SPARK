@@ -174,7 +174,7 @@ class CourseService {
         console.log("Received Request Body:", req.body); 
         const { quiz_id, student_id, answers, completed, score } = req.body;
         const id = require('uuid').v4(); 
-        if (!quiz_id || !student_id || !answers || !completed ) {
+        if (!quiz_id || !student_id || !answers || !completed) {
             return { status: 400, message: 'Invalid request: Missing fields' };
         }
         try {

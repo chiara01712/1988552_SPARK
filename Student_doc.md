@@ -72,11 +72,11 @@ The postgres container does not connect to external services.
 - SERVICE ARCHITECTURE: three db (...)
 - DB STRUCTURE:
 
-**_courses_** :	| **_id_** | title | description | professor_id | student_ids | professor_name | tag | timestamps | created_at |
+**_courses_** :	| **_id_** | title | professor_id | student_ids | professor_name | tag | timestamps | created_at |
 
 **_users_** :	| **_id_** | username | role | password | email | prof_name | created_at |
 
-**_notes_** :	| **_id_** | student_id | course_id | title | description | file_url | file_type | professor_name | tag | timestamps | created_at |
+**_notes_** :	| **_id_** | student_id | course_id | title | file_url | file_type | student_name | tag | timestamps | created_at |
 
 **_quizzes_** :	| **_id_** | course_id | title | description | questions  | created_at |
 

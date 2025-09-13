@@ -29,6 +29,7 @@ async function personalData() {
 }
 
 
+//Toast
 function showErrorPopup(message) { showToast(message, "error"); }
 function showSuccessPopup(message) { showToast(message, "success"); }
 
@@ -44,7 +45,6 @@ function showToast(message, type) {
           setTimeout(() => toast.remove(), 300);
       }, 3000);
 }
-
 
 async function getQuizzes() {
 
@@ -428,7 +428,6 @@ function removeQuestion(button) {
     else{
         const errorText = "At least one question is required.";
         showErrorPopup(errorText);
-        
     }
 }
 
