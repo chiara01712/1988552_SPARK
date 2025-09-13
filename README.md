@@ -1,223 +1,91 @@
-*Sequelize*: è un ORM per Node.js che supporta i database relazionali come MySQL, PostgreSQL, SQLite e MSSQL. Usa il linguaggio JavaScript e 
-permette di definire modelli per le tabelle del database, eseguire query e sincronizzare i dati con il database.  
-*Express*: è un framework per Node.js che semplifica lo sviluppo di applicazioni web e API. Fornisce una serie di funzionalità per gestire
-le richieste HTTP, definire rotte, gestire i parametri delle richieste e le risposte, e integrare middleware per aggiungere funzionalità.  
-*Node.js*: è un ambiente di runtime per eseguire codice JavaScript lato server.  
+This project is built using a microservices architecture with **Node.js**, **Express**, **Sequelize**, and **RabbitMQ**, running inside **Docker** containers.
 
-## Comandi usati:  
+## Technologies used:
+*Sequelize*: ORM for Node.js supporting relational databases, which uses the Javascript language. It allows defining database models, executing queries, and syncing data with the db.  
+*Express*: a framework for Node.js which simplifies the development of web applications and APIs. It provides a series of features for handling HTTP requests, defining routes, managing request and response parameters.  
+*Node.js*: is a runtime environment for executing JavaScript code on the server side.  
 
+## Setup:  
+To create and start the Docker containers defined in docker-compose.yml, run the following command:   
 `docker-compose up --build`   
-Per creare e avviare i container definiti in docker-compose.yml, con l'opzione build crea anche l'immagine dei servizi specificati nel file docker-compose.yml (build: .) che indica di usare il Dockerfile presente nella cartella corrente.
+Using the --build option also builds the images for the services specified in the docker-compose.yml file.
 
-NOTA: Meglio usare il comando sopra (rispetto ai due sotto) perchè così definiamo tutti i servizi che vogliamo creare e avviare in un unico file, inoltre possiamo definire le dipendenze tra i servizi.  
-
-`docker build -t user-service`   
-Per creare un'immagine Docker a partire dal Dockerfile presente nella cartella corrente e assegnarle un tag user-service
-
-`docker run -p 8080:8080 user-service`   
-Per eseguire un container a partire dall'immagine user-service e mappare la porta 8080 del container sulla porta 8080 dell'host
-
-*Inizializzazione di un progetto Node.js* (il comando crea un file package.json con le impostazioni di default e lo salva nella cartella corrente):
+To initialize a Node.js project and create a package.json file with default settings, use the following command:
 `npm init -y`
 
-### Pacchetti necessari per il progetto fino ad ora:   
+### Packages to install: 
 
 `npm i bcryptjs body-parser cookie-parser cors dotenv express jsonwebtoken nodemon path pg sequelize amqplib multer`   
 
-## Connessione con pgAdmin:  
-*userdb*:
-- Creare un nuovo server:
-    - Name: nome a piacere
-    vai su Connection:
+## PgAdmin connection:
+To connect to the PostgreSQL database using PgAdmin, follow these steps:
+- Create a new server in PgAdmin:
+- Go to Connection:
     - Host name/address: localhost
     - Port: 5432
-    - Maintenance database: usersdb
+    - Maintenance database: usersdb (or students or coursesdb depending on the microservice)
     - Username: user
     - Password: password
 
-# Struttura del progetto:
-Per ogni microservizio abbiamo una cartella con il nome del microservizio (es. user-service) che contiene:
-- La **cartella public** per i file html e css, e per i file javascript lato client
-- La **cartella src** per i file javascript lato server, in particolare:
-    - *microservizio*_repo.js: file che serve per fare le query al database
-    - *microservizio*_route.js: file che contiene le rotte del microservizio e le funzioni che gestiscono le richieste HTTP
-    - *microservizio*_service.js: file che contiene le funzioni che gestiscono la logica del microservizio e le chiamate al database tramite il file *_repo.js
-    - *microservizio*.js: file che contiene la definizione dei modelli del database (le tabelle)
-- Nella cartella src c'è una **cartella rabbitmq** che contiene i file per la comunicazione tra i microservizi tramite RabbitMQ:
-    - producer.js: file che contiene le funzioni per produrre messaggi su RabbitMQ
-    - consumer.js: file che contiene le funzioni per consumare messaggi da RabbitMQ
-    - *microservizio-s*.js: file che contiene le funzioni per gestire la comunicazione tra i microservizi tramite RabbitMQ (produce e consume)
-- File **package.json** per definire i pacchetti necessari per il microservizio e gli script per avviare il microservizio.
-- File **Dockerfile** per definire come costruire l'immagine del microservizio  
-- File **index.js** per avviare il server del microservizio in ascolto su una porta specifica.  
-- File **config.js** per definire la configurazione di rabbitMQ
+# Project structure:  
+Each microservice has its own folder (e.g., user-service) containing:
+- The **public/** folder which contains the static assets (HTML, CSS) and client-side JavaScript files
+- The **src/** folder for server-side JavaScript files, in particular:
+    - *microservice*_repo.js: for database queries
+    - *microservice*_route.js: contains the routes of the microservice and the functions to handle HTTP requests
+    - *microservice*_service.js: manages the logic of the microservice connecting repo.js and route.js
+    - *microservice*.js: contains the definition of the sequelize models (each model represents a table in the database)
+- In the src folder there is a **rabbitmq/** folder that contains the files for the communication between microservices via RabbitMQ:
+    - producer.js: file that contains the functions to produce messages to RabbitMQ
+    - consumer.js: file that contains the functions to consume messages from RabbitMQ
+    - *microservice-s*.js: file that contains the functions to manage the communication between microservices via RabbitMQ (produce and consume)
+- File **package.json** to define the necessary packages for the microservice and the scripts to start the microservice.
+- File **Dockerfile** to define how to build the microservice image
+- File **index.js** to start the microservice server listening on a specific port.
+- File **config.js** to define the configuration of RabbitMQ
+- File **docker-compose.yml** to define the services (microservices) and their dependencies, the network, and the database. For each service it is specified the Dockerfile to use to build the service image, the ports to expose, environment variables, and dependencies on other services. Additionally, a volume is defined for the database so that data persists even after the container is closed.
 
 
-Il **docker-compose.yml** contiene la definizione dei servizi (microservizi) e delle loro dipendenze, della rete e del database. Per ogni servizio viene specificato il Dockerfile da usare per costruire l'immagine del servizio, le porte da esporre, le variabili d'ambiente e le dipendenze dai servizi. Inoltre, viene definito un volume per il database in modo che i dati siano persistenti anche dopo la chiusura del container.   
-
-## Microservizi
+## Microservices:
 1. User-service (8080)
-2. Note-service (student-service) (7070)
-3. Course-service(professor) (6060)
+2. Student-service (7070)
+3. Course-service (professor)(6060)
 
 
 # RabbitMQ  
-### Come avviene il passaggio dei dati tra i microservizi:
+### Communication between microservices:
 
-Il Client (microservizio che deve richiedere risorse/dati):  
+The client (microservice that needs to request resources/data) and the RPC Server (the microservice that needs to provide resources/data) communicate through RabbitMQ using two queues: rpcQueue and replyQueue. The rpcQueue is used by the client to send requests to the RPC server, while the replyQueue is used by the RPC server to send responses back to the client.
 
-1. Il client invia una richiesta HTTP a /*qualcosa* (es. /getUsername)
-2. La richiesta viene gestita nel *microservizio*_route.js del client, il quale chiama la produce 
-3. La produce è definita nel file microservizio-s.js, che chiama produceMessage(data), i data sono i dati della richiesta HTTP
-4. La produceMessage(data) è definita nel producer.js, che produce nella rpcQueue i data della richiesta HTTP
+### Data flow between microservices:
+- The client (microservice that needs to request resources/data):
+    1. The client sends an HTTP request to /*something* (e.g. `/getUsername`)
+    2. The request is handled in the *microservice*_route.js of the client, which calls the produce
+    3. The produce is defined in the file microservice-s.js, which calls `produceMessage(data)`, where data are the data extracted from the HTTP request
+    4. The `produceMessage(data)` is defined in producer.js, and starting from the data in the HTTP request, it pushes request into the rpcQueue.
 
-L'RPC Server (il microservizio che deve fornire risorse/dati)  
+- The RPC Server (microservice that should provide resources/data)
+    1. In consumer.js:
+        -  the function `consumeMessage` is defined, which through `this.channel.consume` is always listening to consume new messages arriving in the rpcQueue.
+        - A database query is made to obtain the data requested by the client
+        - The produce is called
+    2. In producer.js, the data are produced on the replyQueue (which had been passed by the client in the request as a response channel)
 
-1. Nel consumer.js:
-    -  viene definita la funzione consumeMessage che tramite this.channel.consume è sempre in ascolto per consumare nuovi messaggi che arrivano nella rpcQueue.
-    - Viene fatta la query al database per ottenere i dati richiesti dal client
-    - Viene chiamata la produce 
-2. Nel producer.js vengono prodotti i data sulla replyQueue ( che gli era stata passata dal client nella richiesta come canale di risposta) 
+- The Client (microservice that needs to request resources/data)  
+    - In consumer.js, the function `consumeMessage` is defined, which through `this.channel.consume` is always listening to consume new messages arriving in the replyQueue.
+ 
 
-Il Client (microservizio che deve richiedere risorse/dati)  
-
-1. Nel consumer.js è definita la funzione consumeMessage che tramite this.channel.consume è sempre in ascolto per consumare nuovi messaggi che arrivano nella replyQueue.
-
--------------------------------------------
-Le funzioni usate per RabbitMQ devono essere chiamate direttamente da user_repo: 
-```
-const { UserRepo } = require('../user_repo');    
-const User = require("../user");    
-const userRepo = new UserRepo(User);
-```
-questo perchè user_service serve solo per estrarre i dati da una richiesta HTTP e chiamare la funzione che fa la query su questi dati. Poi invia la response (aggiungendo status e headers)
-
-### Come funzionano le code
-La RPCQueue definita nel config.js è identificata dal nome "rpc_queue", è definita nel consig.js in modo che due microsrvizi diversi possano accedere alla stessa coda, il micorservizio che deve richiedere dati sa che la coda su cui il microservizio a cui deve richiedere i dati ascolta è quella.    
-```
-module.exports = {
-    rabbitMQ: {
-      url: "amqp://rabbitmq",
-      queues: {
-        rpcQueue: "rpc_queue",
-      },
-    },
-  };
-  
-```
-Invece la ReplyQueue è definita direttamente nel microservizio-s.js (il file che si occupa della configurazione) perchè verrà direttamente inviata quando il microservizio che deve richiedere dati fa la produce.   
-
-Abbiamo definito 2 code:
-rpcQueue: è la coda su cui user-service ascolta le richieste da parte di altri microservizi
-rpcQueueC: è la coda su cui course-service ascolta le richieste da parte di altri microservizi
-
-
-# Note 
-
-Nel file consumer.js per risolvere un errore abbiamo dobuto aggiungere 
-`const RabbitMQUser = require("./user-s");`  
-non all'inizio del file, ma prima di chiamare la funzione produce di RabbitMQUser
-
------------------------   
-
-Per sistemare il problema per cui i microservizi partivano prima che RabbitMQ fosse pronto, abbiamo aggiunto un healthcheck per rabbitmq (nel docker-compose.yml) che verifica che il servizio RabbitMQ sia in esecuzione e pronto a ricevere connessioni prima di avviare i microservizi. Le depends_on dei microservizi sono state aggiornate con la condition "service_healthy".  
-
----------------
-
-Per ora nei cookie abbiamo l'access_token con httpOnly: true (quindi non può essere letto da javascript) e lo user_id con httpOnly: false (quindi può essere letto da javascript).
-Per accedere ai cookie:
-```javascript
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-}
-```
-- Header del consumer.js di user-service (per gestire più richieste sulla stessa comunicazione con RabbitMQ)
-
---------
-
-Visto che in course.js abbiamo definito più di 1 modello (abbiamo anche i modelli per i quiz), quando importiamo i modelli nei vari file dobbiamo usare le parentesi {} e inserirci i modelli che ci servono.
-```
-const { Course, Question } = require("./course");
-```
-
-------------
+In this project we used two different queues (defined in config.js):
+- rpcQueue: is the queue on which user-service listens to requests from other microservices
+- rpcQueueC: is the queue on which course-service listens to requests from other microservices
 
 
 # Authentication 
 
-- Per creare l'ACCESS_TOKEN_SECRET nel .env abbiamo usato ` require('crypto').randomBytes(64).toString('hex')` in node. (il .env non viene caricato in git, quindi va creato in locale)
+The authentication is done using JWT (JSON Web Token) and cookies. The token is generated when the user logs in and is sent to the client, which stores it in a cookie. For subsequent requests, the client sends the token in the cookie, and the server verifies it to authenticate the user.
+1. Token generation:  
+    When the user sends email and password (POST request to /login in access.js), the server (user_route.js which calls user_service.js) verifies the credentials (the password is verified with bcrypt), and if they are correct, a JWT (JSON Web Token) is generated using the jsonwebtoken library (jwt.sign()). The token contains the user's information and is signed with a secret key (ACCESS_TOKEN_SECRET).
+    To create the ACCESS_TOKEN_SECRET in the .env we used ` require('crypto').randomBytes(64).toString('hex')` in node. The .env is not loaded in git, so it should be created locally for each microservice. The access_token is saved in cookies (res.cookie in user_service.js).
+2. Request authentication:  
+    When the client sends a request to a microservice (for example when it wants to access the home of student-service), the microservice extracts the access_token from the cookies and verifies it (jwt.verify()). If the token is valid, the microservice can accept the request and proceed with the requested operation.
 
-1. Generazione del token:  
-    Quando l'utente invia email e password (richiesta POST a /login in access.js), il server (user_route.js che chiama user_service.js) verifica le credenziali (la password viene verificata con bcrypt), e se sono corrette, viene generato un token JWT (JSON Web Token) utilizzando la libreria jsonwebtoken (jwt.sign()). Il token contiene le informazioni dell'utente e viene firmato con una chiave segreta (ACCESS_TOKEN_SECRET). L'access_token viene salvato nei cookie (res.cookie in user_service.js).
-2. Autenticazione delle richieste:  
-    Quando il client invia una richiesta ad un microservizio (diverso da user-service) (ad esempio quando vuole accedere alla home di student-service), il microservizio estrae l'access_token dai cookie e lo verifica (jwt.verify()). Se il token è valido, il microservizio può accettare la richiesta e procedere con l'operazione richiesta.
-    
-----------------------------
-
-## User di test
-username: test@example.com
-password: test@example.com
-(role: student)
-
-------------
-
-# Courses
-Allora ho creato il dockerfile per i corsi e l'ho aggiunto al dockercompose (se vedete che su pgAmin non vi compare il coursesdb provate a cancellare tutto quello che avete in Volumes nel docker e re-buildate)
-Al momento c'è solo una tabella nel db dei corsi (courses) e contiene: Id (id del corso), Titolo, Descrizione, Professor_id, Student_ids (arrey di id inizialmente vuoto pk il prof. può creare un corso a cui non è iscritto nessuno)
-In fondo a couse.js c'è anche il codice per un Corso di testper vedere se la fetch funzionava.
-Per i moduli npm che ho installato sono praticamente tutti quelli che sono scritti sopra
-Manca la tabella per i quiz e la parte dei materiali di un corso (che a questo punto penso aggiungerei sempre come un arrey a courses forse?)
-- Le seguenti funzioni sono nuove e non sono state provate:
-addStudentToCourse (gestisce l'iscrizione di uno studente a un corso)
-getCoursesByStudentId (usata dal consumer per trovare i corsi a cui è iscritto uno studente)
-
-
-## TODO:
-
-- file .env non viene letto (ci serve per ACCESS_TOKEN_SECRET)
-- Rinominare student-service in note-service
-- Gestione pagine a cui l'utente non ha accesso (RISOLTO, ma va messo su tutte le richieste, guardare note_route.js la get di '/my_notes', la gestione del messaggio di errore tramite popup viene fatta nello script in index.html di user-service)
-
-```javascript
-  const token = req.cookies.access_token;
-  if (!token) {
-    const error = encodeURIComponent('You need to login to access the website.');
-    return res.redirect(`http://localhost:8080?error=${error}`);
-  }
-```
-
-**Gestione user e ruoli**:   
-- Homepage studente:
-    - mostrare le ultime note (da fixare)
-    - mostrare alcuni corsi (con richiesta a course-service tramite RabbitMQ)    
-(nella sidebar lo studente avra quindi i miei corsi, le mie note, bacheca con tutte le note)
-- Homepage professore = reindirizzare alla pagina dei suoi corsi   
-(Nella sidebar il professore avrebbe solo "i miei corsi" forse potremmo non metterla)  
-- Gestione ruolo studente e professore
-- Area personale per studente e professore  
-
-**Note-service**:  
-- pagina con tutte le note (è simile a quella delle "mie note" ma comprende anche le note degli altri studenti)
-- filtrare le note per corso ecc (dalla pagina di tutte le note)  
-- Pagina le mie note (sistemare la visualizzazione delle note con tutti i campi e sistemare il form per aggiunta nota con upload pdf/immagine)
-
-**Course-service**:
-- visualizzazione singolo corso con tutti i contenuti (per professore e per studente). Creiamo un tab per dividere i contenuti (annunci e documenti) dai test.FATTO per prof
-- visualizzazione pagina dei "miei corsi" lato studente (con tutti i corsi a cui lo studente è iscritto) e ricerca di un corso per iscriversi. (La richiesta per i corsi dello specifico studente va fatta all'interno dello stesso microservizio, quindi sempre dentro course-service) FATTO 
-- visualizzazione pagina "I miei corsi" lato professore con bottone per creare nuovo corso FATTO
-- aggiunta contenuto al corso (Per il professore) FATTO
-
-**Test:**  
-- Pagina da parte dei professori per creare un test 
-- Professore visualizza riepilogo test
-- Pagina studente per svolgere il test 
-- Far visualizzare allo studente il risultato del test
-
-
-
-## DECISIONI:
-•⁠  ⁠Le note si vedono in una pagina separata rispetto a quella dei corsi (nella home page si possono mostrare alcune note facendo la richiesta a note service con Rabbit)  
-•⁠  ⁠Il professore quando crea un corso seleziona una categoria a cui associamo un colore e quindi le note con quella categoria saranno visualizzate con quel colore e copertina predefinita  
-•⁠  ⁠Se la nota viene creata senza un corso di appartenenza allora la categoria viene scelta dallo studente
