@@ -14,7 +14,6 @@ Initialize DB schema: users, courses, course_materials, notes, quizzes, quizAnsw
 
 Tables if needed must support both professor and student roles.
 
-User Stories: 
 
 #### Implement Authentication Service
 
@@ -59,7 +58,7 @@ Connect to PostgreSQL through Node.js
 User Stories: 18, 24, 25, 26, 27, 29
 
 #### Student Frontend Development 
-Create the public folder (pages: student_home, my_notes, view_note)
+Create the public folder (pages: student_home, my_notes, view_note)  
 Features:
 - Display recent notes
 - Add/upload/delete personal notes
@@ -152,7 +151,6 @@ User Stories: All
 #### Performance Optimization
 Comprensive of:
 - Database query refinement
-- RabbitMQ load testing
 
 
 User Stories: All

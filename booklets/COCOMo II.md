@@ -29,7 +29,7 @@ Total SLOC: 285 FP × 46 SLOC/FP = 13.110 SLOC.
 
 COCOMO II uses the following formula to estimate effort:
 
-$$\text{Effort}=A\times \text{SLOC}\cdot E \times \prod_{i=1}^nEM_i$$
+$$\text{Effort}=A\times \text{SLOC}^{E} \times \prod_{i=1}^nEM_i$$
 
 Where:
 
@@ -43,17 +43,17 @@ $EM_i$​ = Effort Multipliers (based on cost drivers)
 
 Scale factors account for project complexity. For this project, we assume the following values:
 
-Scale|Factor|Rating|Value
----|---|---|---
-Precedentedness|(PREC)	Low|(new|project)	4.96
-Development|Flexibility|(FLEX)	High|(flexible|requirements)	2.03
-Architecture/Risk|Resolution|(RESL)	High|(good|risk|management)	2.83
-Team|Cohesion|(TEAM)	High|(experienced|team)	2.19
-Process|Maturity|(PMAT)	High|(well-defined|process)|3.12
+Scale Factor|Rating|Value
+---|---|---
+Precedentedness (PREC) |	Low (new project) |	4.96
+Development Flexibility (FLEX)	| High (flexible requirements)	| 2.03
+Architecture/Risk Resolution (RESL)	| High (good risk management)	| 2.83
+Team Cohesion (TEAM)	| High (experienced team)	| 2.19
+Process Maturity (PMAT)	| High (well-defined process)	| 3.12
 
 Total Scale Factor (SF): Sum of all scale factors = 15.13
 
-Exponent (E): $E=0.91+0.01×SF=0.91+0.01×15.13=1.0613E=0.91+0.01×SF=0.91+0.01×15.13=1.0613$
+Exponent (E):  $E=0.91+0.01×SF=0.91+0.01×15.13=1.0613$
 
 ### Effort Multipliers (EM)
 
