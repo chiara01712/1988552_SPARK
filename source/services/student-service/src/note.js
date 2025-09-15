@@ -125,7 +125,7 @@ sequelize.sync({ force: true })
         description: 'decription.',
         file_url: './uploads/notes.pdf',
         file_type: 'pdf',
-        professor_name : 'testuser',
+        professor_name : 'Alice Johnson',
         tag: 'Law & Legal Studies',
         uploaded_at: new Date()  
       }
@@ -148,7 +148,7 @@ sequelize.sync({ force: true })
         description: 'decription.',
         file_url: './uploads/notes.pdf',
         file_type: 'pdf',
-        professor_name : 'testuser',
+        professor_name : 'Alice Johnson',
         tag: 'Health & Life Sciences',
         uploaded_at: new Date()  
       }
