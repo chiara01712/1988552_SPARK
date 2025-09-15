@@ -61,7 +61,7 @@ const Note = sequelize.define('note', {
 
 const { v4: uuidv4 } = require('uuid');
 sequelize.sync({ force: true }) 
-  .then(() => {
+.then(() => {
     console.log('Note table ready.');
 
     // Creation example note
@@ -73,13 +73,83 @@ sequelize.sync({ force: true })
          
       },
       defaults: {
-        title: 'Nota di esempio',
+        title: 'Example note',
         course_id: 'Programming Fundamentals', 
         description: 'decription.',
         file_url: './uploads/notes.pdf',
         file_type: 'pdf',
         professor_name : 'testuser',
         tag: 'Engineering & Technology',
+        uploaded_at: new Date()  
+      }
+    });
+  })
+
+  .then(() => {
+    console.log('Note table ready.');
+
+    // Creation example note
+    return Note.findOrCreate({
+      where:{
+        student_id: '123e4567-e89b-12d3-a456-426614174000',
+        id: '987e6543-e21b-45f6-a654-423354174992',
+        
+         
+      },
+      defaults: {
+        title: 'Intro',
+        course_id: 'Programming Fundamentals', 
+        description: 'decription.',
+        file_url: './uploads/notes.pdf',
+        file_type: 'pdf',
+        professor_name : 'testuser',
+        tag: 'Engineering & Technology',
+        uploaded_at: new Date()  
+      }
+    });
+  })
+  .then(() => {
+    console.log('Note table ready.');
+
+    // Creation example note
+    return Note.findOrCreate({
+      where:{
+        student_id: '223e4567-e89b-12d3-a456-426614174001',
+        id: '987e6543-e21b-45f6-a654-423354174991',
+        
+         
+      },
+      defaults: {
+        title: 'Lesson 2',
+        course_id: 'Introduction to International Law', 
+        description: 'decription.',
+        file_url: './uploads/notes.pdf',
+        file_type: 'pdf',
+        professor_name : 'testuser',
+        tag: 'Law & Legal Studies',
+        uploaded_at: new Date()  
+      }
+    });
+  })
+   .then(() => {
+    console.log('Note table ready.');
+
+    // Creation example note
+    return Note.findOrCreate({
+      where:{
+        student_id: '223e4567-e89b-12d3-a456-426614174001',
+        id: '987e6543-e21b-45f6-a654-423354174990',
+        
+         
+      },
+      defaults: {
+        title: 'Lesson 1',
+        course_id: 'Human Anatomy', 
+        description: 'decription.',
+        file_url: './uploads/notes.pdf',
+        file_type: 'pdf',
+        professor_name : 'testuser',
+        tag: 'Health & Life Sciences',
         uploaded_at: new Date()  
       }
     });
