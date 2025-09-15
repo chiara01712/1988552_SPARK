@@ -252,10 +252,27 @@ sequelize.sync({ force: true })
       materialId: uuidv4(), // Condizione di ricerca: nuovo id random
     },
     defaults: {
-      courseId: '987e6543-e21b-45f6-a654-423354174999',
+      courseId: '123e4567-e89b-12d3-a456-426614874112',
       date: new Date(),
-      description: 'Materiale introduttivo del corso',
-      file_url: 'https://example.com/materials/lezione1.pdf',
+      description: 'The course will start on Monday, September 23. Please be prepared with the required materials.',
+      file_type: 'pdf'
+    }
+  });
+})
+
+.then(() => {
+  console.log('Material table ready.');
+
+  // Creazione esempio Material
+  return Material.findOrCreate({
+    where: {
+      materialId: uuidv4(), // Condizione di ricerca: nuovo id random
+    },
+    defaults: {
+      courseId: '123e4567-e89b-12d3-a456-426614874112',
+      date: new Date(),
+      description: 'Syllabus and course outline for Programming Fundamentals.',
+      file_url: './uploads/intro_123.pdf',  
       file_type: 'pdf'
     }
   });
