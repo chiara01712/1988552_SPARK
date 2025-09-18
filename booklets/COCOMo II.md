@@ -1,7 +1,7 @@
 # COCOMO II Analysis
 COCOMO II (Constructive Cost Model II) is a software cost estimation model that uses Function Points (FP) or Source Lines of Code (SLOC) to estimate effort, schedule, and cost. 
 
-Based on the 285 Function Points computed during the [Function Points Analysis]([https://github.com/GreyJolly/1982874_4-by-4/blob/main/booklets/Function%20Points%20Analysis.md](https://github.com/chiara01712/1988552_SPARK/edit/main/booklets/)), we will perform a COCOMO II analysis to estimate the effort required for our learinig
+Based on the 285 Function Points computed during the [Function Points Analysis]((https://github.com/chiara01712/1988552_SPARK/edit/main/booklets/)), we will perform a COCOMO II analysis to estimate the effort required for our learinig
 platform Spark.
 
 ## Convert Function Points to SLOC
@@ -94,4 +94,5 @@ $$\text{Effort} \approx 26,190 \text{ person-hours}$$
 Effort in Person-Months: Assuming 152 working hours per month (8 hours/day × 19 days/month), the effort is:
 
 $$\text{Effort}=\frac{26,190}{152} \approx 172 \text{ person-months}$$
+
 
